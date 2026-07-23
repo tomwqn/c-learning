@@ -353,20 +353,42 @@ function resetCode(mk){document.getElementById('code-'+mk).value=LU[mk][cur[mk]]
 function showHint(mk){
   var el=document.getElementById('hint-'+mk);if(!el)return;
   var l=LU[mk][cur[mk]];
-  el.innerHTML='💡 <b>提示</b>：'+(l.hi||'仔细看左边的"大白话讲解"，里面藏着解题思路。');
+  // 1. 有预设hint直接用
+  if(l.hi){el.innerHTML='💡 <b>提示</b>：'+l.hi;}
+  // 2. 从大白话讲解自动提炼
+  else if(l.kn){
+    var kn=l.kn.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+    var tips=[];
+    if(kn.indexOf('⚠')>-1) tips.push('⚠️ 注意陷阱：'+kn.split('⚠')[1]?.split(/[。.]/)[0]);
+    if(kn.indexOf('步骤')>-1) tips.push('📋 '+kn.match(/步骤[^。.]+/)?.[0]);
+    if(kn.indexOf('公式')>-1) tips.push('📐 '+kn.match(/公式[^。.]+/)?.[0]);
+    if(kn.indexOf('💡')>-1) tips.push(kn.match(/💡[^。.]+/)?.[0]);
+    if(tips.length) el.innerHTML='💡 <b>提示</b>：'+tips.join('<br>');
+    else el.innerHTML='💡 <b>提示</b>：仔细看左边的大白话讲解——所有解题要点都在里面。';
+  }else{
+    el.innerHTML='💡 <b>提示</b>：仔细看左边的讲解，关键信息都写在那里了。';
+  }
   if(el.style.display==='block'){el.style.display='none';return;}
   el.style.display='block';
 }
 function hideHint(mk){var el=document.getElementById('hint-'+mk);if(el)el.style.display='none';}
 function showSol(mk){
   var l=LU[mk][cur[mk]];
+  // 1. 有预设solution直接用
   if(l.so){
     if(confirm('确定查看答案？自己写出来才算真正掌握！')){document.getElementById('code-'+mk).value=l.so;upLn(mk);hideHint(mk);}
-  }else if(l.tp.indexOf('printf')>-1&&l.tp.indexOf('//')===-1){
-    if(confirm('这道题的模板就是完整代码。要用参考代码覆盖当前编辑吗？')){document.getElementById('code-'+mk).value=l.tp;upLn(mk);hideHint(mk);}
-  }else{
-    alert('这道题需要自己动手写。左边的知识点讲解里有完整的思路，试试看！');
+    return;
   }
+  // 2. 模板已经包含printf且无注释掉的关键代码=模板就是完整方案
+  var tp=l.tp||'';
+  if(tp.indexOf('printf')>-1&&tp.indexOf('// 在这里写')===-1&&tp.indexOf('// 写')===-1&&tp.indexOf('// TODO')===-1&&tp.indexOf('// your code')===-1){
+    if(confirm('这道题的代码模板已经是完整可运行的参考代码。\n\n要用模板代码覆盖当前编辑区吗？（模板代码会丢失你的修改）')){
+      document.getElementById('code-'+mk).value=tp;upLn(mk);hideHint(mk);
+    }
+    return;
+  }
+  // 3. 模板是框架（有注释占位）=需要自己写
+  alert('🔑 这道题需要自己动手写代码。\n\n💡 左边的"大白话讲解"里有完整的思路和步骤。\n💡 点击"提示"按钮看具体提示。\n💡 实在写不出，看看同类已完成的关卡找灵感。');
 }
 
 // ========== C百科 ==========
