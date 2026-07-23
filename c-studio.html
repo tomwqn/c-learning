@@ -2,349 +2,409 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>C语言学习总控台 — 复旦机考+408数据结构</title>
+<title>C语言学习平台 — 复旦机考+408数据结构</title>
 <style>
 :root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);height:100vh;display:flex;overflow:hidden}
-#sidebar{width:230px;min-width:230px;background:var(--s);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow:hidden}
-#sidebar .logo{padding:14px 16px;font-size:15px;font-weight:700;color:var(--a);border-bottom:1px solid var(--b);cursor:pointer}
-#sidebar .logo span{font-size:10px;color:var(--m);display:block;font-weight:400;margin-top:2px}
-.nav-btn{display:flex;align-items:center;gap:8px;width:100%;padding:11px 16px;border:none;background:none;color:var(--m);font-size:13px;cursor:pointer;text-align:left;transition:all .15s;border-left:3px solid transparent}
+#sidebar{width:210px;min-width:210px;background:var(--s);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow:hidden;user-select:none}
+#sidebar .logo{padding:14px 14px;font-size:14px;font-weight:700;color:var(--a);border-bottom:1px solid var(--b);cursor:pointer;line-height:1.3}
+#sidebar .logo span{font-size:9px;color:var(--m);display:block;font-weight:400}
+.nav-btn{display:flex;align-items:center;gap:7px;width:100%;padding:10px 14px;border:none;background:none;color:var(--m);font-size:12px;cursor:pointer;text-align:left;transition:all .12s;border-left:3px solid transparent}
 .nav-btn:hover{color:var(--t);background:rgba(255,255,255,.03)}
 .nav-btn.active{color:var(--a);background:rgba(88,166,255,.08);border-left-color:var(--a);font-weight:600}
-.nav-btn .ico{font-size:16px;width:22px;text-align:center}
-.nav-btn .cnt{font-size:10px;padding:1px 7px;border-radius:10px;background:var(--a);color:#fff;margin-left:auto;font-weight:400}
+.nav-btn .ico{font-size:15px;width:20px;text-align:center}
 
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#tab-content{flex:1;overflow-y:auto}
+#tab-content{flex:1;overflow-y:auto;padding:0}
 
 /* Dashboard */
-.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding:20px}
-.sc{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px}
-.sc .lb{font-size:10px;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.sc .vl{font-size:26px;font-weight:700}
-.sc .sb{font-size:11px;color:var(--m);margin-top:4px}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;padding:16px}
+.sc{background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px}
+.sc .lb{font-size:9px;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.sc .vl{font-size:24px;font-weight:700}.sc .sb{font-size:10px;color:var(--m);margin-top:2px}
 .vg{color:var(--g)}.vb{color:var(--a)}.vo{color:var(--o)}.vp{color:var(--p)}
-.pb{height:8px;background:var(--b);border-radius:4px;overflow:hidden;margin-top:8px}
-.pb .fl{height:100%;background:var(--g);border-radius:4px;transition:width .5s}
-.ds{margin:0 20px 20px;background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px}
-.ds h3{font-size:13px;color:var(--a);margin-bottom:10px}
-.je{border:1px solid var(--b);border-radius:8px;padding:12px}
-.je textarea{width:100%;background:var(--bg);color:var(--t);border:1px solid var(--b);border-radius:4px;padding:8px;font-size:13px;font-family:inherit;resize:vertical;min-height:50px}
-.je textarea:focus{outline:none;border-color:var(--a)}
-.pr{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--b);font-size:12px}
-.pr:last-child{border-bottom:none}
-.pr .cx{width:18px;height:18px;border-radius:50%;border:2px solid var(--b);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
-.pr .cx.done{background:var(--g);border-color:var(--g);color:#fff}
-.pr .tk{flex:1}.pr .tm{color:var(--m);font-size:10px;white-space:nowrap}
+.pb{height:6px;background:var(--b);border-radius:3px;overflow:hidden;margin-top:6px}
+.pb .fl{height:100%;background:var(--g);border-radius:3px;transition:width .5s}
+
+/* Calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:8px}
+.cal .day-label{font-size:9px;color:var(--m);text-align:center;padding:2px}
+.cal .day{aspect-ratio:1;border-radius:4px;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;border:1px solid transparent;position:relative}
+.cal .day:hover{border-color:var(--a)}
+.cal .day.today{border-color:var(--a);font-weight:700}
+.cal .day.has-note{background:rgba(88,166,255,.15);color:var(--a);font-weight:600}
+.cal .day.empty{color:var(--m)}
+.cal .day.other-month{color:rgba(139,148,158,.3)}
+.cal .mnav{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cal .mnav button{background:var(--s);border:1px solid var(--b);color:var(--t);border-radius:4px;padding:3px 8px;cursor:pointer;font-size:11px}
+.cal .mnav .mon{font-size:13px;font-weight:600;min-width:120px;text-align:center}
+
+/* Knowledge sections */
+.kn-section{margin:16px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.kn-section .ch-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;user-select:none}
+.kn-section .ch-header:hover{background:rgba(255,255,255,.03)}
+.kn-section .ch-header .ch-num{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.kn-section .ch-header .ch-title{font-size:14px;font-weight:600}
+.kn-section .ch-header .ch-arrow{transition:transform .2s;margin-left:auto;font-size:10px;color:var(--m)}
+.kn-section .ch-body{display:none;padding:0 16px 14px;border-top:1px solid var(--b)}
+.kn-section.open .ch-body{display:block}
+.kn-section.open .ch-arrow{transform:rotate(90deg)}
+.kn-card{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
+.kn-card h5{font-size:12px;color:var(--a);margin-bottom:6px}
+.kn-card p,.kn-card li{font-size:12px;line-height:1.75;color:var(--t)}
+.kn-card code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--o)}
+.kn-card pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:6px 0}
+.kn-card .tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;margin-right:4px}
+.kn-card .tag.exam{background:rgba(167,113,247,.3);color:var(--p)}
+.kn-card .tag.formula{background:rgba(210,153,29,.3);color:var(--o)}
+.kn-card .tag.trap{background:rgba(248,81,73,.3);color:var(--r)}
 
 /* Learn layout */
 .learn-wrap{display:flex;height:100%}
 .lv-sidebar{width:240px;min-width:240px;border-right:1px solid var(--b);overflow-y:auto;background:var(--s)}
-.lv-sidebar .ph{font-size:10px;color:var(--m);padding:10px 12px 4px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.lv-sidebar .lb{display:flex;align-items:center;gap:5px;width:100%;padding:7px 12px;border:none;background:none;color:var(--t);font-size:11px;cursor:pointer;text-align:left;border-radius:0;transition:background .1s}
+.lv-sidebar .ph{font-size:9px;color:var(--m);padding:8px 10px 3px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.lv-sidebar .lb{display:flex;align-items:center;gap:5px;width:100%;padding:6px 10px;border:none;background:none;color:var(--t);font-size:11px;cursor:pointer;text-align:left;transition:background .1s}
 .lv-sidebar .lb:hover{background:rgba(255,255,255,.03)}
 .lv-sidebar .lb.active{background:rgba(88,166,255,.12);color:var(--a);font-weight:600}
 .lv-sidebar .lb .n{font-size:9px;color:var(--m);min-width:14px}
 .lv-sidebar .lb.done .n{color:var(--g)}
-.lv-sidebar .lb .ck{color:var(--g);font-size:11px;margin-left:auto;display:none}
+.lv-sidebar .lb .ck{color:var(--g);font-size:10px;margin-left:auto;display:none}
 .lv-sidebar .lb.done .ck{display:inline}
 
 .lv-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .lv-body{flex:1;display:flex;overflow:hidden}
-.lv-left{flex:1;overflow-y:auto;padding:16px;min-width:280px}
+.lv-left{flex:1;overflow-y:auto;padding:14px;min-width:280px}
 .lv-right{flex:1;display:flex;flex-direction:column;border-left:1px solid var(--b);min-width:350px}
-.ed-hd{padding:8px 14px;border-bottom:1px solid var(--b);font-size:11px;color:var(--m);flex-shrink:0}
-.ed-wrap{flex:1;display:flex;font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:13px;line-height:1.6}
-.ln{background:var(--s);color:var(--m);padding:10px 0;text-align:right;overflow:hidden;width:40px;flex-shrink:0;font-size:13px;line-height:1.6}
-.ln div{padding:0 8px}
-.code{flex:1;background:var(--cb);color:var(--t);border:none;padding:10px;resize:none;font-family:inherit;font-size:13px;line-height:1.6;tab-size:4;outline:none}
+.ed-hd{padding:6px 12px;border-bottom:1px solid var(--b);font-size:10px;color:var(--m);flex-shrink:0}
+.ed-wrap{flex:1;display:flex;font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:12px;line-height:1.55}
+.ln{background:var(--s);color:var(--m);padding:8px 0;text-align:right;overflow:hidden;width:36px;flex-shrink:0;font-size:12px;line-height:1.55}
+.ln div{padding:0 6px}
+.code{flex:1;background:var(--cb);color:var(--t);border:none;padding:8px;resize:none;font-family:inherit;font-size:12px;line-height:1.55;tab-size:4;outline:none}
 .out-pn{border-top:1px solid var(--b);flex-shrink:0}
-.out-hd{padding:6px 14px;font-size:10px;color:var(--m);border-bottom:1px solid var(--b)}
-.out{background:#000;padding:10px 14px;font-family:'Consolas',monospace;font-size:12px;min-height:50px;max-height:180px;overflow-y:auto;white-space:pre-wrap}
-.btns{display:flex;gap:6px;padding:8px 14px;flex-shrink:0;flex-wrap:wrap}
+.out-hd{padding:4px 12px;font-size:9px;color:var(--m);border-bottom:1px solid var(--b)}
+.out{background:#000;padding:8px 12px;font-family:'Consolas',monospace;font-size:11px;min-height:40px;max-height:150px;overflow-y:auto;white-space:pre-wrap}
+.btns{display:flex;gap:6px;padding:8px 12px;flex-shrink:0;flex-wrap:wrap}
 
-.btn{padding:6px 14px;border-radius:6px;border:1px solid var(--b);background:var(--s);color:var(--t);font-size:12px;cursor:pointer;transition:all .15s}
+.btn{padding:5px 12px;border-radius:5px;border:1px solid var(--b);background:var(--s);color:var(--t);font-size:11px;cursor:pointer;transition:all .15s}
 .btn:hover{background:rgba(255,255,255,.06)}
 .btn.prm{background:var(--a);color:#fff;border-color:var(--a)}
-.btn.sm{padding:3px 8px;font-size:10px}
 
-.kb{background:rgba(88,166,255,.06);border:1px solid rgba(88,166,255,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.7}
-.kb h4{font-size:12px;color:var(--a);margin-bottom:6px}
-.kb code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:12px;color:var(--o)}
-.kb pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:12px;line-height:1.5;margin:4px 0}
-.exam{background:rgba(167,113,247,.08);border:1px solid rgba(167,113,247,.25);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:var(--p);line-height:1.6}
-.iso{background:var(--s);border-radius:6px;padding:10px;font-size:12px;margin-top:12px}
-.iso .il{font-size:10px;color:var(--m);margin-bottom:3px;font-weight:600}
-.iso pre{margin:0;background:var(--cb);padding:6px;border-radius:4px}
-.hint-box{display:none;margin:0 14px 8px;padding:8px 12px;background:rgba(210,153,29,.1);border:1px solid rgba(210,153,29,.3);border-radius:6px;font-size:12px;color:var(--o);line-height:1.6}
-.hint-box.show{display:block}
+.kb{background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.15);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.65}
+.kb h4{font-size:12px;color:var(--a);margin-bottom:4px}
+.kb code{background:var(--s);padding:1px 4px;border-radius:3px;font-size:11px;color:var(--o)}
+.kb pre{background:var(--cb);padding:6px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:4px 0}
+.exam{background:rgba(167,113,247,.06);border:1px solid rgba(167,113,247,.2);border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:11px;color:var(--p);line-height:1.5}
+.iso{background:var(--s);border-radius:6px;padding:8px;font-size:11px;margin-top:10px}
+.iso .il{font-size:9px;color:var(--m);margin-bottom:2px;font-weight:600}
+.iso pre{margin:0;background:var(--cb);padding:4px;border-radius:4px}
 
-#toast{position:fixed;top:16px;right:16px;padding:10px 18px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+#toast{position:fixed;top:16px;right:16px;padding:8px 14px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
 #toast.show{opacity:1}
 #toast.ok{background:#1a3c1a;color:var(--g);border:1px solid var(--g)}
 
-@media(max-width:900px){#sidebar{display:none}.learn-wrap{flex-direction:column}.lv-sidebar{width:100%;min-width:auto;max-height:120px}.lv-body{flex-direction:column}}
+.je{margin:10px 0;border:1px solid var(--b);border-radius:6px;padding:10px}
+.je textarea{width:100%;background:var(--bg);color:var(--t);border:1px solid var(--b);border-radius:4px;padding:8px;font-size:12px;font-family:inherit;resize:vertical;min-height:60px;line-height:1.6}
+.je textarea:focus{outline:none;border-color:var(--a)}
+
+/* Responsive */
+@media(max-width:900px){#sidebar{display:none}.learn-wrap{flex-direction:column}.lv-sidebar{width:100%;min-width:auto;max-height:100px}.lv-body{flex-direction:column}}
 </style>
 </head>
 <body>
 
 <div id="sidebar">
-  <div class="logo" onclick="switchTab(0)">🎯 C语言总控台<span>复旦机考 + 408数据结构</span></div>
+  <div class="logo" onclick="switchTab(0)">🎯 C语言学习平台<span>复旦机考 + 408数据结构</span></div>
   <button class="nav-btn active" data-tab="0"><span class="ico">📊</span> 学习总览</button>
-  <button class="nav-btn" data-tab="1"><span class="ico">🧱</span> C语言基础<span class="cnt" id="cnt-c">0</span></button>
-  <button class="nav-btn" data-tab="2"><span class="ico">📖</span> 408数据结构<span class="cnt" id="cnt-ds">0</span></button>
-  <button class="nav-btn" data-tab="3"><span class="ico">🖥️</span> 复旦机考<span class="cnt" id="cnt-fd">0</span></button>
+  <button class="nav-btn" data-tab="1"><span class="ico">🧱</span> C语言闯关</button>
+  <button class="nav-btn" data-tab="2"><span class="ico">📖</span> 408闯关</button>
+  <button class="nav-btn" data-tab="3"><span class="ico">🖥️</span> 复旦机考</button>
   <button class="nav-btn" data-tab="4"><span class="ico">📝</span> 学习日志</button>
-  <button class="nav-btn" data-tab="5"><span class="ico">📋</span> 408理论考点</button>
+  <button class="nav-btn" data-tab="5"><span class="ico">📚</span> C语言参考</button>
+  <button class="nav-btn" data-tab="6"><span class="ico">📚</span> 408知识库</button>
 </div>
-
 <div id="main"><div id="tab-content"></div></div>
 <div id="toast"></div>
 
 <script>
-// =========================== STORAGE ===========================
-const K={C:'cmod_done',DS:'dsmod_done',FD:'fdmod_done',J:'cs_journal',P408:'cs_408cl',PLAN:'cs_plan'};
-let cd=g(K.C),dsd=g(K.DS),fdd=g(K.FD),curMod=1,curLv=0;
+// ===================== DATA =====================
+const now=new Date();const TODAY=now.toISOString().slice(0,10);
+const THIS_MONTH=now.getMonth();const THIS_YEAR=now.getFullYear();
 
-// =========================== LEVEL DATA ===========================
+const KC='cs_mod_c',KDS='cs_mod_ds',KFD='cs_mod_fd',KJ='cs_journal';
 
-// --- MODULE 1: C语言基础 (Beej精华) ---
-const CL=[
-{ph:'启程：编译与输出',tg:'C基础',df:'⭐',ti:'Hello World',de:'写出你的第一个C程序。每个C程序从 <code>main()</code> 开始执行。',tp:'#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}',ex:'Hello, World!\n',kn:'<code>#include &lt;stdio.h&gt;</code> 引入标准I/O。<code>int main()</code> 是入口函数。<code>printf()</code> 打印输出，<code>\\n</code> 换行。<code>return 0</code> 表示正常退出。'},
-{ph:'启程：编译与输出',tg:'C基础',df:'⭐',ti:'变量声明',de:'声明 <code>int age=20</code>，用 <code>printf("%d", age)</code> 打印。输出格式：<code>年龄: 20</code>',tp:'#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}',ex:'年龄: 20\n',kn:'<code>int</code> 整数、<code>float</code> 小数、<code>char</code> 字符。printf占位符：<code>%d</code>→int、<code>%f</code>→float、<code>%c</code>→char、<code>%s</code>→字符串。Beej说："就像填空，%d的洞用整数填。"'},
-{ph:'启程：编译与输出',tg:'C基础',df:'⭐',ti:'scanf读取输入',de:'读入名字（无空格），输出 <code>你好, xxx!</code>。注意 <code>scanf</code> 字符串不加 <code>&</code>。',tp:'#include <stdio.h>\n\nint main() {\n    char name[100];\n    scanf("%s", name);\n    \n    return 0;\n}',ex:'你好, Tom!\n',si:'Tom',kn:'<code>scanf("%d",&x)</code> 整数要 <code>&</code> 取地址。<strong>字符串不需要</strong>——数组名本身就是地址。Beej：这是理解指针的第一步。'},
-{ph:'启程：编译与输出',tg:'C基础',df:'⭐',ti:'算术运算',de:'读入 a,b，输出 <code>a + b = 结果</code>',tp:'#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf("%d %d", &a, &b);\n    \n    return 0;\n}',ex:'3 + 5 = 8\n',si:'3 5',kn:'<code>+ - * / %</code>（加、减、乘、除、取余）。<strong>整数除法截断</strong>：5/2=2。%只能用于整数。'},
-{ph:'控制流',tg:'C基础',df:'⭐',ti:'if-else判断',de:'读入整数，偶数→"偶数"，奇数→"奇数"。<code>n%2==0</code> 表示能被2整除。',tp:'#include <stdio.h>\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    \n    return 0;\n}',ex:'偶数\n',si:'8',kn:'<code>if(条件){A}else{B}</code>。<strong>常见坑：==是比较，=是赋值！</strong>'},
-{ph:'控制流',tg:'C基础',df:'⭐',ti:'for循环求和',de:'读入N，输出1+2+…+N。408绪论考时间复杂度：O(n)。',tp:'#include <stdio.h>\n\nint main() {\n    int N, sum = 0;\n    scanf("%d", &N);\n    \n    return 0;\n}',ex:'5050\n',si:'100',kn:'<code>for(初始化;条件;更新)</code>。<code>i++</code> 等价 <code>i=i+1</code>。<code>sum+=i</code> 等价 <code>sum=sum+i</code>。'},
-{ph:'控制流',tg:'C基础',df:'⭐',ti:'while循环',de:'读入N，用 <code>while</code> 循环求1到N的和。',tp:'#include <stdio.h>\n\nint main() {\n    int N, sum = 0, i = 1;\n    scanf("%d", &N);\n    \n    return 0;\n}',ex:'5050\n',si:'100',kn:'<code>while(条件){循环体}</code>，适合"不知道循环多少次"的场景。<code>do-while</code>至少执行一次。'},
-{ph:'数组与字符串',tg:'C基础',df:'⭐⭐',ti:'一维数组',de:'读入N个数到数组，输出最大值。下标从0开始。',tp:'#include <stdio.h>\n\nint main() {\n    int N;\n    scanf("%d", &N);\n    int arr[N];\n    for(int i=0;i<N;i++)scanf("%d",&arr[i]);\n    \n    return 0;\n}',ex:'9\n',si:'5\n3 7 9 2 6',kn:'Beej：数组是连续内存块。下标从0开始。arr[N-1]是最后一个。<strong>越界访问是C语言最危险的bug</strong>——编译器不检查。'},
-{ph:'数组与字符串',tg:'C基础',df:'⭐⭐',ti:'二维数组',de:'读入N×M矩阵，计算所有元素之和。',tp:'#include <stdio.h>\n\nint main() {\n    int N, M, sum = 0;\n    scanf("%d %d", &N, &M);\n    int a[N][M];\n    for(int i=0;i<N;i++)for(int j=0;j<M;j++)scanf("%d",&a[i][j]);\n    \n    return 0;\n}',ex:'45\n',si:'3 3\n1 2 3\n4 5 6\n7 8 9',kn:'二维数组 = 数组的数组。<strong>行优先存储</strong>：<code>a[i][j]</code>在内存中按行排列。408考点：多维数组地址计算。'},
-{ph:'数组与字符串',tg:'C基础',df:'⭐⭐',ti:'字符串长度',de:'读入字符串，不用 <code>strlen</code>，自己用循环计算长度。',tp:'#include <stdio.h>\n\nint main() {\n    char s[200];\n    scanf("%s", s);\n    \n    return 0;\n}',ex:'5\n',si:'hello',kn:'Beej：C字符串是<code>\\0</code>结尾的字符数组。计算长度就是一直走到<code>\\0</code>。<code>strlen</code>不计算<code>\\0</code>。'},
-
-// === 函数 ===
-{ph:'函数',tg:'C基础',df:'⭐⭐',ti:'自定义函数',de:'写 <code>int add(int a,int b)</code>，返回a+b。main中调用。',tp:'#include <stdio.h>\n\n// 写add函数\n\nint main() {\n    int a,b;scanf("%d%d",&a,&b);\n    printf("%d\\n",add(a,b));\n    return 0;\n}',ex:'8\n',si:'3 5',kn:'函数三要素：<strong>返回类型 + 函数名 + 参数列表</strong>。Beej："把重复的代码打包，给它取个名字。"函数调用时参数被<strong>复制</strong>了一份（值传递）。'},
-{ph:'函数',tg:'C基础',df:'⭐⭐',ti:'递归：阶乘',de:'写 <code>int fact(int n)</code> 递归求n!。递归是树和DFS的基础。',tp:'#include <stdio.h>\n\n// 写递归函数\n\nint main(){int n;scanf("%d",&n);printf("%d\\n",fact(n));return 0;}',ex:'120\n',si:'5',kn:'递归两要素：①<strong>基准条件</strong>(n≤1返回1) ②<strong>递归条件</strong>(n*fact(n-1))。每次递归在<strong>栈</strong>上新建一层帧。太深会<strong>栈溢出</strong>。'},
-{ph:'函数',tg:'C基础',df:'⭐⭐',ti:'递归：斐波那契',de:'写 int fib(int n)，输出F(0)到F(n)。F(0)=0,F(1)=1,F(n)=F(n-1)+F(n-2)。',tp:'#include <stdio.h>\n\nint fib(int n){\n    // 写\n}\n\nint main(){int n;scanf("%d",&n);for(int i=0;i<=n;i++)printf("%d ",fib(i));printf("\\n");return 0;}',ex:'0 1 1 2 3 5 \n',si:'5',kn:'双分支递归，时间O(2ⁿ)。引出<strong>动态规划</strong>：用数组存中间结果降为O(n)。408/机考都考DP。'},
-
-// === 指针 ===
-{ph:'指针 (Beej第7章精华)',tg:'C基础',df:'⭐⭐⭐',ti:'指针初探：*和&',de:'int x=42; 用指针p指向x，通过*p改为100，打印x。',tp:'#include <stdio.h>\n\nint main() {\n    \n    \n    return 0;\n}',ex:'100\n',kn:'<code>&x</code>=取x的地址。 <code>*p</code>=解引用，取"p指向的那个值"。互逆：<code>*&x≡x</code>。Beej："指针就是存地址的变量。别怕，它只是比较间接。"'},
-{ph:'指针 (Beej第7章精华)',tg:'C基础',df:'⭐⭐⭐',ti:'swap：值vs地址',de:'写 <code>void swap(int*a,int*b)</code>，交换两数。408必考：传指针才能改原变量。',tp:'#include <stdio.h>\n\n// 写swap\n\nint main(){int a,b;scanf("%d%d",&a,&b);swap(&a,&b);printf("%d %d\\n",a,b);return 0;}',ex:'5 3\n',si:'3 5',kn:'<strong>值传递</strong>：传的是副本，函数内修改不影响原变量。<strong>地址传递</strong>：传的是地址，通过地址可改原变量。Beej："这是C语言最核心的机制。"'},
-{ph:'指针 (Beej第7章精华)',tg:'C基础',df:'⭐⭐⭐',ti:'指针与数组',de:'用指针方式(不用arr[i])遍历数组求和。arr[i]≡*(arr+i)。',tp:'#include <stdio.h>\n\nint main(){\n    int N,sum=0;scanf("%d",&N);int a[N];\n    for(int i=0;i<N;i++)scanf("%d",&a[i]);\n    // 用指针求和\n    \n    printf("%d\\n",sum);return 0;\n}',ex:'15\n',si:'5\n1 2 3 4 5',kn:'数组名就是指向首元素的指针。<code>arr[i]</code> 完全等价于 <code>*(arr+i)</code>——编译器就是这么翻译的。Beej："数组和指针是一枚硬币的两面。"'},
-
-// === 结构体与内存 ===
-{ph:'结构体与内存',tg:'C基础',df:'⭐⭐',ti:'struct定义',de:'定义 <code>struct Student{char name[20];int score;}</code>，读入并打印。',tp:'#include <stdio.h>\n\n// 定义struct\n\nint main(){struct Student s;scanf("%s%d",s.name,&s.score);printf("姓名: %s, 分数: %d\\n",s.name,s.score);return 0;}',ex:'姓名: 张三, 分数: 95\n',si:'张三 95',kn:'<code>struct</code> 把多个数据打包成新类型。用 <code>.</code> 访问成员。<code>typedef</code> 可以起别名简写。链表节点、树节点都基于struct。'},
-{ph:'结构体与内存',tg:'C基础',df:'⭐⭐⭐',ti:'malloc/free',de:'用malloc动态分配数组，求平均值(2位小数)，最后free。408综合题必备。',tp:'#include <stdio.h>\n#include <stdlib.h>\n\nint main(){int N,sum=0;scanf("%d",&N);\n// malloc\n\n// free\n\nreturn 0;}',ex:'3.00\n',si:'5\n1 2 3 4 5',kn:'<code>malloc(size)</code>在<strong>堆</strong>上分配内存，返回void*。<strong>用完必须free</strong>，否则内存泄漏。栈=自动管理(局部变量)，堆=手动管理(malloc/free)。'},
-{ph:'结构体与内存',tg:'C基础',df:'⭐⭐',ti:'文件读写',de:'读入N个数，写到output.txt，每个数一行。复旦机考可能要求文件操作。',tp:'#include <stdio.h>\n\nint main(){int N,x;scanf("%d",&N);\nFILE*f=fopen("output.txt","w");\nfor(int i=0;i<N;i++){scanf("%d",&x);fprintf(f,"%d\\n",x);}\nfclose(f);printf("写入完成\\n");return 0;}',ex:'写入完成\n',si:'3\n10 20 30',kn:'<code>fopen("文件","w")</code> 写模式打开。<code>fprintf</code> 写入格式化数据。<code>fclose</code> 关闭文件。"w"会覆盖，"a"追加，"r"读取。'},
-];
-
-// --- MODULE 2: 408数据结构 (历年代码题) ---
-const DSL=[
-// 顺序表
-{ph:'顺序表 (408真题:2010/2011/2013/2016/2018/2020)',tg:'顺序表',df:'⭐⭐',ti:'数组循环左移 (2010真题)',de:'将数组前p个元素移到末尾。输入N、p和N个数，输出移位结果。408真题改编。',tp:'#include <stdio.h>\n\nint main(){int N,p;scanf("%d%d",&N,&p);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\n// 左移p位\n\nfor(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'3 4 5 1 2 \n',si:'5 2\n1 2 3 4 5',kn:'2010年408真题。方法：①反转前p个 ②反转后N-p个 ③整体反转。时间O(n)空间O(1)。',et:'408真题2010：数组元素的循环移位'},
-{ph:'顺序表 (408真题:2010/2011/2013/2016/2018/2020)',tg:'顺序表',df:'⭐⭐⭐⭐',ti:'两序列中位数 (2011真题)',de:'两个等长升序序列A,B，求它们合并后的中位数。输入N和两个序列，输出中位数。',tp:'#include <stdio.h>\n\nint main(){int N;scanf("%d",&N);int a[N],b[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nfor(int i=0;i<N;i++)scanf("%d",&b[i]);\n// 求中位数\n\nreturn 0;}',ex:'6\n',si:'5\n1 3 5 7 9\n2 4 6 8 10',kn:'2011年408最难真题。最优：二分法O(logn)。暴力：归并取中间，O(n)也能拿分。',et:'408真题2011：两等长升序序列求中位数（分治法）'},
-{ph:'顺序表 (408真题:2010/2011/2013/2016/2018/2020)',tg:'顺序表',df:'⭐⭐⭐',ti:'主元素 (2013真题)',de:'找出现次数>N/2的元素。输入N个数，输出主元素值或-1。',tp:'#include <stdio.h>\n\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\n// 摩尔投票法\n\nreturn 0;}',ex:'5\n',si:'6\n5 5 2 5 5 1',kn:'2013年408真题。<strong>摩尔投票法</strong>：候选+counter。时间O(n)空间O(1)。计数统计法同样有效。',et:'408真题2013：主元素查找（摩尔投票法/计数法）'},
-{ph:'顺序表 (408真题:2010/2011/2013/2016/2018/2020)',tg:'顺序表',df:'⭐⭐⭐',ti:'最小未出现正整数 (2018真题)',de:'找数组中未出现的最小正整数。输入N个数(可正可负)，输出答案。',tp:'#include <stdio.h>\n\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\n// 找最小未出现正整数\n\nreturn 0;}',ex:'3\n',si:'5\n-1 2 4 1 5',kn:'2018年408真题。核心思想：<strong>原地哈希</strong>——把数字x放到下标x-1的位置。时间O(n)空间O(1)。',et:'408真题2018：未出现的最小正整数（原地哈希）'},
-
-// 链表
-{ph:'链表 (408真题:2009/2012/2015/2019)',tg:'链表',df:'⭐⭐⭐',ti:'单链表建表+遍历',de:'尾插法创建单链表，遍历输出"1 -> 2 -> 3 -> NULL"。链表是408核心。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\nint main(){int N,v;scanf("%d",&N);\n// 尾插法建表\n\n// 遍历\nreturn 0;}',ex:'1 -> 2 -> 3 -> NULL\n',si:'3\n1 2 3',kn:'链表节点=数据+next指针。尾插法维护tail。<strong>插入删除O(1)，查找O(n)</strong>。vs顺序表：插入删除O(n)。',et:'408核心：链表 vs 顺序表的适用场景是选择题必考'},
-{ph:'链表 (408真题:2009/2012/2015/2019)',tg:'链表',df:'⭐⭐⭐',ti:'链表倒数第k个节点 (2009真题)',de:'找单链表倒数第k个节点并输出。408真题：用快慢指针。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\nint main(){int N,k,v;scanf("%d%d",&N,&k);\n// 建表(省略)，用快慢指针找倒数第k个\n\nreturn 0;}',ex:'4\n',si:'5 2\n1 2 3 4 5',kn:'2009年408真题。<strong>快慢指针</strong>：快指针先走k步，然后快慢一起走，快指针到NULL时慢指针即答案。',et:'408真题2009：查找/删除倒数第k个节点'},
-{ph:'链表 (408真题:2009/2012/2015/2019)',tg:'链表',df:'⭐⭐⭐',ti:'链表反转 (2019真题相关)',de:'反转单链表。2019年408题涉及链表重排，反转是前置技能。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\n// 写反转函数\nNode* reverse(Node*head){\n    \n}\n// main省略',ex:'3 -> 2 -> 1 -> NULL\n',si:'3\n1 2 3',kn:'<strong>头插法反转</strong>：维护新链表头，逐个摘取原链表节点，头插到新链表。时间O(n)空间O(1)。',et:'408真题2019：链表反转+快慢指针+链表重排'},
-
-// 栈与队列
-{ph:'栈与队列 (408第3章)',tg:'栈队列',df:'⭐⭐⭐',ti:'循环队列实现',de:'实现循环队列。MAX=5，判空front==rear，判满(rear+1)%MAX==front。408几乎每年必考。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 5\nint q[MAX],front=0,rear=0;\nint isFull(){return(rear+1)%MAX==front;}\nint isEmpty(){return front==rear;}\nvoid enq(int x){if(isFull()){printf("满\\n");return;}q[rear]=x;rear=(rear+1)%MAX;}\nint deq(){if(isEmpty())return-1;int x=q[front];front=(front+1)%MAX;return x;}\nint main(){char c[10];int x;while(scanf("%s",c)!=EOF){if(strcmp(c,"end")==0)break;if(strcmp(c,"enq")==0){scanf("%d",&x);enq(x);}else if(strcmp(c,"deq")==0)printf("%d\\n",deq());}return 0;}',ex:'1\n2\n3\n',si:'enq 1\nenq 2\nenq 3\ndeq\ndeq\ndeq\nend',kn:'<strong>408必背</strong>：空→front==rear，满→(rear+1)%MAX==front。元素个数=(rear-front+MAX)%MAX。牺牲一个单元区分空/满。',et:'408每年必考：给定front/rear判断空满、计算元素个数'},
-{ph:'栈与队列 (408第3章)',tg:'栈队列',df:'⭐⭐⭐',ti:'基本计算器 (2024复旦真题变种)',de:'实现基本计算器。给定算式字符串(只含+和-，无括号)，计算结果。',tp:'#include <stdio.h>\n#include <string.h>\n\nint main(){char s[200];scanf("%s",s);\n// 计算\n\nreturn 0;}',ex:'5\n',si:'2+3-1+1',kn:'用<strong>栈</strong>处理计算器。对于+-：直接入栈(减号=加负数)。对于*/：先出栈计算再入栈。最后栈内全部累加。2024复旦机考真题！'},
-
-// 树
-{ph:'树与二叉树 (408真题:2014/2017/2022)',tg:'树',df:'⭐⭐⭐',ti:'二叉树遍历 (前中后序)',de:'给定前序+中序遍历(无重复值)，输出后序。408经典题：前序首字母是根。',tp:'#include <stdio.h>\n#include <string.h>\nvoid post(char*pre,char*in,int len){\n    if(len<=0)return;\n    char root=pre[0];int pos=0;\n    while(in[pos]!=root)pos++;\n    post(pre+1,in,pos);\n    post(pre+1+pos,in+pos+1,len-pos-1);\n    printf("%c",root);\n}\nint main(){char p[100],in[100];scanf("%s%s",p,in);post(p,in,strlen(p));printf("\\n");return 0;}',ex:'DEBFCA\n',si:'ABDECF DBEACF',kn:'三种遍历区别在于<strong>根节点何时访问</strong>：前(根左右)、中(左根右)、后(左右根)。已知前+中可唯一确定二叉树。',et:'408必考：给定两种遍历序列求第三种或构造二叉树'},
-{ph:'树与二叉树 (408真题:2014/2017/2022)',tg:'树',df:'⭐⭐⭐',ti:'WPL计算 (2014真题)',de:'计算二叉树的带权路径长度WPL。叶节点有权值，WPL=Σ(权值×深度)。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int w;struct T*l,*r;}T;\nint wpl(T*root,int depth){\n    // 写\n}\n// main省略',ex:'25\n',kn:'2014年408真题。WPL定义：叶节点的权值×到根的距离，全部加起来。递归：遇叶节点返回权×深，否则返回左WPL+右WPL。',et:'408真题2014：二叉树的带权路径长度WPL'},
-{ph:'树与二叉树 (408真题:2014/2017/2022)',tg:'树',df:'⭐⭐⭐',ti:'BST判断 (2022真题)',de:'判断一棵二叉树是否为<strong>二叉搜索树</strong>。BST：左<根<右。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int d;struct T*l,*r;}T;\nint isBST(T*root,int min,int max){\n    // 写：每个节点必须在(min,max)范围内\n}\n// main省略',kn:'2022年408真题。中序遍历BST得到升序序列。递归法：每个节点的值必须在区间内，左子树上界缩小，右子树下界增大。',et:'408真题2022：二叉搜索树性质判断'},
-
-// 图
-{ph:'图 (408真题:2021/2023/2024连续3年!)',tg:'图',df:'⭐⭐⭐',ti:'入度出度计算 (2021/2023真题)',de:'给定有向图邻接矩阵，计算每个节点的入度和出度。',tp:'#include <stdio.h>\n\nint main(){int N;scanf("%d",&N);int G[N][N];\nfor(int i=0;i<N;i++)for(int j=0;j<N;j++)scanf("%d",&G[i][j]);\n// 计算每个节点的入度和出度\n\nreturn 0;}',ex:'节点0: 入度1 出度2\n节点1: 入度2 出度1\n',si:'3\n0 1 1\n1 0 0\n0 1 0',kn:'<strong>出度</strong>=第i行中1的个数。<strong>入度</strong>=第i列中1的个数。邻接矩阵中遍历行/列即可。',et:'408真题2021/2023：图的度/入度/出度定义+计数（近年命题组偏爱基础定义）'},
-{ph:'图 (408真题:2021/2023/2024连续3年!)',tg:'图',df:'⭐⭐⭐',ti:'BFS广度优先搜索',de:'用邻接表存储無向图，从节点0开始BFS，输出遍历序列。',tp:'#include <stdio.h>\n#include <stdlib.h>\n#define MAX 100\ntypedef struct E{int to;struct E*next;}E;\nE*adj[MAX];int vis[MAX];int q[MAX],f=0,r=0;\nvoid add(int u,int v){E*e=(E*)malloc(sizeof(E));e->to=v;e->next=adj[u];adj[u]=e;}\nvoid bfs(int s){\n    // 写BFS\n}\nint main(){int N,M,u,v;scanf("%d%d",&N,&M);\nfor(int i=0;i<M;i++){scanf("%d%d",&u,&v);add(u,v);add(v,u);}\nbfs(0);printf("\\n");return 0;}',ex:'0 1 2 3 \n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'BFS用<strong>队列</strong>。起点入队→循环：出队→访问→未访问的邻居入队。BFS找最短路径(无权图)。408/机考常考。',et:'BFS是图论基础，Dijkstra/拓扑排序/最短路径都基于BFS思想'},
-{ph:'图 (408真题:2021/2023/2024连续3年!)',tg:'图',df:'⭐⭐⭐',ti:'拓扑排序 (2024真题)',de:'判断有向图是否有拓扑序列。输入N节点M边，输出"有拓扑序列"或"有环"。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\nint G[MAX][MAX],ind[MAX];\nint main(){int N,M,u,v;scanf("%d%d",&N,&M);\nmemset(G,0,sizeof(G));memset(ind,0,sizeof(ind));\nfor(int i=0;i<M;i++){scanf("%d%d",&u,&v);G[u][v]=1;ind[v]++;}\n// 拓扑排序\n\nreturn 0;}',ex:'有拓扑序列\n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'2024年408真题相关。Kahn算法：①把所有<strong>入度为0</strong>的节点入队 ②出队→删除其出边(邻居入度-1)→入度为0的入队。最后全访问过则有拓扑序。',et:'408真题2024：图论+拓扑排序的应用'},
-
-// 排序
-{ph:'排序 (408第7章核心)',tg:'排序',df:'⭐⭐⭐',ti:'快速排序',de:'手写快速排序。408最高频代码题，必须闭卷写出。</strong>',tp:'#include <stdio.h>\nvoid qs(int a[],int l,int r){\n    // 快排\n}\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);qs(a,0,N-1);\nfor(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'1 2 5 7 9 \n',si:'5\n5 2 7 1 9',kn:'快排=选pivot→分区(小左大右)→递归。O(nlogn)，<strong>不稳定</strong>。最坏O(n²)(有序数组+选第一个为pivot)。',et:'408综合题最高频算法。时间复杂度、稳定性、最坏情况是选择题常客。'},
-{ph:'排序 (408第7章核心)',tg:'排序',df:'⭐⭐⭐',ti:'堆排序',de:'手写堆排序。建堆→反复取堆顶→调整。408重点排序算法。',tp:'#include <stdio.h>\nvoid adjust(int a[],int n,int i){\n    // 调整以i为根的子树为大顶堆\n}\nvoid heapSort(int a[],int n){\n    // 堆排序\n}\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);heapSort(a,N);\nfor(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'1 2 3 5 8 \n',si:'5\n5 3 8 1 2',kn:'堆排序O(nlogn)，<strong>不稳定</strong>。①建堆(从最后一个非叶节点开始调整) ②循环：交换堆顶和末尾→缩小堆→调整。',et:'408常考：堆排序的建堆过程、时间复杂度分析。2026考纲新增堆。'},
-{ph:'排序 (408第7章核心)',tg:'排序',df:'⭐⭐⭐',ti:'排序对比表(必默写)',de:'打开此题，<strong>在输出中默写</strong>所有排序算法的复杂度+稳定性表格。打印到输出即可。',tp:'#include <stdio.h>\n\nint main() {\n    printf("算法      时间(平均)    空间    稳定性\\n");\n    printf("=========================================\\n");\n    // 补充完整\n    \n    return 0;\n}',ex:'',kn:'<strong>408必默写</strong>：直接插入O(n²)/稳定、冒泡O(n²)/稳定、简单选择O(n²)/不稳定、希尔~O(n¹·³)/不稳定、快排O(nlogn)/不稳定、堆排O(nlogn)/不稳定、归并O(nlogn)/稳定、基数O(d(n+r))/稳定。',et:'408选择题每年至少1道排序题（复杂度/稳定性/过程判断）'},
-
-// 查找
-{ph:'查找',tg:'查找',df:'⭐⭐⭐',ti:'折半查找',de:'在升序数组中用折半查找(二分)找target。输出下标或-1。',tp:'#include <stdio.h>\n\nint binarySearch(int a[],int n,int t){\n    // 写\n}\nint main(){int N,t;scanf("%d%d",&N,&t);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nprintf("%d\\n",binarySearch(a,N,t));return 0;}',ex:'3\n',si:'6 5\n1 3 5 7 9 11',kn:'折半查找O(logn)。<strong>判定树</strong>(二叉搜索树)的高度决定了比较次数最多为⌈log₂(n+1)⌉。失败结点的父节点数=查找失败的比较次数。',et:'408常考：折半查找的判定树、成功/失败的平均查找长度(ASL)'},
-{ph:'查找',tg:'查找',df:'⭐⭐⭐',ti:'哈希表 (链地址法)',de:'实现链地址法哈希表。hash(x)=x%7。支持插入和查找。',tp:'#include <stdio.h>\n#include <stdlib.h>\n#define M 7\ntypedef struct N{int d;struct N*nxt;}N;\nN*ht[M];\nvoid insert(int x){int h=x%M;/* 头插到ht[h] */}\nint search(int x){int h=x%M;/* 遍历ht[h]查找 */}\nint main(){/* 插入几个数后查找 */return 0;}',kn:'哈希表冲突处理：<strong>链地址法</strong>(拉链)和<strong>开放定址法</strong>(线性探测)。装填因子α=n/m影响查找效率。链地址法平均查找长度=1+α/2。',et:'408每年至少1道哈希表题：哈希函数构造、冲突处理、ASL计算'},
-];
-
-// --- MODULE 3: 复旦机考 (近10年真题题型) ---
-const FDL=[
-{ph:'模拟题 (2025BMI/2025螺旋矩阵/2019日期)',tg:'模拟',df:'⭐⭐',ti:'日期差值',de:'输入两个日期(yyyy mm dd格式)，计算相差天数。2019年复旦真题。',tp:'#include <stdio.h>\nint isLeap(int y){return(y%4==0&&y%100!=0)||y%400==0;}\nint daysOfYear(int y){return isLeap(y)?366:365;}\nint dayOfYear(int y,int m,int d){\n    int ds[]={0,31,28,31,30,31,30,31,31,30,31,30,31};\n    if(isLeap(y))ds[2]=29;int s=0;\n    for(int i=1;i<m;i++)s+=ds[i];return s+d;\n}\nint main(){int y1,m1,d1,y2,m2,d2;\nscanf("%d%d%d%d%d%d",&y1,&m1,&d1,&y2,&m2,&d2);\n// 计算差值\n\nreturn 0;}',ex:'10\n',si:'2019 02 05 2019 02 15',kn:'①同日历年的天数可直接<strong>累加全年天数</strong> ②跨年：先算首年末+尾年初+整年。闰年：4整除且100不整除，或400整除。'},
-{ph:'模拟题 (2025BMI/2025螺旋矩阵/2019日期)',tg:'模拟',df:'⭐⭐',ti:'BMI分类 (2025复旦真题)',de:'输入身高(cm)和体重(kg)，输出BMI分类。2025年复旦机考真题第1题。',tp:'#include <stdio.h>\n\nint main(){float h,w,bmi;scanf("%f%f",&h,&w);\nh/=100;bmi=w/(h*h);\n// 输出 Thin/Normal/Overweight/Fat\n\nreturn 0;}',ex:'Normal\n',si:'170 65',kn:'2025年复旦真题第1题。BMI=体重/身高²。简单模拟题不考算法，考<strong>边界条件</strong>——拿分不能丢。'},
-{ph:'模拟题 (2025BMI/2025螺旋矩阵/2019日期)',tg:'模拟',df:'⭐⭐',ti:'螺旋矩阵 (2025复旦真题)',de:'输入N，生成N×N螺旋矩阵(顺时针从1开始)。2025年复旦真题第2题。',tp:'#include <stdio.h>\n\nint main(){int N;scanf("%d",&N);int a[20][20];\n// 生成螺旋矩阵\n\nfor(int i=0;i<N;i++){for(int j=0;j<N;j++)printf("%3d",a[i][j]);printf("\\n");}return 0;}',ex:'  1  2  3\n  8  9  4\n  7  6  5\n',si:'3',kn:'定义上下左右边界t=0,b=N-1,l=0,r=N-1。循环：左→右→下→左→上，每走完一边收缩边界。'},
-
-{ph:'贪心算法 (2025教室分配/2020打地鼠/区间问题)',tg:'贪心',df:'⭐⭐⭐',ti:'打地鼠/最大选数 (2020复旦真题)',de:'N个数，选最多数字使得排序后相邻差值≥d。输出最大数量。',tp:'#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return*(int*)a-*(int*)b;}\nint main(){int N,d;scanf("%d%d",&N,&d);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);qsort(a,N,sizeof(int),cmp);\n// 贪心\n\nreturn 0;}',ex:'3\n',si:'5 3\n1 2 4 8 10',kn:'<strong>贪心</strong>：排序后，选第一个数，然后找下一个≥当前+d的数。贪心选择性质：选最小的不会比选更大的差。'},
-{ph:'贪心算法 (2025教室分配/2020打地鼠/区间问题)',tg:'贪心',df:'⭐⭐⭐',ti:'教室分配 (2025复旦真题)',de:'N个活动[开始,结束)，最少需要几个教室？2025真题第3题。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int s,e;}Act;\nint cmp(const void*a,const void*b){return((Act*)a)->s-((Act*)b)->s;}\nint main(){int N;scanf("%d",&N);Act a[N];\nfor(int i=0;i<N;i++)scanf("%d%d",&a[i].s,&a[i].e);qsort(a,N,sizeof(Act),cmp);\n// 最少教室数\n\nreturn 0;}',ex:'2\n',si:'4\n1 3\n2 4\n3 5\n1 4',kn:'<strong>优先队列/堆</strong>：按开始时间排序。维护结束时间的小顶堆。新活动开始时间≥堆顶→替换堆顶；否则→新增教室(入堆)。堆大小=最少教室数。'},
-
-{ph:'搜索 (2021N皇后/DFS/BFS)',tg:'搜索',df:'⭐⭐⭐',ti:'N皇后问题 (复旦变种)',de:'N×N棋盘放N个互相不攻击的皇后。求方案数。经典回溯。',tp:'#include <stdio.h>\nint N,cnt=0,col[20],diag1[40],diag2[40];\nvoid dfs(int row){\n    // 回溯\n}\nint main(){scanf("%d",&N);dfs(0);printf("%d\\n",cnt);return 0;}',ex:'2\n',si:'4',kn:'回溯=DFS+剪枝。每行放皇后，检查列/对角线是否冲突。<strong>col[i]</strong>标记列占用，<strong>diag1</strong>标记正对角线(row+col)，<strong>diag2</strong>标记反对角线(row-col+N)。'},
-{ph:'搜索 (2021N皇后/DFS/BFS)',tg:'搜索',df:'⭐⭐⭐',ti:'最短路径BFS (地图类)',de:'N×M网格，从(0,0)到(N-1,M-1)，0可走1为墙。求最短步数。',tp:'#include <stdio.h>\n#define MAX 100\nint g[MAX][MAX],vis[MAX][MAX],N,M;\nint dx[]={0,0,1,-1},dy[]={1,-1,0,0};\n// BFS\nint main(){scanf("%d%d",&N,&M);\nfor(int i=0;i<N;i++)for(int j=0;j<M;j++)scanf("%d",&g[i][j]);\n// BFS找最短路径\nreturn 0;}',ex:'4\n',si:'3 3\n0 0 0\n1 1 0\n0 0 0',kn:'BFS保证<strong>第一次到达终点就是最短路径</strong>(无权图)。用队列存(row,col,steps)。四个方向dx/dy遍历。'},
-
-{ph:'动态规划 (2025二叉树染色/2025回文子序列/2024最长重复子数组/01背包)',tg:'DP',df:'⭐⭐⭐⭐',ti:'01背包',de:'N件物品容量C，每件重量w价值v，每件最多选一次，求最大价值。',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N,C,w[100],v[100];scanf("%d%d",&N,&C);\nfor(int i=1;i<=N;i++)scanf("%d%d",&w[i],&v[i]);\nint dp[1001]={0};\n// 01背包\n\nprintf("%d\\n",dp[C]);return 0;}',ex:'10\n',si:'3 5\n2 4\n3 5\n1 3',kn:'<strong>dp[j]=max(dp[j], dp[j-w[i]]+v[i])</strong>。j必须从大到小！因为一维DP，从小到大会重复选(=完全背包)。'},
-{ph:'动态规划 (2025二叉树染色/2025回文子序列/2024最长重复子数组/01背包)',tg:'DP',df:'⭐⭐⭐⭐',ti:'最长重复子数组 (2024复旦真题)',de:'给定两个数组，求最长公共连续子数组长度。2024复旦真题第2题。',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N,M;scanf("%d%d",&N,&M);int a[N],b[M];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nfor(int i=0;i<M;i++)scanf("%d",&b[i]);\n// DP: dp[i][j]=以a[i]和b[j]结尾的最长公共连续子数组\n\nreturn 0;}',ex:'3\n',si:'5 4\n1 2 3 2 1\n3 2 1 4',kn:'<strong>dp[i][j]</strong>=a[i]==b[j]?dp[i-1][j-1]+1:0。结果取max(dp[i][j])。空间优化：可用一维数组，j从大到小。'},
-
-{ph:'图论 (2024最短路径/2023高尔夫/2022Dijkstra变种)',tg:'图论',df:'⭐⭐⭐⭐',ti:'Dijkstra最短路',de:'N点M有向边，求1到N最短距离。2024复旦考最短路径条数(变种)。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\n#define INF 0x3f3f3f3f\nint G[MAX][MAX],dist[MAX],vis[MAX];\nint main(){int N,M,u,v,w;scanf("%d%d",&N,&M);memset(G,0x3f,sizeof(G));\nfor(int i=0;i<M;i++){scanf("%d%d%d",&u,&v,&w);if(w<G[u][v])G[u][v]=w;}\n// Dijkstra\n\nprintf("%d\\n",dist[N]);return 0;}',ex:'5\n',si:'4 5\n1 2 2\n1 3 5\n2 3 1\n2 4 5\n3 4 2',kn:'Dijkstra：每次选距离最小的未访问节点，用其更新邻居。O(n²)适合稠密图。<strong>稀疏图用堆优化</strong>O(mlogn)。不能处理负权边。'},
-{ph:'图论 (2024最短路径/2023高尔夫/2022Dijkstra变种)',tg:'图论',df:'⭐⭐⭐⭐',ti:'最短路径条数 (2024复旦真题)',de:'在Dijkstra基础上，统计1到N的<strong>最短路径有几条</strong>。2024复旦真题第5题。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\n#define INF 0x3f3f3f3f\nint G[MAX][MAX],dist[MAX],cnt[MAX],vis[MAX];\nint main(){int N,M,u,v,w;scanf("%d%d",&N,&M);memset(G,0x3f,sizeof(G));\nfor(int i=0;i<M;i++){scanf("%d%d%d",&u,&v,&w);if(w<G[u][v])G[u][v]=w;}\n// Dijkstra+路径计数\n\nprintf("%d\\n",cnt[N]);return 0;}',ex:'2\n',si:'4 5\n1 2 1\n1 3 2\n2 4 2\n3 4 1\n2 3 1',kn:'在Dijkstra更新dist时：若找到更短路径，<strong>cnt[v]=cnt[u]</strong>；若找到同等距离，<strong>cnt[v]+=cnt[u]</strong>。初始cnt[1]=1。'},
-{ph:'图论 (2024最短路径/2023高尔夫/2022Dijkstra变种)',tg:'图论',df:'⭐⭐⭐⭐',ti:'二叉树子结构判断 (2023复旦真题)',de:'判断树B是否为树A的子树(完全相同的结构+值)。2023年复旦真题。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int d;struct T*l,*r;}T;\nint same(T*a,T*b){/*判断a和b是否完全相同*/}\nint isSub(T*A,T*B){\n    // 判断B是否是A的子树\n}\n// 省略建树',kn:'① 写 <code>sameTree</code> 判断两棵树完全相同 ② <code>isSubtree</code>：如果根相同→看same；否则递归去左/右子树找。DFS+递归。'},
-];
-
-// =========================== CORE FUNCTIONS ===========================
 function g(k){try{return JSON.parse(localStorage[k])||{}}catch(e){return{}}}
 function s(k,v){localStorage[k]=JSON.stringify(v)}
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.className='show ok';setTimeout(()=>t.className='',2500)}
 
-// =========================== TAB SWITCHING ===========================
-let activeTab=0;
+// --- 408 知识库数据 ---
+const DS_KNOWLEDGE=[
+{ch:'第1章 绪论',items:[
+  {t:'数据结构三要素',b:'<b>逻辑结构</b>（数据之间的关系：线性/树形/图形/集合）<br><b>存储结构</b>（在内存中的存放：顺序/链式/索引/散列）<br><b>数据运算</b>（对数据的操作：增删改查排序）<br><span class="tag exam">408考点</span> 逻辑结构独立于存储结构，同一逻辑结构可有多种存储实现。'},
+  {t:'算法五个特性',b:'<b>有穷性</b>：有限步后结束<br><b>确定性</b>：每步含义唯一<br><b>可行性</b>：每步可执行<br><b>输入</b>：零个或多个<br><b>输出</b>：至少一个<br><span class="tag exam">408考点</span> 程序≠算法（程序可以死循环）。'},
+  {t:'时间复杂度分析',b:'只保留<strong>最高阶项</strong>，忽略系数。常见排序：<br>O(1) 常数 → O(logn) 对数 → O(n) 线性 → O(nlogn) 线性对数 → O(n²) 平方 → O(n³) 立方 → O(2ⁿ) 指数<br><pre>for(i=0;i&lt;n;i++)           // O(n)\n  for(j=0;j&lt;n;j++)         // O(n²)\n    sum++;</pre><span class="tag trap">陷阱</span> 嵌套循环不一定是O(n²)——内层循环次数独立于n时可能是O(n)。'},
+  {t:'空间复杂度',b:'算法运行时占用的<strong>额外</strong>存储空间。递归调用会占用<strong>栈空间</strong>。例如递归求阶乘空间复杂度O(n)（n层栈帧）。'},
+]},{ch:'第2章 线性表',items:[
+  {t:'顺序表',b:'<strong>连续内存</strong>存储。下标从0开始。<br>✅ 优点：随机存取O(1)、存储密度高<br>❌ 缺点：插入/删除需移动元素O(n)、需要连续大块内存<br><span class="tag formula">公式</span> 第i位(1≤i≤n+1)插入需移动 <b>n-i+1</b> 个元素<br><span class="tag exam">408真题</span> 2010数组移位、2011两序列中位数、2013主元素、2016划分、2018最小未出现正整数、2020三指针'},
+  {t:'单链表',b:'每个<b>节点</b>=数据域+<b>next指针</b>域。头指针head指向第一个节点。<pre>typedef struct LNode{\n    int data;\n    struct LNode *next;\n}LNode;</pre>✅ 插入/删除O(1)、不需要连续空间<br>❌ 查找O(n)、指针占用额外空间<br><b>头插法</b>：新节点插入head之前→逆序<br><b>尾插法</b>：维护tail指针→顺序<br><span class="tag exam">408真题</span> 2009倒数第k节点、2012公共后缀、2015去重、2019链表重排'},
+  {t:'顺序表 vs 链表',b:'<table style="width:100%;font-size:11px;border-collapse:collapse"><tr style="border-bottom:1px solid var(--b)"><th></th><th>顺序表</th><th>链表</th></tr><tr style="border-bottom:1px solid var(--b)"><td>存取</td><td>随机O(1)</td><td>顺序O(n)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>插入删除</td><td>O(n)</td><td>O(1)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>空间</td><td>预分配</td><td>动态</td></tr><tr><td>场景</td><td>频繁查找</td><td>频繁增删</td></tr></table>'},
+]},{ch:'第3章 栈、队列和数组',items:[
+  {t:'栈 (Stack)',b:'<strong>后进先出LIFO</strong>。只在一端（栈顶）操作。<pre>// 顺序栈\nint stk[MAX], top=-1;  // -1=空\npush: stk[++top]=x;\npop:  x=stk[top--];</pre>应用：括号匹配、表达式求值、递归实现、DFS非递归。<br><span class="tag exam">408考点</span> top初始值决定判空条件(top=-1时空为top==-1)。'},
+  {t:'循环队列 — 408必考',b:'<strong>先进先出FIFO</strong>。头尾指针循环移动。牺牲一个单元区分空/满。<br><span class="tag formula">408必背公式</span><br>· 判空：front == rear<br>· 判满：(rear+1) % MAX == front<br>· 入队：q[rear]=x; rear=(rear+1)%MAX<br>· 出队：x=q[front]; front=(front+1)%MAX<br>· 元素个数：(rear-front+MAX) % MAX<br><span class="tag exam">408真题</span> 几乎每年必考1道选择题/填空题！'},
+  {t:'特殊矩阵压缩存储',b'<b>对称矩阵</b>：只存下三角，a[i][j]映射到B[k]，k=i(i-1)/2+j-1（i≥j）。<br><b>三角矩阵</b>：存三角区+一个常数。<br><b>稀疏矩阵</b>：三元组(行,列,值)只存非零元。<br><span class="tag formula">核心</span> 一维数组下标k与二维(i,j)的映射关系。'},
+]},{ch:'第4章 树与二叉树 ⭐重中之重',items:[
+  {t:'二叉树5条性质（记死）',b:'① 第i层最多 2<sup>i-1</sup> 个节点<br>② 深度为k最多 2<sup>k</sup>-1 个节点<br>③ n₀=n₂+1（叶节点数=度为2的节点数+1）<br>④ n个节点的完全二叉树深度为 ⌊log₂n⌋+1<br>⑤ 完全二叉树：编号为i的节点→左孩子2i，右孩子2i+1，父⌊i/2⌋<br><span class="tag exam">408考点</span> 选择题秒杀题——记住就能拿2分。'},
+  {t:'四种遍历',b:'<b>前序</b>（根→左→右）：适合复制、前缀表达式<br><b>中序</b>（左→根→右）：BST得升序序列<br><b>后序</b>（左→右→根）：适合释放节点、后缀表达式<br><b>层序</b>（BFS）：用队列实现<br><span class="tag exam">408经典题</span> 已知两种遍历序列→构造二叉树→求第三种遍历<br><span class="tag trap">陷阱</span> 必须包含<b>中序</b>才能唯一确定二叉树（仅前+后不行！）'},
+  {t:'哈夫曼树',b:'<b>WPL</b>（带权路径长度）= Σ(叶权值×到根的路径长度)。哈夫曼树是WPL最小的二叉树。<br><b>构建</b>：每次选两个最小权值节点合并为新节点，权值和为新权值。<br><span class="tag exam">408真题</span> 2014年综合题考WPL计算。选择题常考哈夫曼树构造过程。'},
+  {t:'堆 (2026考纲新增)',b:'<b>大顶堆</b>：每个节点 ≥ 其孩子（堆顶最大）<br><b>小顶堆</b>：每个节点 ≤ 其孩子（堆顶最小）<br>是<b>完全二叉树</b>，用数组存储。建堆O(n)，调整O(logn)。<br>应用：堆排序、优先队列、TopK问题。'},
+]},{ch:'第5章 图',items:[
+  {t:'图的存储',b:'<b>邻接矩阵</b>：G[i][j]=1有边。空间O(n²)，适合稠密图。<br><b>邻接表</b>：每个节点挂邻居链表。空间O(n+e)，适合稀疏图。<br><pre>// 邻接表节点\ntypedef struct Edge{ int to; struct Edge*next; }Edge;\nEdge *adj[MAX];</pre><span class="tag exam">408考点</span> 选择题常考"给定图，画出邻接矩阵/邻接表"。'},
+  {t:'DFS / BFS',b:'<b>DFS</b>（深度优先）：递归/栈，沿一条路走到底再回溯<br><b>BFS</b>（广度优先）：队列，一层层展开<br>时间复杂度：邻接矩阵O(n²)，邻接表O(n+e)<br>应用：连通分量、拓扑排序、最短路径(无权图)、生成树'},
+  {t:'最小生成树MST',b:'<b>Prim</b>：任意起点，每次选最小边扩展连通分量。O(n²)适合稠密。<br><b>Kruskal</b>：边排序+并查集，每次选不构成环的最小边。O(eloge)适合稀疏。<br><span class="tag exam">408考点</span> 手工模拟过程——选择题常考。'},
+  {t:'Dijkstra最短路径',b:'求单源最短路径——每次选距离最小的未访问节点，用其更新所有邻居。O(n²)。<br>不能处理<b>负权边</b>（负权用Bellman-Ford或SPFA）。<br><span class="tag exam">408+复旦双重考点</span> 408考手工模拟，复旦机考要求手写代码。<br><span class="tag trap">陷阱</span> Dijkstra不是每次都能找到"次短路径"——它贪心地每次确定一个节点的最短距离。'},
+  {t:'拓扑排序',b:'<b>AOV网</b>：顶点表示活动，边表示先后关系。<br><b>Kahn算法</b>：①入度为0者入队 ②出队→删其出边（邻居入度-1）→入度为0者入队。全访问过则无环。<br><span class="tag exam">408真题</span> 2021/2023/2024连续3年考图！2024年考拓扑排序。'},
+]},{ch:'第6章 查找',items:[
+  {t:'折半查找 (二分)',b:'<b>前提</b>：有序顺序表。每次比较中间元素，缩小一半范围。O(logn)。<br><b>判定树</b>：是一棵平衡二叉搜索树。查找的<strong>比较次数</strong>=节点所在层数。<br><span class="tag formula">公式</span> ASL成功 ≈ log₂(n+1)-1<br><span class="tag trap">陷阱</span> 链表不能折半查找——必须能随机存取！'},
+  {t:'二叉搜索树 BST',b:'左子树 < 根 < 右子树。中序遍历得升序序列。<br>查找：小于→左，大于→右。插入：递归找到空位插入。删除：①叶→直接删 ②单孩子→替代 ③双孩子→用<strong>中序后继</strong>替代。<br>平均O(logn)，最坏O(n)（退化成链表）。'},
+  {t:'AVL 平衡二叉树',b'左右子树高度差 ≤ 1。通过<b>四种旋转</b>维持平衡：<br>LL：右旋 · RR：左旋 · LR：左旋+右旋 · RL：右旋+左旋<br><span class="tag formula">性质</span> 高度h的AVL树最少节点数：Nₕ=Nₕ₋₁+Nₕ₋₂+1（斐波那契！）'},
+  {t:'B树 vs B+树',b'<b>B树</b>：节点存数据+键，m阶最多m-1个键。所有叶在同一层。<br><b>B+树</b>：只有叶节点存数据，非叶节点只存索引。叶节点用链表串联。<br>都是<strong>多路平衡查找树</strong>，用于数据库索引。<br><span class="tag exam">408每年必考</span> 结构区别——选择题高频。'},
+  {t:'哈希表',b'<b>哈希函数</b>：h(key)=key%p（p是不大于表长的素数）<br><b>冲突处理</b>：<br>· 开放定址法：冲突后找下一个空位（线性探测/二次探测/伪随机）<br>· 链地址法：每个槽位拉一个链表<br><span class="tag formula">公式</span> 装填因子α=n/m。链地址法ASL≈1+α/2。'},
+]},{ch:'第7章 排序 ⭐核心',items:[
+  {t:'排序算法对比表 (必默写)',b:'<table style="width:100%;font-size:10px;border-collapse:collapse"><tr style="border-bottom:1px solid var(--b)"><th>算法</th><th>时间(平均)</th><th>空间</th><th>稳定?</th></tr><tr style="border-bottom:1px solid var(--b)"><td>直接插入</td><td>O(n²)</td><td>O(1)</td><td>✅ 稳定</td></tr><tr style="border-bottom:1px solid var(--b)"><td>冒泡</td><td>O(n²)</td><td>O(1)</td><td>✅ 稳定</td></tr><tr style="border-bottom:1px solid var(--b)"><td>简单选择</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr style="border-bottom:1px solid var(--b)"><td>希尔</td><td>~O(n¹·³)</td><td>O(1)</td><td>❌</td></tr><tr style="border-bottom:1px solid var(--b)"><td><b>快排</b></td><td><b>O(nlogn)</b></td><td>O(logn)</td><td><b>❌</b></td></tr><tr style="border-bottom:1px solid var(--b)"><td><b>堆排</b></td><td><b>O(nlogn)</b></td><td>O(1)</td><td><b>❌</b></td></tr><tr style="border-bottom:1px solid var(--b)"><td><b>归并</b></td><td><b>O(nlogn)</b></td><td>O(n)</td><td><b>✅ 稳定</b></td></tr><tr><td>基数</td><td>O(d(n+r))</td><td>O(n+r)</td><td>✅ 稳定</td></tr></table>'},
+  {t:'快速排序详解',b:'<b>核心</b>：选pivot→分区(小左大右)→递归左右。<br>最坏O(n²)出现在<b>有序数组+选首元素为pivot</b>。<br>优化：随机选pivot / 三数取中。<br><span class="tag exam">408综合题最高频</span> 必须闭卷写出partition+递归！'},
+  {t:'归并排序 — 外部排序基础',b:'<b>分治</b>：分成两半分别排序→merge合并两个有序数组。<br>merge是核心：双指针比较，小的放入结果。<br>内部排序中唯一<b>稳定</b>的O(nlogn)算法。外部排序=多路归并。'},
+  {t:'堆排序',b:'<b>建堆</b>(从⌊n/2⌋开始向下调整，O(n))→<br>循环：①取堆顶(最大) ②与末尾交换 ③向下调整(O(logn))。<br>时间O(nlogn)，空间O(1)——是<b>原地排序</b>。<br><span class="tag trap">陷阱</span> 堆排序不稳定！建堆过程会破坏相同元素的相对顺序。'},
+]},{ch:'串的模式匹配 (2026新增)',items:[
+  {t:'KMP算法',b:'<b>next数组</b>：失配时模式串回退到的位置。next[j]=最长相等前后缀长度。<br>匹配过程：主串指针不回溯，只移动模式串指针。<br>时间O(n+m)。<br><span class="tag exam">2026考纲新增</span> 重点关注next数组的求法。'},
+]}];
+
+// --- C语言参考数据 ---
+const C_REF=[
+{ch:'基础语法',items:[
+  {t:'数据类型',b:'<table style="width:100%;font-size:11px"><tr><td><code>int</code></td><td>整数 4字节</td><td>-2¹~2¹-1</td></tr><tr><td><code>float</code></td><td>单精度 4字节</td><td>6-7位有效</td></tr><tr><td><code>double</code></td><td>双精度 8字节</td><td>15-16位有效</td></tr><tr><td><code>char</code></td><td>字符 1字节</td><td>ASCII码</td></tr></table>'},
+  {t:'printf/scanf格式',b:'<code>%d</code>整数 <code>%f</code>小数 <code>%c</code>字符 <code>%s</code>字符串 <code>%p</code>指针<br><code>%lf</code>读取double <code>%.2f</code>保留2位小数<br><span class="tag trap">陷阱</span> scanf中int加&，字符串不加&'}
+]},{ch:'指针 (最重要!)',items:[
+  {t:'指针本质',b:'<b>指针</b>=存地址的变量。<code>&x</code>取地址，<code>*p</code>解引用。<br><code>int *p = &x;</code> — p指向x，*p即x的值。<br><span class="tag trap">常见坑</span> 未初始化的指针是野指针，绝对不能解引用！'},
+  {t:'指针与数组',b:'<code>arr[i]</code> ≡ <code>*(arr+i)</code><br>数组名=指向首元素地址的<strong>指针常量</strong>（不能变）。<br><code>int *p = arr;</code> 然后用 <code>*(p++)</code> 遍历。'},
+  {t:'指针参数',b:'<b>值传递</b>：函数内修改不影响原变量。<br><b>地址传递</b>：传&取地址，函数内用*修改，可改变原变量。<br><pre>void swap(int *a,int *b){\n  int t=*a;*a=*b;*b=t;\n}</pre>这是408/机考最基础的指针用法。'},
+]},{ch:'结构体与链表',items:[
+  {t:'struct定义',b:'<pre>struct Student{\n  char name[20];\n  int score;\n}; // 别忘了分号!</pre>访问成员：<code>s.name</code>、<code>s.score</code>。<br>指向结构体的指针：<code>p->name</code>等价于<code>(*p).name</code>。'},
+  {t:'链表节点模板',b:'<pre>typedef struct Node{\n  int data;\n  struct Node *next;\n}Node;\n\n// 创建节点\nNode *p=(Node*)malloc(sizeof(Node));\np->data=x; p->next=NULL;</pre>这是408所有链表题的基础模板。'},
+]},{ch:'动态内存',items:[
+  {t:'malloc/free',b:'<code>void* malloc(size_t size)</code> — 堆上分配<br><code>void free(void* ptr)</code> — 释放<br><pre>int *a=(int*)malloc(N*sizeof(int));\n// 使用a...\nfree(a);  // 用完必须释放!</pre><span class="tag trap">陷阱</span> 忘记free=内存泄漏；free后继续用=悬垂指针。'},
+]},{ch:'常用技巧',items:[
+  {t:'双指针',b:'一头一尾向中间移动：回文判断、反转数组<br>快慢指针：快走2步慢走1步→找中点/环检测/倒数第k个'},
+  {t:'递归模板',b:'<pre>返回类型 func(参数){\n  if(基准条件)return 基础值;\n  // 缩小问题规模\n  return func(更小的参数);\n}</pre>递归本质=系统栈保存状态。太深→栈溢出。'},
+]}];
+
+// --- Level data (精简过,核心保留) ---
+const CL=[
+{ph:'启程',tg:'语法',df:'⭐',ti:'Hello World',de:'第一个C程序：打印 Hello, World!',tp:'#include <stdio.h>\n\nint main(){\n  \n  return 0;\n}',ex:'Hello, World!\n',kn:'<code>#include &lt;stdio.h&gt;</code> 引入标准I/O库。<code>int main()</code> 是入口函数。C程序从此开始执行。'},
+{ph:'启程',tg:'语法',df:'⭐',ti:'变量与输出',de:'int age=20; printf输出"年龄: 20"',tp:'#include <stdio.h>\n\nint main(){\n  \n  return 0;\n}',ex:'年龄: 20\n',kn:'变量=存储数据的容器。printf占位符: <code>%d</code>→int <code>%f</code>→float <code>%s</code>→字符串。'},
+{ph:'启程',tg:'语法',df:'⭐',ti:'scanf输入',de:'读入名字，输出"你好, xxx!"',tp:'#include <stdio.h>\n\nint main(){\n  char name[100];\n  scanf("%s",name);\n  \n  return 0;\n}',ex:'你好, Tom!\n',si:'Tom',kn:'scanf中整数加&，<strong>字符串不加&</strong>——数组名就是地址。'},
+{ph:'控制流',tg:'语法',df:'⭐',ti:'if-else',de:'判断奇偶：输入整数，输出"偶数"或"奇数"',tp:'#include <stdio.h>\n\nint main(){\n  int n;scanf("%d",&n);\n  \n  return 0;\n}',ex:'偶数\n',si:'8',kn:'<code>n%2==0</code> 判断偶数。<span class="tag trap">坑：==是比较，=是赋值！</span>'},
+{ph:'控制流',tg:'语法',df:'⭐',ti:'for循环求和',de:'读入N，输出1+2+…+N',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  \n  return 0;\n}',ex:'5050\n',si:'100',kn:'<code>for(初始化;条件;更新)</code>。<code>i++</code>即<code>i=i+1</code>。'},
+{ph:'数组',tg:'语法',df:'⭐⭐',ti:'数组最大值',de:'读入N个数，输出最大值',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  \n  return 0;\n}',ex:'9\n',si:'5\n3 7 9 2 6',kn:'数组下标从0开始。max=a[0]，遍历更新。'},
+{ph:'指针',tg:'指针',df:'⭐⭐⭐',ti:'swap()交换',de:'写swap(int*a,int*b)，交换两数。408必考：传指针才能改原变量。',tp:'#include <stdio.h>\n\n// 写swap\n\nint main(){\n  int a,b;scanf("%d%d",&a,&b);\n  swap(&a,&b);\n  printf("%d %d\\n",a,b);return 0;\n}',ex:'5 3\n',si:'3 5',kn:'<b>值传递</b>=传副本，不改原变量。<b>地址传递</b>=<code>&</code>取地址，<code>*</code>解引用改原值。'},
+{ph:'指针',tg:'指针',df:'⭐⭐⭐',ti:'malloc/free',de:'malloc动态数组，求平均值(2位小数)，free释放。408必会。',tp:'#include <stdio.h>\n#include <stdlib.h>\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  // malloc + 读入 + 求平均值\n  \n  return 0;\n}',ex:'3.00\n',si:'5\n1 2 3 4 5',kn:'<code>malloc</code>在<strong>堆</strong>分配，用后必须<code>free</code>。栈=自动，堆=手动。'},
+{ph:'递归',tg:'递归',df:'⭐⭐⭐',ti:'递归阶乘',de:'写int fact(int n)递归求n!',tp:'#include <stdio.h>\n\n// 递归函数\n\nint main(){\n  int n;scanf("%d",&n);\n  printf("%d\\n",fact(n));return 0;\n}',ex:'120\n',si:'5',kn:'递归=①基准条件(n≤1 return 1) ②递归(n*fact(n-1))。栈上每层保存状态。'},
+];
+
+const DSL=[
+{ph:'顺序表(408真题)',tg:'顺序表',df:'⭐⭐',ti:'数组左移 (2010真题)',de:'数组前p个移到末尾。408真题。',tp:'#include <stdio.h>\nint main(){\n  int N,p;scanf("%d%d",&N,&p);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  // 左移p位\n  \n  for(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;\n}',ex:'3 4 5 1 2 \n',si:'5 2\n1 2 3 4 5',kn:'反转①前p个 ②后N-p个 ③整体。时间O(n)空间O(1)。',et:'408真题2010：数组循环移位'},
+{ph:'顺序表(408真题)',tg:'顺序表',df:'⭐⭐⭐⭐',ti:'两序列中位数 (2011真题)',de:'两个等长升序序列A,B，求合并后的中位数。',tp:'#include <stdio.h>\nint main(){\n  int N;scanf("%d",&N);int a[N],b[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  for(int i=0;i<N;i++)scanf("%d",&b[i]);\n  // 求中位数\n  \n  return 0;\n}',ex:'6\n',si:'5\n1 3 5 7 9\n2 4 6 8 10',kn:'最优二分O(logn)。暴力归并取中间O(n)也能拿分。',et:'408真题2011：分治法求中位数'},
+{ph:'顺序表(408真题)',tg:'顺序表',df:'⭐⭐⭐',ti:'摩尔投票法 (2013真题)',de:'找出现次数>N/2的主元素。',tp:'#include <stdio.h>\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  // 摩尔投票\n  \n  return 0;\n}',ex:'5\n',si:'6\n5 5 2 5 5 1',kn:'候选+counter。遇相同count++，不同count--。O(n)时间O(1)空间。',et:'408真题2013：主元素查找'},
+{ph:'链表(408真题)',tg:'链表',df:'⭐⭐⭐',ti:'单链表建表+遍历',de:'尾插法创建单链表，输出"1->2->3->NULL"。408基础。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\nint main(){\n  int N,v;scanf("%d",&N);\n  // 尾插法\n  \n  // 遍历\n  return 0;\n}',ex:'1 -> 2 -> 3 -> NULL\n',si:'3\n1 2 3',kn:'链表节点=数据+next。尾插:维护tail。插入O(1),查找O(n)。',et:'408核心：链式存储的代表'},
+{ph:'链表(408真题)',tg:'链表',df:'⭐⭐⭐',ti:'链表反转',de:'反转单链表。2019年408题涉及链表重排。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\nNode* reverse(Node*head){\n  // 写反转\n}\n// main省略',ex:'3 -> 2 -> 1 -> NULL\n',si:'3\n1 2 3',kn:'头插法反转。遍历原链表，逐个摘取节点头插到新链表。',et:'408真题2019：链表重排(反转+快慢指针)'},
+{ph:'栈队列',tg:'栈队列',df:'⭐⭐⭐',ti:'循环队列',de:'实现循环队列MAX=5。判空front==rear，判满(rear+1)%MAX==front。408每年必考！',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 5\nint q[MAX],f=0,r=0;\nint isFull(){return(r+1)%MAX==f;}\nint isEmpty(){return f==r;}\nvoid eq(int x){if(isFull())return;q[r]=x;r=(r+1)%MAX;}\nint dq(){if(isEmpty())return-1;int x=q[f];f=(f+1)%MAX;return x;}\nint main(){\n  char cmd[10];int x;\n  while(scanf("%s",cmd)!=EOF){\n    if(strcmp(cmd,"end")==0)break;\n    if(strcmp(cmd,"eq")==0){scanf("%d",&x);eq(x);}\n    else if(strcmp(cmd,"dq")==0)printf("%d\\n",dq());\n  }\n  return 0;\n}',ex:'1\n2\n3\n',si:'eq 1\neq 2\neq 3\ndq\ndq\ndq\nend',kn:'<b>408必背</b>:空→f==r，满→(r+1)%MAX==f。元素数=(r-f+MAX)%MAX。',et:'每年必考1道！给定front/rear判断空/满。'},
+{ph:'树(408真题)',tg:'树',df:'⭐⭐⭐',ti:'二叉树遍历',de:'给定前序+中序→输出后序。408经典题型。',tp:'#include <stdio.h>\n#include <string.h>\nvoid post(char*pre,char*in,int len){\n  if(len<=0)return;\n  char root=pre[0];int pos=0;\n  while(in[pos]!=root)pos++;\n  post(pre+1,in,pos);\n  post(pre+1+pos,in+pos+1,len-pos-1);\n  printf("%c",root);\n}\nint main(){\n  char p[100],in[100];scanf("%s%s",p,in);\n  post(p,in,strlen(p));printf("\\n");return 0;\n}',ex:'DEBFCA\n',si:'ABDECF DBEACF',kn:'前序首字母=根，中序定位根后左右分治递归。',et:'408必考：两种遍历→求第三种'},
+{ph:'树(408真题)',tg:'树',df:'⭐⭐⭐',ti:'WPL计算 (2014真题)',de:'二叉树带权路径长度。叶节点权值×深度的总和。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int w;struct T*l,*r;}T;\nint wpl(T*root,int d){\n  // 写\n}\n// main省略',ex:'25\n',kn:'遇叶节点返回权×深。否则返回左WPL+右WPL。',et:'408真题2014：WPL综合题'},
+{ph:'图(408近年重点!)',tg:'图',df:'⭐⭐⭐',ti:'BFS遍历',de:'邻接表存储无向图，从0开始BFS输出遍历序列。',tp:'#include <stdio.h>\n#include <stdlib.h>\n#define MAX 100\ntypedef struct E{int to;struct E*next;}E;\nE*adj[MAX];int vis[MAX],q[MAX],f=0,r=0;\nvoid add(int u,int v){E*e=(E*)malloc(sizeof(E));e->to=v;e->next=adj[u];adj[u]=e;}\nvoid bfs(int s){\n  // BFS\n}\nint main(){\n  int N,M,u,v;scanf("%d%d",&N,&M);\n  for(int i=0;i<M;i++){scanf("%d%d",&u,&v);add(u,v);add(v,u);}\n  bfs(0);printf("\\n");return 0;\n}',ex:'0 1 2 3 \n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'BFS用队列。起点入队→循环:出队访问→未访问邻居入队。',et:'408真题2021/2023/2024连续3年考图！'},
+{ph:'图(408近年重点!)',tg:'图',df:'⭐⭐⭐',ti:'拓扑排序 (2024真题)',de:'判断有向图是否有拓扑序列。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\nint G[MAX][MAX],ind[MAX];\nint main(){\n  int N,M,u,v;scanf("%d%d",&N,&M);\n  memset(G,0,sizeof(G));memset(ind,0,sizeof(ind));\n  for(int i=0;i<M;i++){scanf("%d%d",&u,&v);G[u][v]=1;ind[v]++;}\n  // 拓扑排序\n  \n  return 0;\n}',ex:'有拓扑序列\n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'Kahn:①入度0入队 ②出队删出边(邻居入度-1) ③入度0者入队。全访问过=无环。',et:'408真题2024：图论+拓扑排序'},
+{ph:'排序(408核心)',tg:'排序',df:'⭐⭐⭐',ti:'快速排序',de:'手写快排。408综合题最高频代码。',tp:'#include <stdio.h>\nvoid qs(int a[],int l,int r){\n  // 快排\n}\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  qs(a,0,N-1);\n  for(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;\n}',ex:'1 2 5 7 9 \n',si:'5\n5 2 7 1 9',kn:'pivot+分区(小左大右)+递归。O(nlogn)不稳定。',et:'408综合题最高频！必须闭卷写。'},
+];
+
+const FDL=[
+{ph:'模拟题',tg:'模拟',df:'⭐⭐',ti:'日期差值 (2019复旦真题)',de:'两日期相差天数。2019复旦真题。',tp:'#include <stdio.h>\nint leap(int y){return(y%4==0&&y%100!=0)||y%400==0;}\nint doy(int y,int m,int d){\n  int ds[]={0,31,28,31,30,31,30,31,31,30,31,30,31};\n  if(leap(y))ds[2]=29;int s=0;\n  for(int i=1;i<m;i++)s+=ds[i];return s+d;\n}\nint main(){\n  int y1,m1,d1,y2,m2,d2;\n  scanf("%d%d%d%d%d%d",&y1,&m1,&d1,&y2,&m2,&d2);\n  // 计算天数差\n  \n  return 0;\n}',ex:'10\n',si:'2019 2 5 2019 2 15',kn:'同年:dayOfYear相减。跨年:首年末+尾年初+中间整年。'},
+{ph:'模拟题',tg:'模拟',df:'⭐⭐',ti:'BMI分类 (2025复旦真题)',de:'输入身高(cm)体重(kg)，输出BMI分类。2025真题第1题。',tp:'#include <stdio.h>\nint main(){\n  float h,w,bmi;scanf("%f%f",&h,&w);\n  h/=100;bmi=w/(h*h);\n  // 输出分类\n  \n  return 0;\n}',ex:'Normal\n',si:'170 65',kn:'BMI=体重/身高²。简单题考边界条件。不能丢分。',et:'2025复旦机考第1题'},
+{ph:'贪心',tg:'贪心',df:'⭐⭐⭐',ti:'打地鼠/最大选数 (2020复旦真题)',de:'选最多数字，排序后相邻差≥d。',tp:'#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return*(int*)a-*(int*)b;}\nint main(){\n  int N,d;scanf("%d%d",&N,&d);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  qsort(a,N,sizeof(int),cmp);\n  // 贪心\n  \n  return 0;\n}',ex:'3\n',si:'5 3\n1 2 4 8 10',kn:'排序后选第一个，找≥当前+d的最小下一个。贪心选择性质。'},
+{ph:'DP',tg:'DP',df:'⭐⭐⭐⭐',ti:'01背包',de:'N件物品容量C。dp[j]=max(dp[j],dp[j-w[i]]+v[i])。j从大到小!',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){\n  int N,C,w[100],v[100];scanf("%d%d",&N,&C);\n  for(int i=1;i<=N;i++)scanf("%d%d",&w[i],&v[i]);\n  int dp[1001]={0};\n  // 01背包\n  \n  printf("%d\\n",dp[C]);return 0;\n}',ex:'10\n',si:'3 5\n2 4\n3 5\n1 3',kn:'dp[j]=max(dp[j],dp[j-w[i]]+v[i])。<b>j从大到小</b>保证每件只选一次。',et:'机考DP第一高频'},
+{ph:'DP',tg:'DP',df:'⭐⭐⭐⭐',ti:'最长重复子数组 (2024复旦真题)',de:'两数组求最长公共<strong>连续</strong>子数组长度。2024真题第2题。',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){\n  int N,M;scanf("%d%d",&N,&M);int a[N],b[M];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  for(int i=0;i<M;i++)scanf("%d",&b[i]);\n  // DP\n  \n  return 0;\n}',ex:'3\n',si:'5 4\n1 2 3 2 1\n3 2 1 4',kn:'dp[i][j]=a[i]==b[j]?dp[i-1][j-1]+1:0。取所有dp最大值。',et:'2024复旦机考第2题'},
+{ph:'图论',tg:'图论',df:'⭐⭐⭐⭐',ti:'Dijkstra最短路',de:'N点M边有向图，求1到N最短距离。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\n#define INF 0x3f3f3f3f\nint G[MAX][MAX],dist[MAX],vis[MAX];\nint main(){\n  int N,M,u,v,w;scanf("%d%d",&N,&M);\n  memset(G,0x3f,sizeof(G));\n  for(int i=0;i<M;i++){scanf("%d%d%d",&u,&v,&w);if(w<G[u][v])G[u][v]=w;}\n  // Dijkstra\n  \n  printf("%d\\n",dist[N]);return 0;\n}',ex:'5\n',si:'4 5\n1 2 2\n1 3 5\n2 3 1\n2 4 5\n3 4 2',kn:'每次选最小未访问节点→标记→更新邻居。O(n²)。',et:'408+复旦双重重点'},
+];
+
+// ===================== TAB SWITCHING =====================
+let activeTab=0,curMod='c',curLv=0;
+
 function switchTab(t){
   activeTab=t;document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',i===t));
-  updateBadges();
-  if(t===0)renderDash();else if(t===1)renderModule('c',CL,K.C);else if(t===2)renderModule('ds',DSL,K.DS);else if(t===3)renderModule('fd',FDL,K.FD);else if(t===4)renderJournal();else if(t===5)render408CL();
-}
-function updateBadges(){
-  document.getElementById('cnt-c').textContent=Object.values(g(K.C)).filter(v=>v).length+'/'+CL.length;
-  document.getElementById('cnt-ds').textContent=Object.values(g(K.DS)).filter(v=>v).length+'/'+DSL.length;
-  document.getElementById('cnt-fd').textContent=Object.values(g(K.FD)).filter(v=>v).length+'/'+FDL.length;
+  if(t===0)renderDash();
+  else if(t===1)renderModule('c',CL,KC);
+  else if(t===2)renderModule('ds',DSL,KDS);
+  else if(t===3)renderModule('fd',FDL,KFD);
+  else if(t===4)renderJournal();
+  else if(t===5)renderCRef();
+  else if(t===6)renderDSKnow();
 }
 
-// =========================== DASHBOARD ===========================
+// ===================== DASHBOARD =====================
 function renderDash(){
-  const cDone=Object.values(g(K.C)).filter(v=>v).length;
-  const dsDone=Object.values(g(K.DS)).filter(v=>v).length;
-  const fdDone=Object.values(g(K.FD)).filter(v=>v).length;
-  const total=CL.length+DSL.length+FDL.length;const allDone=cDone+dsDone+fdDone;
-  const j=g(K.J);const today=new Date().toISOString().slice(0,10);
-  let streak=0,d=new Date();
+  const cd=Object.values(g(KC)).filter(v=>v).length;
+  const ds=Object.values(g(KDS)).filter(v=>v).length;
+  const fd=Object.values(g(KFD)).filter(v=>v).length;
+  const total=CL.length+DSL.length+FDL.length,all=cd+ds+fd;
+  const j=g(KJ);let streak=0,d=new Date();
   for(let i=0;i<365;i++){const k=d.toISOString().slice(0,10);if(j[k]&&j[k].trim())streak++;else if(i>0)break;d.setDate(d.getDate()-1);}
-  const p408=Math.round(Object.values(g(K.P408)).filter(v=>v).length/35*100);
-  const html=`
+  const cal=buildCal(THIS_YEAR,THIS_MONTH);
+  document.getElementById('tab-content').innerHTML=`
   <div class="dg">
-    <div class="sc"><div class="lb">总进度</div><div class="vl vg">${allDone}</div><div class="sb">/ ${total} 关 | ${Math.round(allDone/total*100)}%</div><div class="pb"><div class="fl" style="width:${Math.round(allDone/total*100)}%"></div></div></div>
-    <div class="sc"><div class="lb">C语言基础</div><div class="vl vb">${cDone}/${CL.length}</div><div class="sb">Beej精华+语法</div></div>
-    <div class="sc"><div class="lb">408数据结构</div><div class="vl vp">${dsDone}/${DSL.length}</div><div class="sb">16年真题考点</div></div>
-    <div class="sc"><div class="lb">复旦机考</div><div class="vl vo">${fdDone}/${FDL.length}</div><div class="sb">11年真题题型</div></div>
-    <div class="sc"><div class="lb">🔥 学习连击</div><div class="vl vo">${streak}天</div><div class="sb"><div class="pb"><div class="fl" style="width:${Math.min(streak*5,100)}%"></div></div></div></div>
-    <div class="sc"><div class="lb">📖 408理论</div><div class="vl vp">${p408}%</div><div class="sb">35个考点掌握率</div></div>
+    <div class="sc"><div class="lb">总闯关</div><div class="vl vg">${all}/${total}</div><div class="sb">${Math.round(all/total*100)}%</div><div class="pb"><div class="fl" style="width:${Math.round(all/total*100)}%"></div></div></div>
+    <div class="sc"><div class="lb">C语言</div><div class="vl vb">${cd}/${CL.length}</div><div class="sb">基础语法+指针</div></div>
+    <div class="sc"><div class="lb">408</div><div class="vl vp">${ds}/${DSL.length}</div><div class="sb">16年真题考点</div></div>
+    <div class="sc"><div class="lb">复旦机考</div><div class="vl vo">${fd}/${FDL.length}</div><div class="sb">11年真题题型</div></div>
+    <div class="sc"><div class="lb">🔥 连击</div><div class="vl vo">${streak}天</div><div class="sb">记录即力量</div></div>
+    <div class="sc"><div class="lb">知识库</div><div class="vl vp">2本</div><div class="sb">C参考+408七章</div></div>
   </div>
-  <div class="ds"><h3>📅 今日学习记录</h3>
-    <div class="je"><textarea id="jtoday">${j[today]||''}</textarea>
-    <button class="btn prm sm" style="margin-top:8px" onclick="saveToday()">💾 保存</button></div>
+  <div style="margin:0 16px 8px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px">
+    <h3 style="font-size:13px;color:var(--a);margin-bottom:6px">📅 ${THIS_YEAR}年${THIS_MONTH+1}月</h3>
+    <div class="cal">${cal}</div>
   </div>
-  <div class="ds"><h3>📋 推荐学习路线</h3>
-    ${['第1-3天: C语言基础 (Hello World→指针)','第4-6天: C语言进阶 (结构体→文件)','第7-10天: 408顺序表+链表真题','第11-14天: 408树+图真题(近年重点!)','第15-18天: 复旦机考模拟+贪心','第19-22天: 复旦机考DP+搜索','第23-26天: 复旦机考图论+综合','第27-30天: 真题模拟+查漏补缺'].map((s,i)=>`<div class="pr"><div class="cx ${g(K.PLAN)[i]?'done':''}" onclick="togglePlan(${i})">${g(K.PLAN)[i]?'✓':''}</div><div class="tk">${s}</div></div>`).join('')}
+  <div style="margin:0 16px 16px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px">
+    <h3 style="font-size:13px;color:var(--a);margin-bottom:6px">✏️ 今日学习记录（${TODAY} — 可跳过）</h3>
+    <div class="je"><textarea id="jtoday">${j[TODAY]||''}</textarea>
+    <button class="btn prm" style="margin-top:6px;font-size:11px" onclick="saveToday()">💾 保存</button></div>
   </div>`;
-  document.getElementById('tab-content').innerHTML=html;
 }
-function saveToday(){const t=document.getElementById('jtoday').value;const j=g(K.J);const td=new Date().toISOString().slice(0,10);j[td]=t;s(K.J,j);toast('✅ 已保存');}
-function togglePlan(i){const p=g(K.PLAN);p[i]=!p[i];s(K.PLAN,p);renderDash()}
 
-// =========================== LEARNING MODULES ===========================
-function renderModule(modKey,levels,kKey){
-  curMod=modKey;const done=g(kKey);
+function buildCal(y,m){
+  const j=g(KJ);const f=new Date(y,m,1);const start=f.getDay();const dim=new Date(y,m+1,0).getDate();
+  let h='<div class="mnav"><span class="mon">'+y+'年'+(m+1)+'月</span></div>';
+  h+='<div class="cal">';
+  ['日','一','二','三','四','五','六'].forEach(s=>h+=`<div class="day-label">${s}</div>`);
+  for(let i=0;i<start;i++)h+=`<div class="day empty other-month"></div>`;
+  for(let d=1;d<=dim;d++){
+    const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls=[];if(k===TODAY)cls.push('today');if(j[k]&&j[k].trim())cls.push('has-note');
+    h+=`<div class="day ${cls.join(' ')}" onclick="editDay('${k}')" title="${k}">${d}</div>`;
+  }
+  h+='</div>';return h;
+}
+
+function saveToday(){const t=document.getElementById('jtoday').value;const j=g(KJ);j[TODAY]=t;s(KJ,j);toast('✅ 已保存')}
+
+function editDay(k){
+  const j=g(KJ);const note=j[k]||'';
+  const content=prompt(`📅 ${k}\n记录学习内容（可为空）：`,note);
+  if(content!==null){j[k]=content;s(KJ,j);renderDash();toast('✅ '+k+' 已更新')}
+}
+
+// ===================== JOURNAL =====================
+function renderJournal(){
+  const j=g(KJ);const ks=Object.keys(j).filter(k=>k!=='_tc').sort().reverse().slice(0,60);
+  const cal=buildCal(THIS_YEAR,THIS_MONTH);
+  document.getElementById('tab-content').innerHTML=`
+  <div style="padding:16px;max-width:800px">
+    <h3 style="margin-bottom:12px">📅 学习日志</h3>
+    <div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px;margin-bottom:16px">${cal}</div>
+    <h4 style="font-size:13px;color:var(--m);margin-bottom:8px">最近记录</h4>
+    ${ks.length?ks.map(k=>`<div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px;margin-bottom:8px;font-size:13px;line-height:1.6"><div style="font-size:10px;color:var(--m);margin-bottom:4px">📅 ${k}</div>${esc(j[k])||'<span style="color:var(--m)">(空)</span>'}</div>`).join(''):'<p style="color:var(--m)">还没有日志。点击日历上的日期即可记录。</p>'}
+  </div>`;
+}
+
+// ===================== 408 KNOWLEDGE =====================
+function renderDSKnow(){
+  let h='<div style="padding:16px;max-width:900px"><h3 style="margin-bottom:4px">📚 408数据结构知识库</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">基于严蔚敏教材 + 王道 + 16年408真题提炼 · 点击展开</p>';
+  DS_KNOWLEDGE.forEach((ch,i)=>{
+    h+=`<div class="kn-section" id="dsk-${i}"><div class="ch-header" onclick="toggleSection('dsk-${i}')"><div class="ch-num">${i+1}</div><div class="ch-title">${ch.ch}</div><div class="ch-arrow">▶</div></div><div class="ch-body">`;
+    ch.items.forEach(it=>h+=`<div class="kn-card"><h5>${it.t}</h5>${it.b}</div>`);
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('tab-content').innerHTML=h;
+}
+
+// ===================== C REFERENCE =====================
+function renderCRef(){
+  let h='<div style="padding:16px;max-width:900px"><h3 style="margin-bottom:4px">📚 C语言参考手册</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">基于Beej\'s Guide精华 + 408/机考高频用法 · 点击展开</p>';
+  C_REF.forEach((ch,i)=>{
+    h+=`<div class="kn-section" id="cref-${i}"><div class="ch-header" onclick="toggleSection('cref-${i}')"><div class="ch-num">${i+1}</div><div class="ch-title">${ch.ch}</div><div class="ch-arrow">▶</div></div><div class="ch-body">`;
+    ch.items.forEach(it=>h+=`<div class="kn-card"><h5>${it.t}</h5>${it.b}</div>`);
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('tab-content').innerHTML=h;
+}
+
+function toggleSection(id){document.getElementById(id).classList.toggle('open')}
+
+// ===================== LEARNING MODULES =====================
+function renderModule(mk,levels,kKey){
+  curMod=mk;const done=g(kKey);
   let lvHtml='',lastPh='';
   levels.forEach((l,i)=>{if(l.ph!==lastPh){lvHtml+=`<div class="ph">📌 ${l.ph}</div>`;lastPh=l.ph;}
-    lvHtml+=`<button class="lb ${i===curLv?'active':''} ${done[i]?'done':''}" onclick="goLevel('${modKey}',${i})"><span class="n">${i+1}</span>${l.ti}<span class="ck">✓</span></button>`;});
-
-  const h=`<div class="learn-wrap"><div class="lv-sidebar">${lvHtml}</div>
+    lvHtml+=`<button class="lb ${i===0&&mk===curMod?'active':''} ${done[i]?'done':''}" onclick="goLv('${mk}',${i})"><span class="n">${i+1}</span>${l.ti}<span class="ck">✓</span></button>`;});
+  document.getElementById('tab-content').innerHTML=`
+  <div class="learn-wrap"><div class="lv-sidebar">${lvHtml}</div>
     <div class="lv-main"><div class="lv-body">
       <div class="lv-left" id="lv-left"></div>
       <div class="lv-right">
         <div class="ed-hd">📝 main.c</div>
-        <div class="ed-wrap"><div class="ln" id="ln"><div>1</div></div><textarea class="code" id="code-input" spellcheck="false"></textarea></div>
-        <div class="hint-box" id="hint-box"></div>
-        <div class="btns"><button class="btn prm" onclick="execCode('${modKey}')">▶ 运行代码</button><button class="btn" onclick="toggleHint()">💡 提示</button><button class="btn" onclick="showSol('${modKey}')">🔑 答案</button><button class="btn" onclick="resetCode('${modKey}')">↺ 重置</button></div>
-        <div class="out-pn"><div class="out-hd">📤 输出</div><div class="out" id="out" style="color:var(--m)">— 运行代码后在此显示结果 —</div></div>
+        <div class="ed-wrap"><div class="ln" id="ln"><div>1</div></div><textarea class="code" id="code-in" spellcheck="false"></textarea></div>
+        <div class="btns"><button class="btn prm" onclick="run('${mk}')">▶ 运行代码</button><button class="btn" onclick="sol('${mk}')">🔑 答案</button><button class="btn" onclick="reset('${mk}')">↺ 重置</button></div>
+        <div class="out-pn"><div class="out-hd">📤 输出</div><div class="out" id="out" style="color:var(--m)">— 点击运行代码 —</div></div>
       </div>
-    </div></div></div>`;
-  document.getElementById('tab-content').innerHTML=h;
-  document.getElementById('code-input').addEventListener('input',updateLn);
-  document.getElementById('code-input').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const ta=e.target;const s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'\t'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+1}});
-  goLevel(modKey,curLv);
+  </div></div></div>`;
+  document.getElementById('code-in').addEventListener('input',updateLn);
+  document.getElementById('code-in').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const ta=e.target,s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'\t'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+1}});
+  goLv(mk,0);
 }
 
-function goLevel(mk,i){
-  curLv=i;const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[i];const kKey=mk==='c'?K.C:(mk==='ds'?K.DS:K.FD);const ck='lv_code_'+mk+'_'+i;
+function goLv(mk,i){
+  curLv=i;const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[i];const kKey=mk==='c'?KC:(mk==='ds'?KDS:KFD);
+  const ck='lv_code_'+mk+'_'+i;
   document.querySelectorAll('.lv-sidebar .lb').forEach((b,j)=>b.classList.toggle('active',j===i));
-  const ta=document.getElementById('code-input');
-  ta.value=localStorage[ck]||l.tp;
+  const ta=document.getElementById('code-in');ta.value=localStorage[ck]||l.tp;
   const left=document.getElementById('lv-left');
-  let kh=l.kn?`<div class="kb"><h4>📖 Beej精华知识点</h4>${l.kn}</div>`:'';
-  if(l.et)kh+=`<div class="exam">🎯 <strong>408/机考真题链接</strong>：${l.et}</div>`;
+  let kh=l.kn?`<div class="kb"><h4>📖 知识点</h4>${l.kn}</div>`:'';
+  if(l.et)kh+=`<div class="exam">🎯 <strong>真题链接</strong>：${l.et}</div>`;
   let io=`<div class="iso">`;
   if(l.si)io+=`<div class="il">📥 样例输入</div><pre>${esc(l.si)}</pre>`;
   io+=`<div class="il">📤 期望输出</div><pre>${esc(l.ex)}</pre></div>`;
-  left.innerHTML=`<h3 style="font-size:17px;margin-bottom:4px">关卡 ${i+1}: ${l.ti}</h3>
-    <div style="font-size:11px;color:var(--m);margin-bottom:12px">${l.ph} · ${l.df} · ${l.tg}</div>
-    ${kh}<p style="font-size:13px;line-height:1.7;margin-bottom:12px">${l.de}</p>${io}`;
-  document.getElementById('hint-box').classList.remove('show');document.getElementById('hint-box').style.display='none';
-  document.getElementById('out').textContent='— 运行代码后在此显示结果 —';document.getElementById('out').style.color='var(--m)';
-  updateLn();l._srcIdx=i;
+  left.innerHTML=`<h3 style="font-size:16px;margin-bottom:4px">关卡 ${i+1}: ${l.ti}</h3>
+    <div style="font-size:10px;color:var(--m);margin-bottom:10px">${l.ph} · ${l.df} · ${l.tg}</div>
+    ${kh}<p style="font-size:13px;line-height:1.7;margin-bottom:10px">${l.de}</p>${io}`;
+  document.getElementById('out').textContent='— 点击运行代码 —';document.getElementById('out').style.color='var(--m)';
+  updateLn();l._idx=i;
 }
 
-function updateLn(){const ta=document.getElementById('code-input');if(!ta)return;const n=ta.value.split('\n').length;let h='';for(let i=1;i<=Math.max(n,1);i++)h+=`<div>${i}</div>`;document.getElementById('ln').innerHTML=h}
+function updateLn(){const ta=document.getElementById('code-in');if(!ta)return;const n=ta.value.split('\n').length;let h='';for(let i=1;i<=n;i++)h+=`<div>${i}</div>`;document.getElementById('ln').innerHTML=h}
 
-async function execCode(mk){
-  const code=document.getElementById('code-input').value;const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[curLv];const kKey=mk==='c'?K.C:(mk==='ds'?K.DS:K.FD);const ck='lv_code_'+mk+'_'+curLv;
-  localStorage[ck]=code;
+async function run(mk){
+  const code=document.getElementById('code-in').value;const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[curLv];const kKey=mk==='c'?KC:(mk==='ds'?KDS:KFD);
+  const ck='lv_code_'+mk+'_'+curLv;localStorage[ck]=code;
   const out=document.getElementById('out');out.textContent='⏳ 编译运行中...';out.style.color='#d2991d';
   try{
     const r=await fetch('https://emkc.org/api/v2/piston/execute',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({language:'c',version:'10.2.0',files:[{name:'main.c',content:code}],stdin:l.si||'',run_timeout:5000,compile_timeout:10000})});
     const d=await r.json();out.style.color='#0f0';let re='';
     if(d.compile&&d.compile.stderr)re+='【编译错误】\n'+d.compile.stderr+'\n';
-    if(d.run&&d.run.stderr)re+=(re?'\n':'')+'【运行时错误】\n'+d.run.stderr+'\n';
+    if(d.run&&d.run.stderr)re+=(re?'\n':'')+'【运行错误】\n'+d.run.stderr+'\n';
     if(d.run&&d.run.stdout)re+=d.run.stdout;
-    if(!re)re='(无输出 — 程序可能没有printf，或编译失败)';out.textContent=re;
+    if(!re)re='(无输出 — 程序可能没有printf或编译失败)';out.textContent=re;
     if(d.run&&d.run.stdout&&l.ex&&d.run.stdout===l.ex&&(!d.compile||!d.compile.stderr)){
       const done=g(kKey);done[curLv]=true;s(kKey,done);
       document.querySelectorAll('.lv-sidebar .lb').forEach((b,j)=>b.classList.toggle('done',!!done[j]));
-      updateBadges();toast('✅ 通关！');
+      const j=g(KJ);if(!j[TODAY])j[TODAY]='';s(KJ,j);toast('✅ 通关！');
     }
-  }catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n\n请在本地运行:\ngcc main.c -o main && ./main\n\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}
-}
-function toggleHint(){const b=document.getElementById('hint-box');b.style.display=b.classList.contains('show')?'none':'block';b.classList.toggle('show');if(b.classList.contains('show'))b.textContent='💡 想想这道题怎么解...实在想不出去看知识点里的提示。'}
-function showSol(mk){if(confirm('确定查看答案？自己写出来才算真正掌握！')){const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[curLv];if(l.so){document.getElementById('code-input').value=l.so;updateLn()}else{alert('本题无预设答案，请根据知识点自行完成。')}}}
-function resetCode(mk){if(confirm('重置为模板？')){const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);document.getElementById('code-input').value=levels[curLv].tp;updateLn();document.getElementById('hint-box').classList.remove('show');document.getElementById('hint-box').style.display='none'}}
-
-// =========================== JOURNAL ===========================
-function renderJournal(){
-  const j=g(K.J);const ks=Object.keys(j).filter(k=>k!=='_today_count').sort().reverse().slice(0,30);
-  const html=`<div style="padding:20px;max-width:800px"><h3 style="margin-bottom:16px">📝 学习日志 (最近30天)</h3>
-    ${ks.length?ks.map(k=>`<div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px;margin-bottom:10px;font-size:13px;line-height:1.6"><div style="font-size:10px;color:var(--m);margin-bottom:4px">📅 ${k}</div>${esc(j[k])||'(空)'}</div>`).join(''):'<p style="color:var(--m)">还没有日志。在总览页写下今天的内容。</p>'}
-  </div>`;
-  document.getElementById('tab-content').innerHTML=html;
+  }catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n\n本地运行: gcc main.c -o main && ./main\n\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}
 }
 
-// =========================== 408 CHECKLIST ===========================
-function render408CL(){
-  const chs=[
-    ['第1章 绪论','数据结构三要素','算法五特性','时间复杂度分析','空间复杂度分析'],
-    ['第2章 线性表','顺序表插入/删除','单链表头插/尾插','双向链表','顺序vs链式选择'],
-    ['第3章 栈队列','顺序栈push/pop','循环队列判空判满','链式队列','特殊矩阵压缩存储'],
-    ['第4章 树','二叉树5性质','四种遍历','线索二叉树','哈夫曼树+WPL','并查集','堆(2026新增)'],
-    ['第5章 图','邻接矩阵vs邻接表','DFS/BFS','Prim/Kruskal','Dijkstra/Floyd','拓扑排序','关键路径'],
-    ['第6章 查找','折半查找判定树','BST插入删除','AVL四种旋转','红黑树5性质','B树vs B+树','哈希冲突处理'],
-    ['第7章 排序','快排','堆排','归并','插入/冒泡','选择/希尔','基数/外部','复杂度稳定性表'],
-  ];
-  const c=g(K.P408);let html='<div style="padding:20px;max-width:1000px"><h3 style="margin-bottom:16px">📖 408数据结构35个考点清单</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px">';
-  chs.forEach((ch,idx)=>{html+=`<div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px"><h4 style="font-size:13px;color:var(--a);margin-bottom:8px">${ch[0]}</h4>`;
-    ch.slice(1).forEach((it,i2)=>{const key=`${idx}_${i2}`;html+=`<div class="pr" style="cursor:pointer" onclick="toggle408cl('${key}')"><div class="cx ${c[key]?'done':''}">${c[key]?'✓':''}</div><div class="tk" style="${c[key]?'color:var(--g);text-decoration:line-through':''}">${it}</div></div>`;});
-    html+='</div>';});
-  html+='</div></div>';
-  document.getElementById('tab-content').innerHTML=html;
-}
-function toggle408cl(key){const c=g(K.P408);c[key]=!c[key];s(K.P408,c);render408CL()}
+function sol(mk){if(confirm('确定查看答案？自己写才算掌握')){const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);const l=levels[curLv];if(l.so){document.getElementById('code-in').value=l.so;updateLn()}else alert('本题无预设答案')}}
+function reset(mk){if(confirm('重置为模板？')){const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);document.getElementById('code-in').value=levels[curLv].tp;updateLn()}}
 
-// =========================== INIT ===========================
+// ===================== INIT =====================
 document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',function(){switchTab(parseInt(this.dataset.tab))}));
-updateBadges();switchTab(0);
+switchTab(0);
 </script>
 </body>
 </html>
