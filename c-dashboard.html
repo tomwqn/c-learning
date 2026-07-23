@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>学习总览</title>
+<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:700px;margin:0 auto;padding:24px 16px;line-height:1.7}
+h1{font-size:20px;color:var(--a);margin-bottom:4px}
+.sub{font-size:12px;color:var(--m);margin-bottom:20px}
+a.back{font-size:12px;color:var(--a)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.card{background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px}
+.card .lb{font-size:9px;color:var(--m);letter-spacing:.5px;margin-bottom:2px}
+.card .vl{font-size:24px;font-weight:700}.card .sb{font-size:10px;color:var(--m);margin-top:2px}
+.vg{color:var(--g)}.vb{color:var(--a)}.vo{color:var(--o)}.vp{color:#a371f7}
+.pb{height:6px;background:var(--b);border-radius:3px;overflow:hidden;margin-top:6px}
+.pb .fl{height:100%;background:var(--g);border-radius:3px}
+.section{margin:16px 0;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px}
+.section h3{font-size:13px;color:var(--a);margin-bottom:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:8px}
+.cal .dl{font-size:9px;color:var(--m);text-align:center;padding:2px}
+.cal .dy{aspect-ratio:1;border-radius:4px;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent}
+.cal .dy:hover{border-color:var(--a)}.cal .dy.td{border-color:var(--a);font-weight:700}
+.cal .dy.hn{background:rgba(88,166,255,.15);color:var(--a);font-weight:600}.cal .dy.om{color:rgba(139,148,158,.3)}
+.je textarea{width:100%;background:var(--bg);color:var(--t);border:1px solid var(--b);border-radius:4px;padding:8px;font-size:12px;font-family:inherit;resize:vertical;min-height:50px}
+.je textarea:focus{outline:none;border-color:var(--a)}
+.btn{padding:5px 12px;border-radius:5px;border:1px solid var(--b);background:var(--s);color:var(--t);font-size:11px;cursor:pointer;font-family:inherit}
+.btn.pm{background:var(--a);color:#fff;border-color:var(--a)}
+#toast{position:fixed;top:16px;right:16px;padding:8px 14px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;background:#1a3c1a;color:var(--g);border:1px solid var(--g)}
+#toast.show{opacity:1}
+</style></head><body>
+<a class="back" href="c-studio.html">← 返回总览</a>
+<h1>📊 学习总览</h1><p class="sub">复旦机考 + 408数据结构</p>
+<div class="grid" id="stats"></div>
+<div class="section"><h3>📅 <span id="cal-title"></span></h3><div class="cal" id="cal"></div></div>
+<div class="section"><h3>✏️ 今日记录（可跳过）</h3><div class="je"><textarea id="jtoday"></textarea><button class="btn pm" style="margin-top:6px" onclick="save()">💾 保存</button></div></div>
+<div id="toast"></div>
+<script>
+var K={C:'cs_mc',DS:'cs_mds',FD:'cs_mfd',J:'cs_j'};
+var TODAY=(new Date()).toISOString().slice(0,10);
+function g(k){try{return JSON.parse(localStorage[k]||'{}')}catch(e){return{}}}
+function s(k,v){localStorage[k]=JSON.stringify(v)}
+function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
+function count(k){return Object.values(g(k)).filter(function(v){return v}).length}
+var cd=count(K.C),dd=count(K.DS),fd=count(K.FD);
+var tc=22,td=22,tf=18,all=cd+dd+fd,total=tc+td+tf;
+var j=g(K.J);var d=new Date();var streak=0;
+for(var i=0;i<365;i++){var k=d.toISOString().slice(0,10);if(j[k]&&j[k].trim())streak++;else if(i>0)break;d.setDate(d.getDate()-1);}
+document.getElementById('stats').innerHTML=
+'<div class="card"><div class="lb">总闯关</div><div class="vl vg">'+all+'/'+total+'</div><div class="sb">'+Math.round(all/total*100)+'%</div><div class="pb"><div class="fl" style="width:'+Math.round(all/total*100)+'%"></div></div></div>'+
+'<div class="card"><div class="lb">C语言</div><div class="vl vb">'+cd+'/22</div><div class="sb">基础</div></div>'+
+'<div class="card"><div class="lb">408</div><div class="vl vp">'+dd+'/22</div><div class="sb">数据结构</div></div>'+
+'<div class="card"><div class="lb">复旦机考</div><div class="vl vo">'+fd+'/18</div><div class="sb">算法</div></div>'+
+'<div class="card"><div class="lb">🔥连续</div><div class="vl vo">'+streak+'天</div><div class="sb">每天记录</div></div>';
+var now=new Date();var y=now.getFullYear(),m=now.getMonth();
+document.getElementById('cal-title').textContent=y+'年'+(m+1)+'月';
+var f=new Date(y,m,1);var start=f.getDay();var dim=new Date(y,m+1,0).getDate();var cal='';
+['日','一','二','三','四','五','六'].forEach(function(s){cal+='<div class="dl">'+s+'</div>'});
+for(var i=0;i<start;i++)cal+='<div class="dy om"></div>';
+for(var d=1;d<=dim;d++){var key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');var cls='dy';if(key===TODAY)cls+=' td';if(j[key]&&j[key].trim())cls+=' hn';cal+='<div class="'+cls+'" onclick="editDay(\''+key+'\')">'+d+'</div>';}
+document.getElementById('cal').innerHTML=cal;
+document.getElementById('jtoday').value=j[TODAY]||'';
+function editDay(k){var n=prompt(k,(g(K.J)[k]||''));if(n!==null){var jj=g(K.J);jj[k]=n;s(K.J,jj);location.reload()}}
+function save(){var jj=g(K.J);jj[TODAY]=document.getElementById('jtoday').value;s(K.J,jj);toast('✅ 已保存')}
+</script></body></html>

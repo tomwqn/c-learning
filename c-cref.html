@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>C语言百科</title>
+<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:800px;margin:0 auto;padding:24px 16px;line-height:1.7}
+h1{font-size:20px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
+a.back{font-size:12px;color:var(--a)}
+.ks{margin-bottom:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.ks .kh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
+.ks .kh:hover{background:rgba(255,255,255,.03)}
+.ks .kh .kn{width:26px;height:26px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:14px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
+.ks .kb{display:none;padding:0 14px 12px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
+.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
+.kc h5{font-size:12px;color:var(--a);margin-bottom:6px}
+.kc p,.kc li{font-size:12px;line-height:1.75}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--o)}
+.kc pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:6px 0}
+.kc .tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;margin-right:4px}
+.kc .tag.trap{background:rgba(248,81,73,.3);color:var(--r)}
+.kc table{width:100%;font-size:10px;border-collapse:collapse}.kc td,.kc th{border-bottom:1px solid var(--b);padding:4px 6px;text-align:left}
+</style></head><body><a class="back" href="c-studio.html">← 返回总览</a>
+<h1>📚 C语言百科</h1><p class="sub">K&R + K.N.King + Beej's Guide 三源精华 · 点击展开</p>
+<div id="content"></div>
+<script>
+var data=[{ch:'变量与数据类型',items:[
+{t:'变量=贴标签的盒子',b:'<code>int age=20;</code>="拿个int盒子贴标签age，放20"。<br><table><tr><td><code>int</code></td><td>整数(4B)</td><td>%d</td><td>±21亿</td></tr><tr><td><code>long long</code></td><td>大整数(8B)</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>小数(4B,6位)</td><td>%f</td></tr><tr><td><code>double</code></td><td>双精度(8B,15位)</td><td>%lf</td></tr><tr><td><code>char</code></td><td>单字符(1B)</td><td>%c</td></tr></table>'},
+{t:'printf=喊话',b:'<code>printf("我叫%s,%d岁",name,age);</code><br>%s和%d是"洞"——按顺序用后面的变量填。每个%对用一个变量。<br><code>\\n</code>=换行 <code>\\t</code>=制表 <code>\\\\</code>=反斜杠 <span class="tag trap">坑</span>%个数和变量个数对不上→乱码。'},
+{t:'scanf=等输入',b:'<code>scanf("%d",&x);</code>=程序停下来等用户输入。<br><b>整数/浮点加&，字符串不加&</b>(数组名即地址)。<br><span class="tag trap">头号陷阱</span><code>=</code>赋值<code>==</code>比较！<code>if(x=5)</code>永远为真！'},
+]},{ch:'控制流：if/else和循环',items:[
+{t:'if-else=做选择题',b:'<code>if(条件){A}else if(条件2){B}else{C}</code><br>从上到下检查，第一个满足就执行。⚠️必须从最严格写到最宽松。'},
+{t:'for循环=重复干活',b:'<code>for(初始化;条件;更新){循环体}</code><br><code>i++</code>=i+1 <code>sum+=i</code>=sum=sum+i<br>嵌套循环：外层="行"，内层="列"。'},
+{t:'while=不知道次数',b:'<code>while(条件){循环体}</code>=条件成立一直做。<br>for适合"知道次数"，while适合"不知道"。<span class="tag trap">坑</span>忘写更新→死循环！'},
+]},{ch:'数组=一排连续盒子',items:[
+{t:'声明和使用',b:'<code>int a[5]={10,20,30,40,50};</code>=5个int盒子连一排。<br><b>下标从0开始</b>：a[0]是第1个。a[N-1]是最后一个。<br><span class="tag trap">危险</span>越界访问(如a[5])→覆盖别人内存→最难调试的bug。'},
+{t:'二维数组',b:'<code>int m[3][4];</code>=3行4列表格。<b>行优先存储</b>。<br>遍历：<code>for(i=0;i<3;i++)for(j=0;j<4;j++)</code>——行遍历比列遍历快(缓存友好)。'},
+]},{ch:'指针=C语言的灵魂',items:[
+{t:'指针=存门牌号的纸条',b:'<code>int *p=&x;</code>→p纸条写"x的地址"。<code>*p=100;</code>→按地址找x，改100。<br><code>&</code>="你家门牌号" <code>*</code>="去这个地址看/改"。<br><span class="tag trap">致命</span>野指针！<code>int *p;*p=5;</code>←p没初始化→崩溃。'},
+{t:'指针与数组',b:'<code>a[i]</code>≡<code>*(a+i)</code>——编译器内部就这么翻译。<br>数组名=指向首元素的<b>指针常量</b>(不能++)。<code>int *p=a;</code>→p可以p++。'},
+{t:'值vs地址传递(408必考!)',b:'<b>值传递</b>=给复印件(改不了原件)。<b>地址传递</b>=给地址(能改原件)。<br><code>swap(&x,&y)</code>传门牌号→交换。408选择题看有没有*和&。'},
+]},{ch:'结构体/递归/内存/文件',items:[
+{t:'struct',b:'<code>struct Student{char name[20];int score;};</code><br>用<code>.</code>访问。<code>p->name</code>≡<code>(*p).name</code>。408链表/树节点=struct+指针。'},
+{t:'递归=俄罗斯套娃',b:'两要素：①<b>基准条件</b>(何时停)②<b>递归体</b>(怎么缩小)。<code>if(n<=1)return 1;return n*fact(n-1);</code><br>⚠️递归太深→栈溢出。树/图遍历用递归，简单重复用循环。'},
+{t:'malloc/free',b:'<code>int*a=(int*)malloc(N*sizeof(int));</code>="借N个int"。<b>用完必须free(a)</b>。<br>栈=自动管理。堆=手动管理。<span class="tag trap">坑</span>忘free→内存泄漏。free后用→崩溃。'},
+{t:'文件读写',b:'<code>fopen("a.txt","w")</code>→写，"r"→读，"a"→追加。<br><code>fprintf</code>/<code>fscanf</code>用法同printf/scanf。<code>fclose</code>用完关。'},
+]}];
+var h='';for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="cr'+i+'"><div class="kh" onclick="document.getElementById(\'cr'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
+document.getElementById('content').innerHTML=h;
+</script></body></html>

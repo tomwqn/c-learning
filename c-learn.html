@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>C语言基础 — 22关从零开始</title>
+<style>
+:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);height:100vh;display:flex}
+#sb{width:220px;min-width:220px;background:var(--s);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow-y:auto}
+#sb .hd{padding:12px;font-size:13px;font-weight:700;color:var(--a);border-bottom:1px solid var(--b);cursor:pointer}
+#sb .ph{font-size:9px;color:var(--m);padding:8px 10px 3px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+#sb button{display:flex;align-items:center;gap:5px;width:100%;padding:6px 10px;border:none;background:none;color:var(--t);font-size:11px;cursor:pointer;text-align:left;font-family:inherit}
+#sb button:hover{background:rgba(255,255,255,.03)}
+#sb button.on{background:rgba(88,166,255,.12);color:var(--a);font-weight:600}
+#sb button .n{font-size:9px;color:var(--m);min-width:14px}
+#sb button.done .n{color:var(--g)}
+#sb button .ck{display:none;color:var(--g);font-size:10px;margin-left:auto}
+#sb button.done .ck{display:inline}
+#main{flex:1;display:flex;overflow:hidden}
+#left{flex:1;overflow-y:auto;padding:14px;min-width:280px}
+#right{flex:1;display:flex;flex-direction:column;border-left:1px solid var(--b);min-width:350px}
+#right .eh{padding:6px 12px;border-bottom:1px solid var(--b);font-size:10px;color:var(--m);flex-shrink:0}
+#right .ew{flex:1;display:flex;font-family:'Consolas',monospace;font-size:12px;line-height:1.55}
+#right .ln{background:var(--s);color:var(--m);padding:8px 0;text-align:right;overflow:hidden;width:36px;flex-shrink:0;font-size:12px;line-height:1.55}
+#right .ln div{padding:0 6px}
+#right textarea{flex:1;background:var(--cb);color:var(--t);border:none;padding:8px;resize:none;font-family:inherit;font-size:12px;line-height:1.55;tab-size:4;outline:none}
+.btns{display:flex;gap:6px;padding:8px 12px;flex-shrink:0}
+.btn{padding:5px 12px;border-radius:5px;border:1px solid var(--b);background:var(--s);color:var(--t);font-size:11px;cursor:pointer;font-family:inherit}
+.btn:hover{background:rgba(255,255,255,.06)}.btn.pm{background:var(--a);color:#fff;border-color:var(--a)}
+.op{border-top:1px solid var(--b);flex-shrink:0}
+.op .oh{padding:4px 12px;font-size:9px;color:var(--m);border-bottom:1px solid var(--b)}
+.op .oo{background:#000;padding:8px 12px;font-family:'Consolas',monospace;font-size:11px;min-height:40px;max-height:150px;overflow-y:auto;white-space:pre-wrap}
+#hint{display:none;margin:0 12px 8px;padding:8px 12px;background:rgba(210,153,29,.1);border:1px solid rgba(210,153,29,.3);border-radius:6px;font-size:12px;color:var(--o);line-height:1.6}
+.kb{background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.15);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.65}
+.kb h4{font-size:12px;color:var(--a);margin-bottom:4px}
+.kb code{background:var(--s);padding:1px 4px;border-radius:3px;font-size:11px;color:var(--o)}
+.kb pre{background:var(--cb);padding:6px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:4px 0}
+.exm{background:rgba(167,113,247,.06);border:1px solid rgba(167,113,247,.2);border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:11px;color:var(--p);line-height:1.5}
+.iso{background:var(--s);border-radius:6px;padding:8px;font-size:11px;margin-top:10px}
+.iso .il{font-size:9px;color:var(--m);margin-bottom:2px;font-weight:600}
+.iso pre{margin:0;background:var(--cb);padding:4px;border-radius:4px}
+#toast{position:fixed;top:16px;right:16px;padding:8px 14px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;background:#1a3c1a;color:var(--g);border:1px solid var(--g)}
+#toast.show{opacity:1}
+</style></head><body>
+<div id="sb"><div class="hd" onclick="location='c-studio.html'">← 返回总览</div><div id="sidebar-list"></div></div>
+<div id="main"><div id="left"></div><div id="right">
+<div class="eh">📝 main.c</div>
+<div class="ew"><div class="ln" id="ln"><div>1</div></div><textarea id="code" spellcheck="false"></textarea></div>
+<div class="btns"><button class="btn pm" onclick="run()">▶ 运行</button><button class="btn" onclick="hint()">💡 提示</button><button class="btn" onclick="sol()">🔑 答案</button><button class="btn" onclick="reset()">↺ 重置</button></div>
+<div id="hint"></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out" style="color:var(--m)">— 点击▶运行 —</div></div>
+</div></div>
+<div id="toast"></div>
+<script>
+var LC=[{ph:'第1步：让电脑开口说话',tg:'入门',df:'⭐',ti:'Hello World',de:'写出人生第一个C程序：让电脑在屏幕上打印"Hello, World!"',tp:'#include <stdio.h>\n\nint main(){\n  printf("Hello, World!\\n");\n  return 0;\n}',ex:'Hello, World!\n',kn:'<code>#include</code>=告诉电脑"我要用打印功能"。<code>int main(){}</code>=程序的大门，电脑从这里开始干活。<code>printf("...")</code>=在屏幕上显示文字。<code>\\n</code>=换行。<code>return 0;</code>="我干完了，一切正常"。'},
+{ph:'第1步：让电脑开口说话',tg:'入门',df:'⭐',ti:'printf详解',de:'理解\\n换行、\\t制表、\\\\打反斜杠。',tp:'#include <stdio.h>\n\nint main(){\n  printf("第一行\\n");\n  printf("第二行\\n");\n  printf("不加\\n会粘在一起");\n  printf("看到了吗？\\n");\n  return 0;\n}',ex:'第一行\n第二行\n不加\n会粘在一起看到了吗？\n',kn:'每个printf不会自动换行。不加<code>\\n</code>下一句输出会接在后面。<br><code>\\t</code>=跳到下一个制表位(对齐用)。<code>\\\\</code>=打一个反斜杠。'},
+{ph:'第2步：变量——贴标签的盒子',tg:'入门',df:'⭐',ti:'整数变量',de:'声明int age=20，用printf输出。',tp:'#include <stdio.h>\n\nint main(){\n  int age=20;\n  printf("年龄: %d\\n",age);\n  return 0;\n}',ex:'年龄: 20\n',kn:'<b>声明变量</b>="拿一个int盒子，贴标签age，放20进去"。<br>printf中<b>%d</b>是个"洞"，age的值会填进这个洞。<br><b>⚠️ 常见错</b>：printf里写了%d但忘记给变量→打印出随机数字！'},
+{ph:'第2步：变量——贴标签的盒子',tg:'入门',df:'⭐',ti:'小数和字符',de:'float和char变量，理解不同占位符。',tp:'#include <stdio.h>\n\nint main(){\n  float price=9.99;\n  char grade=\'A\';\n  printf("价格: %.2f\\n",price);\n  printf("等级: %c\\n",grade);\n  return 0;\n}',ex:'价格: 9.99\n等级: A\n',kn:'<b>变量类型</b>：<code>int</code>(整数)、<code>float</code>(小数)、<code>double</code>(更精确小数)、<code>char</code>(单字符)。<br>占位符：<b>%d</b>→int, <b>%f</b>→float, <b>%c</b>→char, <b>%s</b>→字符串。<br><code>%.2f</code> = 保留2位小数。<b>⚠️</b> 字符用<b>单引号</b>\'A\'。'},
+{ph:'第3步：让用户输入数据',tg:'入门',df:'⭐',ti:'scanf读整数',de:'读入两个整数，求和输出。理解为什么加&。',tp:'#include <stdio.h>\n\nint main(){\n  int a,b;\n  scanf("%d %d",&a,&b);\n  printf("%d + %d = %d\\n",a,b,a+b);\n  return 0;\n}',ex:'3 + 5 = 8\n',si:'3 5',kn:'<code>scanf("%d",&a)</code>="等着！让用户输入整数，放到a的地址里"。<br><b>⚠️scanf整数必须加&</b>！scanf需要知道"东西放哪"→需要地址。printf只需"看看"→不要地址。'},
+{ph:'第3步：让用户输入数据',tg:'入门',df:'⭐',ti:'scanf读字符串',de:'读入名字，打招呼。字符串为什么不需要&。',tp:'#include <stdio.h>\n\nint main(){\n  char name[100];\n  scanf("%s",name);\n  printf("你好, %s!\\n",name);\n  return 0;\n}',ex:'你好, Tom!\n',si:'Tom',kn:'<b>字符串scanf不加&</b>：数组名本身就是地址。<br><code>char name[100]</code>=100个char盒子连一排,name就是起始地址。<br><b>⚠️ scanf遇空格停止</b>——输入"Tom Jerry"只读到"Tom"。'},
+{ph:'第4步：做判断',tg:'入门',df:'⭐',ti:'if-else判断奇偶',de:'输入整数，偶数→偶数，奇数→奇数。',tp:'#include <stdio.h>\n\nint main(){\n  int n;scanf("%d",&n);\n  if(n%2==0)printf("偶数\\n");\n  else printf("奇数\\n");\n  return 0;\n}',ex:'偶数\n',si:'8',kn:'<code>if(条件){A}else{B}</code>="如果条件成立→做A，否则→做B"。<br><code>n%2</code>=n除以2的余数。<br><b>⚠️⚠️⚠️ 头号陷阱</b>：<code>=</code>是赋值，<code>==</code>是比较！<code>if(x=5)</code>永远为真——把5赋给x，返回5(非0=真)。'},
+{ph:'第4步：做判断',tg:'入门',df:'⭐',ti:'if-else if成绩等级',de:'≥90→A,80-89→B,70-79→C,60-69→D,<60→F。',tp:'#include <stdio.h>\n\nint main(){\n  int s;scanf("%d",&s);\n  if(s>=90)printf("A\\n");\n  else if(s>=80)printf("B\\n");\n  else if(s>=70)printf("C\\n");\n  else if(s>=60)printf("D\\n");\n  else printf("F\\n");\n  return 0;\n}',ex:'B\n',si:'85',kn:'<b>多分支判断</b>：从上到下依次检查，第一个满足就执行，后面跳过。<br><b>⚠️顺序很重要</b>：必须从最严格写到最宽松。写成<code>if(s>=60)...else if(s>=80)</code>→≥80的永远被≥60拦截了！'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐',ti:'for循环：1加到100',de:'计算1+2+...+N。理解for(起点;终点;步长)。',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  for(int i=1;i<=N;i++)sum+=i;\n  printf("%d\\n",sum);\n  return 0;\n}',ex:'5050\n',si:'100',kn:'<code>for(起点;条件;步长){循环体}</code>="从i=1出发，每次i+1，当i≤N时一直做"。<br><code>i++</code>=i=i+1。<code>sum+=i</code>=sum=sum+i。<br><b>💡 循环=让电脑当苦力——它最擅长重复做事不抱怨。</b>'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐',ti:'while循环',de:'用while同样求和。对比for vs while的使用场景。',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0,i=1;scanf("%d",&N);\n  while(i<=N){sum+=i;i++;}\n  printf("%d\\n",sum);\n  return 0;\n}',ex:'5050\n',si:'100',kn:'<code>while(条件){循环体}</code>="当条件成立时一直做"。<br><b>for vs while</b>：知道次数→for。不知道次数→while。<br><b>⚠️while容易忘写i++</b>→死循环！'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐⭐',ti:'嵌套循环：乘法表',de:'打印下三角乘法表。外层=行，内层=列。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);\n  for(int i=1;i<=N;i++){\n    for(int j=1;j<=i;j++)printf("%dx%d=%d ",j,i,j*i);\n    printf("\\n");\n  }\n  return 0;\n}',ex:'1x1=1 \n1x2=2 2x2=4 \n1x3=3 2x3=6 3x3=9 \n',si:'3',kn:'<b>嵌套循环</b>=循环套循环。外层控制"行"，内层控制"列"。<br><b>💡 技巧</b>：先想清楚一行怎么写→再想这一行怎么重复N次。'},
+{ph:'第6步：数组——一排连续的盒子',tg:'入门',df:'⭐⭐',ti:'一维数组基础',de:'创建数组，遍历打印所有元素。下标从0开始。',tp:'#include <stdio.h>\n\nint main(){\n  int a[5]={10,20,30,40,50};\n  for(int i=0;i<5;i++)printf("%d ",a[i]);\n  printf("\\n");return 0;\n}',ex:'10 20 30 40 50 \n',kn:'<code>int a[5]</code>=申请5个int盒子连一排。<br><b>下标从0开始</b>：a[0]是第1个，a[4]是第5个。<br><b>⚠️越界访问</b>：a[5]不存在但编译器不报错→读到别人的内存→最危险的bug。'},
+{ph:'第6步：数组——一排连续的盒子',tg:'入门',df:'⭐⭐',ti:'找最大最小值',de:'遍历数组，用一个循环同时找最大和最小。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  int max=a[0],min=a[0];\n  for(int i=1;i<N;i++){\n    if(a[i]>max)max=a[i];\n    if(a[i]<min)min=a[i];\n  }\n  printf("Max=%d Min=%d\\n",max,min);\n  return 0;\n}',ex:'Max=9 Min=2\n',si:'5\n3 7 9 2 6',kn:'<b>解题模式</b>：假设第一个是最大/最小→遍历→遇到更的更新。<br><b>💡 这是408顺序表所有操作的基础模式</b>——遍历维护结果。'},
+{ph:'第7步：函数——给代码块取名字',tg:'核心',df:'⭐⭐',ti:'自定义函数',de:'写add函数，接收两个int，返回它们的和。',tp:'#include <stdio.h>\n\nint add(int a,int b){return a+b;}\n\nint main(){\n  int x,y;scanf("%d%d",&x,&y);\n  printf("%d\\n",add(x,y));\n  return 0;\n}',ex:'8\n',si:'3 5',kn:'<b>函数格式</b>：<code>返回类型 函数名(参数){函数体;return 值;}</code><br>①避免重复代码 ②给代码块取有意义的名字→好读。定义写在main前面。'},
+{ph:'第7步：函数——给代码块取名字',tg:'核心',df:'⭐⭐',ti:'值传递实验',de:'函数改参数，观察main里的变量有没有变。理解为什么没变。',tp:'#include <stdio.h>\n\nvoid change(int x){x=100;}\n\nint main(){\n  int a=10;\n  change(a);\n  printf("a=%d\\n",a);\n  return 0;\n}',ex:'a=10\n',kn:'<b>值传递</b>=函数收到的是<b>复印件</b>。改复印件不影响原件。<br>💡 生活比喻：我把菜单拍照发你(复印件)，你在照片上加菜——我手里菜单不变。<br>要改main里的变量？→需要传地址(下一关指针)。'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'&和*：指针初探',de:'用指针指向变量，通过指针修改它。C语言最核心概念。',tp:'#include <stdio.h>\n\nint main(){\n  int x=42;\n  int *p=&x;  // p纸条写了x的门牌号\n  *p=100;     // 按纸条地址找到x，改成100\n  printf("%d\\n",x);\n  return 0;\n}',ex:'100\n',kn:'<b>指针=写着门牌号的纸条</b>。<code>&x</code>="x家在哪" <code>*p</code>="去纸条地址看/改"。<br><b>K.N.King说</b>：指针不复杂，就是"间接访问"——不直接拿东西，通过纸条告诉你东西在哪。<br><b>⚠️致命</b>：<code>int *p; *p=5;</code>←p没写地址就去访问(野指针)→程序崩溃！'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'swap地址传递',de:'写swap交换两数。408必考：为什么传指针才能改原变量。',tp:'#include <stdio.h>\n\nvoid swap(int *a,int *b){\n  int t=*a;*a=*b;*b=t;\n}\n\nint main(){\n  int x=3,y=5;swap(&x,&y);\n  printf("%d %d\\n",x,y);\n  return 0;\n}',ex:'5 3\n',kn:'<b>地址传递</b>=告诉函数原件在哪→直接改原件。<br><code>swap(&x,&y)</code>="记下x和y的门牌号，交换它们里面的东西"。<br><b>408选择题</b>：分析"输出什么"——看有没有*和&。'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐',ti:'指针与数组',de:'理解arr[i]就是*(arr+i)。用指针方式遍历数组。',tp:'#include <stdio.h>\n\nint main(){\n  int a[]={10,20,30,40,50};\n  int *p=a;\n  for(int i=0;i<5;i++)printf("%d ",*(p+i));\n  printf("\\n");return 0;\n}',ex:'10 20 30 40 50 \n',kn:'<code>a[i]</code>就是<code>*(a+i)</code>——C编译器内部就这么翻译的。<br>数组名a=指向首元素的<b>指针常量</b>(不能a++)。p可以p++。'},
+{ph:'第9步：递归——自己调用自己',tg:'核心',df:'⭐⭐',ti:'阶乘(n!)',de:'写递归函数求n!。递归是树遍历和DFS算法的前提。',tp:'#include <stdio.h>\n\nint fact(int n){\n  if(n<=1)return 1;\n  return n*fact(n-1);\n}\n\nint main(){\n  int n;scanf("%d",&n);\n  printf("%d\\n",fact(n));\n  return 0;\n}',ex:'120\n',si:'5',kn:'<b>递归=俄罗斯套娃</b>。两要素：①<b>基准条件</b>(n≤1返回1) ②<b>递归体</b>(n×fact(n-1))。<br>执行:fact(5)→5×fact(4)→...→fact(1)=1→返回。<br><b>⚠️递归太深→栈溢出</b>。C栈通常只有几MB。'},
+{ph:'第10步：结构体——自定义类型',tg:'核心',df:'⭐⭐',ti:'struct定义',de:'定义Student结构体。链表和树节点的基础。',tp:'#include <stdio.h>\n\nstruct Student{\n  char name[20];\n  int score;\n};\n\nint main(){\n  struct Student s={"Tom",95};\n  printf("%s: %d\\n",s.name,s.score);\n  return 0;\n}',ex:'Tom: 95\n',kn:'<b>struct=把多个不同类型打包成一个新类型</b>。<br>用<code>.</code>访问成员。用<code>typedef</code>简化。<br><b>💡408用在哪？</b>所有链表节点、树节点都是struct+指针的组合。'},
+{ph:'第11步：动态内存+文件',tg:'核心',df:'⭐⭐⭐',ti:'malloc/free',de:'用malloc动态分配数组，用完必须free。408代码题必考。',tp:'#include <stdio.h>\n#include <stdlib.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  int *a=(int*)malloc(N*sizeof(int));\n  for(int i=0;i<N;i++){scanf("%d",&a[i]);sum+=a[i];}\n  printf("平均=%.2f\\n",(double)sum/N);\n  free(a);\n  return 0;\n}',ex:'平均=3.00\n',si:'5\n1 2 3 4 5',kn:'<code>malloc(N*sizeof(int))</code>="操作系统！给我N个int用！"。<br><b>用完必须free</b>。不free=借东西不还→内存泄漏。free后用=悬垂指针→崩溃。<br><b>栈</b>(局部变量，自动管理) vs <b>堆</b>(malloc，手动管理)。'},
+{ph:'第11步：动态内存+文件',tg:'核心',df:'⭐⭐',ti:'文件读写',de:'把数据写入文件。复旦机考可能要求文件操作。',tp:'#include <stdio.h>\n\nint main(){\n  FILE *f=fopen("test.txt","w");\n  fprintf(f,"Hello File!\\n");\n  fclose(f);\n  printf("写入完成\\n");\n  return 0;\n}',ex:'写入完成\n',kn:'<code>fopen("a.txt","w")</code>→写、"r"→读、"a"→追加。<br><code>fprintf</code>/<code>fscanf</code>用法和printf/scanf一样。<br><code>fclose</code>用完必须关。<b>⚠️fopen可能返回NULL</b>→实际代码要检查。'},
+];
+var cur=0,K='cs_mc',TODAY=(new Date()).toISOString().slice(0,10);
+function g(k){try{return JSON.parse(localStorage[k]||'{}')}catch(e){return{}}}
+function s(k,v){localStorage[k]=JSON.stringify(v)}
+function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
+function buildSidebar(){var done=g(K),h='',lp='';LC.forEach(function(l,i){if(l.ph!==lp){h+='<div class="ph">📌 '+l.ph+'</div>';lp=l.ph;}h+='<button class="lv'+(i===cur?' on':'')+(done[i]?' done':'')+'" onclick="go('+i+')"><span class="n">'+(i+1)+'</span>'+l.ti+'<span class="ck">✓</span></button>';});document.getElementById('sidebar-list').innerHTML=h;}
+function go(i){cur=i;var l=LC[i];var ck='lv_c_'+i;var done=g(K);
+document.querySelectorAll('#sb button.lv').forEach(function(b,j){b.classList.toggle('on',j===i);b.classList.toggle('done',!!done[j]);});
+var ta=document.getElementById('code');ta.value=localStorage[ck]||l.tp;upLn();
+var left=document.getElementById('left');var kh='<div class="kb"><h4>📖 大白话讲解</h4>'+l.kn+'</div>';
+var io='<div class="iso">';if(l.si)io+='<div class="il">📥 样例输入</div><pre>'+esc(l.si)+'</pre>';io+='<div class="il">📤 期望输出</div><pre>'+esc(l.ex)+'</pre></div>';
+left.innerHTML='<h3 style="font-size:16px;margin-bottom:4px">关卡 '+(i+1)+': '+l.ti+'</h3><div style="font-size:10px;color:var(--m);margin-bottom:10px">'+l.ph+' · '+l.tg+'</div>'+kh+'<p style="font-size:13px;line-height:1.7;margin-bottom:10px">'+l.de+'</p>'+io;
+document.getElementById('out').textContent='— 点击▶运行 —';document.getElementById('out').style.color='var(--m)';
+document.getElementById('hint').style.display='none';}
+function upLn(){var ta=document.getElementById('code');var n=ta.value.split('\n').length,h='';for(var i=1;i<=n;i++)h+='<div>'+i+'</div>';document.getElementById('ln').innerHTML=h}
+function hint(){var l=LC[cur];var el=document.getElementById('hint');if(el.style.display==='block'){el.style.display='none';return;}var kn=l.kn.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();var tips=[];if(kn.indexOf('⚠')>-1)tips.push('⚠️ 陷阱：'+kn.split('⚠')[1]?.split(/[。.]/)[0]);if(kn.indexOf('步骤')>-1)tips.push('📋 '+kn.match(/步骤[^。.]+/)?.[0]);if(kn.indexOf('💡')>-1)tips.push(kn.match(/💡[^。.]+/)?.[0]);el.innerHTML='💡 <b>提示</b>：'+(tips.length?tips.join('<br>'):'仔细看左边的大白话讲解——所有要点都在里面。');el.style.display='block';}
+function sol(){var l=LC[cur];var tp=l.tp||'';document.getElementById('code').value=tp;upLn();document.getElementById('hint').style.display='none';toast('📝 已填入参考代码');}
+function reset(){document.getElementById('code').value=LC[cur].tp;upLn();document.getElementById('hint').style.display='none';toast('↺ 已重置');}
+async function run(){var l=LC[cur];var code=document.getElementById('code').value;localStorage['lv_c_'+cur]=code;var out=document.getElementById('out');out.textContent='⏳ 编译中...';out.style.color='#d2991d';
+try{var r=await fetch('https://emkc.org/api/v2/piston/execute',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({language:'c',version:'10.2.0',files:[{name:'main.c',content:code}],stdin:l.si||'',run_timeout:5000,compile_timeout:10000})});var d=await r.json();out.style.color='#0f0';var re='';if(d.compile&&d.compile.stderr)re+='【编译错误】\n'+d.compile.stderr+'\n';if(d.run&&d.run.stderr)re+=(re?'\n':'')+'【运行时错误】\n'+d.run.stderr+'\n';if(d.run&&d.run.stdout)re+=d.run.stdout;if(!re)re='(无输出)';out.textContent=re;
+if(d.run&&d.run.stdout&&l.ex&&d.run.stdout===l.ex&&(!d.compile||!d.compile.stderr)){var done=g(K);done[cur]=true;s(K,done);var btns=document.querySelectorAll('#sb button.lv');for(var j=0;j<btns.length;j++)btns[j].classList.toggle('done',!!done[j]);var jj=g('cs_j');if(!jj[TODAY])jj[TODAY]='';s('cs_j',jj);toast('✅ 通关！');}}catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n本地: gcc main.c -o main && ./main\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}}
+document.getElementById('code').addEventListener('input',upLn);
+document.getElementById('code').addEventListener('keydown',function(e){if(e.key==='Tab'){e.preventDefault();var ta=e.target;var s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'\t'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+1}});
+document.getElementById('code').addEventListener('scroll',function(){document.getElementById('ln').scrollTop=document.getElementById('code').scrollTop});
+buildSidebar();go(cur||0);
+</script></body></html>

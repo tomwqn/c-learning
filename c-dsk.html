@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>408百科</title>
+<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:800px;margin:0 auto;padding:24px 16px;line-height:1.7}
+h1{font-size:20px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
+a.back{font-size:12px;color:var(--a)}
+.ks{margin-bottom:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.ks .kh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
+.ks .kh:hover{background:rgba(255,255,255,.03)}
+.ks .kh .kn{width:26px;height:26px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:14px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
+.ks .kb{display:none;padding:0 14px 12px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
+.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
+.kc h5{font-size:12px;color:var(--a);margin-bottom:6px}.kc p,.kc li{font-size:12px;line-height:1.75}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--o)}
+.kc pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:6px 0}
+.kc .tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;margin-right:4px}
+.kc .tag.exam{background:rgba(167,113,247,.3);color:var(--p)}.kc .tag.formula{background:rgba(210,153,29,.3);color:var(--o)}.kc .tag.trap{background:rgba(248,81,73,.3);color:var(--r)}
+.kc table{width:100%;font-size:10px;border-collapse:collapse}.kc td,.kc th{border-bottom:1px solid var(--b);padding:4px 6px;text-align:left}
+</style></head><body><a class="back" href="c-studio.html">← 返回总览</a>
+<h1>📚 408百科</h1><p class="sub">严蔚敏+大话数据结构+王道/天勤 · 点击展开</p><div id="content"></div>
+<script>
+var data=[
+{ch:'第2章 线性表',items:[
+{t:'顺序表=电影院座位',b:'✅第5排3座→直接去O(1) ❌中间加人→全挪O(n)。<span class="tag formula">公式</span>第i位插入移<b>n-i+1</b>个。删除移<b>n-i</b>个。<br><span class="tag exam">408真题</span>2010/2011/2013/2016/2018/2020共6次。'},
+{t:'链表=寻宝游戏',b:'每个宝箱有纸条指向下一个。✅加删O(1) ❌找O(n)。<b>不能随机存取→不能二分查找！</b><br><b>头插</b>=逆序。<b>尾插</b>=维护tail。<span class="tag exam">408真题</span>2009/2012/2015/2019共4次。'},
+{t:'怎么选？',b:'<table><tr><td>"随机访问""二分"</td><td>→顺序表</td></tr><tr><td>"频繁插入删除""长度变化大"</td><td>→链表</td></tr></table>'},
+]},{ch:'第3章 栈队列',items:[
+{t:'栈=一摞盘子(LIFO)',b:'后进先出。push=放盘子 pop=拿盘子。应用：浏览器后退、Ctrl+Z、递归。<br><code>top=-1</code>为空。<code>push:stk[++top]=x</code>。<code>pop:x=stk[top--]</code>。'},
+{t:'循环队列=排队买奶茶(每年必考!)',b:'先进先出FIFO。<span class="tag formula">408必背</span><br>空→<b>f==r</b> 满→<b>(r+1)%M==f</b><br>入：q[r]=x;r=(r+1)%M<br>出：x=q[f];f=(f+1)%M<br>元素数：<b>(r-f+M)%M</b><br>为什么牺牲一个单元？否则空/满都f==r，分不清。<span class="tag exam">几乎每年1道题。</span>'},
+]},{ch:'第4章 树与二叉树⭐最重要',items:[
+{t:'5条性质(记死!)',b:'①第i层≤2<sup>i-1</sup> ②k层≤2<sup>k</sup>-1 ③<b>n₀=n₂+1</b>(最重要!) ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1。<br>性质③推导：总边数=n-1=n₀×0+n₁×1+n₂×2→得n₀=n₂+1。'},
+{t:'三种遍历',b:'<b>前序</b>(根左右)：复制树。<b>中序</b>(左根右)：BST得升序！<b>后序</b>(左右根)：释放节点。<b>层序</b>：BFS队列。<br><span class="tag trap">陷阱</span>只有前+后无法唯一确定树！必须含中序。<br>三种递归遍历代码几乎一样——区别只在printf的位置！'},
+{t:'哈夫曼树',b:'高频短码，低频长码→文件最小。<b>WPL</b>=Σ(叶权值×深度)。每次选两个最小合并。<span class="tag exam">2014综合题。</span>'},
+]},{ch:'第5章 图(2021-2024连考!)',items:[
+{t:'存储',b:'邻接矩阵O(n²)适合稠密。邻接表O(n+e)适合稀疏。'},
+{t:'DFS/BFS',b:'DFS=走到底再回头(栈/递归)。BFS=一层层扩散(队列)。BFS找无权图最短路径。'},
+{t:'Dijkstra(408+复旦双重重点)',b:'每次选最近未访问节点→更新邻居。O(n²)。<span class="tag trap">⚠不能负权</span>。408考模拟，机考写代码。'},
+{t:'拓扑排序(2024真题)',b:'Kahn:入度0入队→出队删边→入度0入队。全出=无环。'},
+]},{ch:'第6章 查找',items:[
+{t:'二分=猜数字',b:'每次砍半O(logn)。<b>前提：有序+能随机存取</b>。链表不行！<span class="tag formula">ASL≈log₂(n+1)-1</span>。'},
+{t:'BST',b:'左<根<右。中序=升序。插入：小左大右。删除：叶→直接/单孩子→替/双孩子→中序后继。'},
+{t:'B树vs B+树(每年必考)',b:'B树：节点存数据+键。B+树：只有叶存数据+叶链表串联。<span class="tag exam">408每年必考结构区别</span>。'},
+{t:'哈希=快递柜',b:'hash(key)=key%p→直接定位。冲突：①开放定址(找下一个)②链地址(拉链表)。<span class="tag formula">装填因子α=n/m</span>。'},
+]},{ch:'第7章 排序⭐必默写',items:[
+{t:'排序对比表',b:'<table><tr><th>算法</th><th>平均</th><th>空间</th><th>稳定?</th></tr><tr><td>插入</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>冒泡</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>选择</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td>希尔</td><td>~O(n¹·³)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>快排</b></td><td><b>O(nlogn)</b></td><td>O(logn)</td><td><b>❌</b></td></tr><tr><td><b>堆排</b></td><td><b>O(nlogn)</b></td><td>O(1)</td><td><b>❌</b></td></tr><tr><td><b>归并</b></td><td><b>O(nlogn)</b></td><td>O(n)</td><td><b>✅</b></td></tr></table>408选择题每年至少1道。'},
+{t:'快排详解',b:'选pivot→小左大右→递归。最坏O(n²)：已有序+选首元素为pivot。<span class="tag exam">综合题最高频代码。</span>'},
+{t:'归并详解',b:'分治→merge合并有序数组。唯一稳定O(nlogn)。空间O(n)。外部排序基础。'},
+]}];
+var h='';for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="dsk'+i+'"><div class="kh" onclick="document.getElementById(\'dsk'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
+document.getElementById('content').innerHTML=h;
+</script></body></html>
