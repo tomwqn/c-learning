@@ -348,7 +348,7 @@ async function runCode(mk){
   }catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n\n本地: gcc main.c -o main && ./main\n\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}
 }
 
-function resetCode(mk){document.getElementById('code-'+mk).value=LU[mk][cur[mk]].tp;upLn(mk);hideHint(mk)}
+function resetCode(mk){document.getElementById('code-'+mk).value=LU[mk][cur[mk]].tp;upLn(mk);hideHint(mk);toast('↺ 已重置为模板')}
 
 function showHint(mk){
   var el=document.getElementById('hint-'+mk);if(!el)return;
@@ -374,36 +374,40 @@ function showHint(mk){
 function hideHint(mk){var el=document.getElementById('hint-'+mk);if(el)el.style.display='none';}
 function showSol(mk){
   var l=LU[mk][cur[mk]];
-  // 1. 有预设solution直接用
   if(l.so){
-    if(confirm('确定查看答案？自己写出来才算真正掌握！')){document.getElementById('code-'+mk).value=l.so;upLn(mk);hideHint(mk);}
+    document.getElementById('code-'+mk).value=l.so;upLn(mk);hideHint(mk);toast('📝 已填入参考答案');
     return;
   }
-  // 2. 模板已经包含printf且无注释掉的关键代码=模板就是完整方案
   var tp=l.tp||'';
   if(tp.indexOf('printf')>-1&&tp.indexOf('// 在这里写')===-1&&tp.indexOf('// 写')===-1&&tp.indexOf('// TODO')===-1&&tp.indexOf('// your code')===-1){
-    if(confirm('这道题的代码模板已经是完整可运行的参考代码。\n\n要用模板代码覆盖当前编辑区吗？（模板代码会丢失你的修改）')){
-      document.getElementById('code-'+mk).value=tp;upLn(mk);hideHint(mk);
-    }
+    document.getElementById('code-'+mk).value=tp;upLn(mk);hideHint(mk);toast('📝 已恢复模板代码');
     return;
   }
-  // 3. 模板是框架（有注释占位）=需要自己写
-  alert('🔑 这道题需要自己动手写代码。\n\n💡 左边的"大白话讲解"里有完整的思路和步骤。\n💡 点击"提示"按钮看具体提示。\n💡 实在写不出，看看同类已完成的关卡找灵感。');
+  toast('💡 这道题需要自己写。点💡提示按钮看具体思路。');
 }
 
 // ========== C百科 ==========
 function buildCRef(){
   var data=[{ch:'变量与数据类型',items:[
-    {t:'变量=贴标签的盒子',b:'<code>int age=20;</code>="拿个int盒子贴标签age，放20"。<br><table><tr><td><code>int</code></td><td>整数</td><td>%d</td></tr><tr><td><code>float</code></td><td>小数(6位精度)</td><td>%f</td></tr><tr><td><code>double</code></td><td>双精度(15位)</td><td>%lf</td></tr><tr><td><code>char</code></td><td>单字符</td><td>%c</td></tr></table>'},
-    {t:'printf=喊话',b:'<code>printf("我叫%s，%d岁",name,age);</code> %s和%d是洞，用后面变量填。每个%对用一个变量。<span class="tag trap">陷阱</span> %个数和变量个数对不上→乱码。'},
-    {t:'scanf=等待输入',b:'<code>scanf("%d",&x);</code> =等用户输入整数。整数/浮点加&，<b>字符串不加&</b>(数组名就是地址)。<span class="tag trap">陷阱</span> =是赋值，==是比较！if(x=5)永远为真。'},
-  ]},{ch:'指针=存门牌号的纸条',items:[
-    {t:'&和*',b:'<code>&x</code>="x的门牌号"。<code>*p</code>="去门牌号p指的地方"。<br><code>int *p=&x;</code> → p纸条写x地址 →<code>*p=100;</code>→改x。'},
-    {t:'指针与数组',b:'<code>a[i]</code>≡<code>*(a+i)</code>。数组名=指向首元素的指针常量。'},
-    {t:'值vs地址传递',b:'值传递=给复印件(改不了原件)。地址传递=给地址(能改原件)。<code>swap(&x,&y)</code>传门牌号→交换房子里的东西。'},
-  ]},{ch:'结构体与malloc',items:[
-    {t:'struct',b:'<code>struct Student{char name[20];int score;};</code><br>用<code>.</code>访问成员。<code>typedef</code>简化：<code>typedef struct{...}Stu;</code>'},
-    {t:'malloc/free',b:'<code>int*a=(int*)malloc(N*sizeof(int));</code>="跟操作系统借N个int盒子"。用完<code>free(a);</code>="还回去"。<span class="tag trap">陷阱</span> 忘free=内存泄漏。free后用=崩溃。'},
+    {t:'变量=贴标签的盒子',b:'<code>int age=20;</code>="拿个int盒子贴标签age，放20进去"。<br><table><tr><td><code>int</code></td><td>整数(4字节)</td><td>%d</td><td>±21亿</td></tr><tr><td><code>long long</code></td><td>大整数(8字节)</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>小数(4字节,6位精度)</td><td>%f</td></tr><tr><td><code>double</code></td><td>双精度(8字节,15位)</td><td>%lf</td></tr><tr><td><code>char</code></td><td>单字符(1字节)</td><td>%c</td></tr></table>'},
+    {t:'printf=对着屏幕喊话',b:'<code>printf("我叫%s, 今年%d岁", name, age);</code><br>%s和%d是"洞"——按顺序用后面的变量填进去。<br>每个%对用一个变量，个数和类型都要对上。<br><code>\\n</code>=换行 <code>\\t</code>=制表对齐 <code>\\\\</code>=打一个反斜杠<br><span class="tag trap">坑</span> %个数和变量个数对不上→乱码。%d对应float→输出错误值。'},
+    {t:'scanf=等待用户输入',b:'<code>scanf("%d", &x);</code> = 程序停下来等用户输入。<br><b>整数/浮点数必须加&</b>（告诉scanf"把值存到哪个地址"）。<br><b>字符串不加&</b>——数组名本身就是地址。<br><span class="tag trap">头号陷阱</span> <code>=</code>是赋值 <code>==</code>是比较！<code>if(x=5)</code>永远为真！'},
+  ]},{ch:'控制流：if/else和循环',items:[
+    {t:'if-else = 做选择题',b:'<code>if(条件){做A}else if(条件2){做B}else{做C}</code><br>从上到下检查，第一个满足的就执行，后面跳过。<br><b>⚠️ 顺序很重要</b>：必须从最严格的条件写到最宽松的。<br>错误：<code>if(s>=60)...else if(s>=80)</code> →≥80的永远被≥60拦截！'},
+    {t:'for循环 = 让电脑重复干活',b:'<code>for(初始化; 条件; 更新){循环体}</code><br><code>for(int i=0; i&lt;N; i++)</code> = "i从0开始，每次+1，当i&lt;N时一直做"<br><code>i++</code>=i+1 <code>i--</code>=i-1 <code>i+=2</code>=每次+2<br><b>嵌套循环</b>：外层控制"行"，内层控制"列"。'},
+    {t:'while = 不知道次数时用',b:'<code>while(条件){循环体}</code> = 条件成立就一直做。<br>for适合"知道循环多少次"，while适合"不知道"（如读到文件末尾）。<br><span class="tag trap">坑</span> 忘写更新条件→死循环！while里必须改变条件变量。'},
+  ]},{ch:'数组=一排连续的盒子',items:[
+    {t:'声明和使用',b:'<code>int a[5]={10,20,30,40,50};</code> = 5个int盒子连一排。<br><b>下标从0开始</b>：a[0]是第1个，a[4]是第5个。<br><code>int a[N];</code> = 运行时决定大小(VLA，C99支持)。<br><span class="tag trap">危险</span> a[N]越界访问不报错→覆盖别人的内存→最难调试的bug。'},
+    {t:'二维数组',b:'<code>int m[3][4];</code> = 3行4列的表格。<br><b>行优先存储</b>：m[i][j]在内存中按行排列。<br>遍历：<code>for(i=0;i&lt;3;i++)for(j=0;j&lt;4;j++)</code>。——行遍历比列遍历快(缓存友好)。'},
+  ]},{ch:'指针=C语言的灵魂(别怕)',items:[
+    {t:'指针=存门牌号的纸条',b:'<code>int *p=&x;</code> → p纸条写"x的地址"<br><code>*p=100;</code> → 按纸条地址找到x，改成100<br><code>&</code>="你家门牌号多少" <code>*</code>="去这个地址看/改东西"<br><b>互逆性</b>：<code>*&x ≡ x</code>（取地址再解引用=回到原值）<br><span class="tag trap">致命</span> 野指针！<code>int *p; *p=5;</code> ←p没写地址就访问→崩溃。'},
+    {t:'指针与数组',b:'<code>a[i]</code> ≡ <code>*(a+i)</code> —— C编译器内部就这么翻译。<br>数组名=指向首元素地址的<b>指针常量</b>（不能++）。<br><code>int *p=a;</code> → p可以p++，a不能a++。<br><b>408/机考必考</b>：值传递vs地址传递决定函数能否修改原变量。'},
+    {t:'malloc/free',b:'<code>int *a=(int*)malloc(N*sizeof(int));</code>="操作系统！借我N个int！"<br>用完<b>必须free(a)</b>="还回去"。<br>栈(局部变量)=自动管理，大小有限。堆(malloc)=手动管理，按需分配。<br><span class="tag trap">坑</span> 忘free→内存泄漏。free后继续用→悬垂指针→随机崩溃。'},
+  ]},{ch:'结构体、递归、文件',items:[
+    {t:'struct=自定义复合类型',b:'<code>struct Student{char name[20];int score;};</code><br>用<code>.</code>访问成员，<code>p->name</code>等价于<code>(*p).name</code>。<br><code>typedef struct{...}Stu;</code> 之后直接写Stu不用struct前缀。<br><b>408用在哪？</b>链表节点、树节点都是struct+指针的组合。'},
+    {t:'递归=俄罗斯套娃',b:'两要素：①<b>基准条件</b>(什么时候停) ②<b>递归条件</b>(怎么缩小)。<br><code>if(n<=1)return 1; return n*fact(n-1);</code><br>用<b>系统栈</b>保存每层状态。递归太深→栈溢出。<br><b>何时用递归？</b>树/图遍历、分治(快排/归并)。简单重复用循环。'},
+    {t:'文件读写',b:'<code>fopen("a.txt","w")</code>→写 <code>"r"</code>→读 <code>"a"</code>→追加。<br><code>fprintf(f,"%d",x)</code> 写入。 <code>fscanf(f,"%d",&x)</code> 读取。<br><code>fclose(f)</code> 用完必须关。<span class="tag trap">坑</span> fopen可能返回NULL→实际代码要检查。'},
+  ]}];
   ]}];
   var h='<h3>📚 C语言百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">K&R + K.N.King + Beej 三家精华</p>';
   for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="cr'+i+'"><div class="kh" onclick="document.getElementById(\'cr'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
@@ -412,7 +416,35 @@ function buildCRef(){
 
 // ========== 408百科 ==========
 function buildDSKnow(){
-  var data=[{ch:'线性表：排队的数据',items:[{t:'顺序表=电影院座位',b:'✅找座位O(1) ❌中间加人得全挪O(n)。<span class="tag formula">408公式</span> 第i位插入移<b>n-i+1</b>个。'},{t:'链表=寻宝游戏',b:'每个宝箱有纸条指向下一个。✅加删快O(1) ❌找得挨个走O(n)。<b>不能随机存取→不能二分查找</b>。'}]},{ch:'栈/队列：生活中来',items:[{t:'栈=一摞盘子',b:'后进先出LIFO。浏览器后退、Ctrl+Z撤销都是栈。'},{t:'队列=排队买奶茶',b:'先进先出FIFO。<span class="tag formula">必背</span> 循环队列:空→f==r,满→(r+1)%M==f,元素数→(r-f+M)%M。'}]},{ch:'树：族谱结构',items:[{t:'二叉树5性质',b:'①第i层≤2<sup>i-1</sup> ②k层≤2<sup>k</sup>-1 ③<b>n₀=n₂+1</b> ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1。'},{t:'三种遍历',b:'前序=根左右。中序=左根右(BST得升序)。后序=左右根。<span class="tag trap">陷阱</span> 仅前+后无法唯一确定树！必须含中序。'},{t:'哈夫曼树',b:'频率高的字母用短码→文件最小。WPL=Σ(叶权值×深度)。每次选两个最小合并。'}]},{ch:'图：2021-2024连考',items:[{t:'存储',b:'邻接矩阵=二维数组O(n²)适合稠密。邻接表=链表数组O(n+e)适合稀疏。'},{t:'DFS/BFS',b:'DFS=走到底再回头(栈/递归)。BFS=一层层扩散(队列)。BFS找最短路径。'},{t:'Dijkstra',b:'每次选最近未访问节点→更新邻居。O(n²)。<span class="tag trap">⚠不能处理负权</span>。'}]},{ch:'查找与排序',items:[{t:'二分查找',b:'每次砍半O(logn)。<b>前提：有序+能随机存取</b>。链表不行！'},{t:'排序对比',b:'<table><tr><td>快排</td><td>O(nlogn)</td><td>❌不稳定</td></tr><tr><td>堆排</td><td>O(nlogn)</td><td>❌不稳定</td></tr><tr><td>归并</td><td>O(nlogn)</td><td>✅稳定</td><td>O(n)空间</td></tr></table>插入/冒泡O(n²)稳定；选择O(n²)不稳定。'},{t:'哈希',b:'hash(key)=key%p。冲突：链地址(拉链表)/开放定址(找下一个)。装填因子α=n/m。'}]}];
+  var data=[{ch:'第2章 线性表 — 排队的数据',items:[
+    {t:'顺序表=电影院座位',b:'✅ 第5排3座→直接过去O(1)。❌ 中间加一个人→整排往后挪O(n)。<br><span class="tag formula">408公式</span> 第i位插入需移动<b>n-i+1</b>个元素。删除需移动<b>n-i</b>个。<br><b>优点</b>：随机存取、存储密度高(只存数据不含指针)。<b>缺点</b>：插入删除慢、需预分配。<br><span class="tag exam">408真题</span> 2010/2011/2013/2016/2018/2020共6次考顺序表。'},
+    {t:'链表=寻宝游戏',b:'每个宝箱(节点)里一张纸条(next)指向下一个宝箱。<br>✅ 加/删宝箱O(1) ❌ 找第10个宝箱→必须经过前9个O(n)。<br><b>头插法</b>=新节点插最前面→逆序。<b>尾插法</b>=维护tail指针→顺序。<br><span class="tag trap">陷阱</span> 链表<b>不能二分查找</b>——无法随机存取！<br><span class="tag exam">408真题</span> 2009/2012/2015/2019共4次。'},
+    {t:'选顺序表还是链表？(选择题必考)',b:'<table><tr><td>场景</td><td>选什么</td></tr><tr><td>"随机访问""二分查找"</td><td>顺序表</td></tr><tr><td>"频繁插入删除""长度变化大"</td><td>链表</td></tr><tr><td>存储密度高、空间利用率</td><td>顺序表(不存指针)</td></tr><tr><td>内存碎片、需要动态扩展</td><td>链表(不要求连续)</td></tr></table>'},
+  ]},{ch:'第3章 栈和队列 — 生活中的数据结构',items:[
+    {t:'栈(Stack)=一摞盘子',b:'<b>后进先出(LIFO)</b>。最后放上去的最先拿下来。<br><code>push</code>=放盘子 <code>pop</code>=拿盘子。<br><b>应用</b>：浏览器后退、Ctrl+Z撤销、函数递归调用(系统栈)、DFS。<br><b>顺序栈</b>：<code>top=-1</code>为空，<code>push: stk[++top]=x</code>，<code>pop: x=stk[top--]</code>。'},
+    {t:'循环队列=排队买奶茶(408每年必考!)',b:'<b>先进先出(FIFO)</b>。先来先买。<br><span class="tag formula">408必背公式</span><br>· 判空：<b>front==rear</b><br>· 判满：<b>(rear+1)%MAX==front</b><br>· 入队：q[rear]=x; rear=(rear+1)%MAX<br>· 出队：x=q[front]; front=(front+1)%MAX<br>· 元素个数：<b>(rear-front+MAX)%MAX</b><br><b>为什么牺牲一个单元？</b>否则"空"和"满"都满足front==rear，无法区分。<br><span class="tag exam">408真题</span> 几乎每年必考1道选择题/填空题。'},
+  ]},{ch:'第4章 树与二叉树 ⭐最重要的一章',items:[
+    {t:'二叉树的5条性质(记死!)',b:'①第i层最多<b>2<sup>i-1</sup></b>个节点<br>②k层满二叉树共<b>2<sup>k</sup>-1</b>个节点<br>③<b>n₀=n₂+1</b>（叶节点数=度为2的节点数+1）——最重要！<br>④n节点的完全二叉树深度=<b>⌊log₂n⌋+1</b><br>⑤编号i节点→左孩子<b>2i</b>，右孩子<b>2i+1</b>，父节点<b>⌊i/2⌋</b><br>性质③推导：除根外每个节点有一条边向上连。总边数=n₀×0+n₁×1+n₂×2=n-1→得n₀=n₂+1。'},
+    {t:'三种遍历(递归代码几乎一样!)',b:'<b>前序(根左右)</b>：进门前先看→左边→右边。用途：复制树。<br><b>中序(左根右)</b>：左边→进门看→右边。<b>BST的中序=升序序列！</b><br><b>后序(左右根)</b>：左边→右边→进门看。用途：释放节点。<br><b>层序</b>：一层层来，用队列BFS。<br><span class="tag trap">陷阱</span> 只有前序+后序<b>无法唯一确定</b>二叉树！必须包含中序。<br>三种递归遍历代码几乎一模一样——区别只在printf的位置。'},
+    {t:'哈夫曼树=最优压缩',b:'频率高的字母用短编码，频率低的用长编码→文件最小。<br><b>WPL</b>(带权路径长度)=Σ(叶权值×根到叶的路径长度)。<br><b>构建</b>：每次选两个最小权值节点合并→新节点权值=两者和→重复。<br><b>哈夫曼编码是前缀编码</b>——任一个编码都不是另一个的前缀。<br><span class="tag exam">408真题</span> 2014年综合题考WPL。选择题常考构建过程。'},
+    {t:'并查集+堆(2026新增)',b:'<b>并查集</b>：判断两个元素是否在同一集合。Find+Union两个操作。<br><b>堆</b>：完全二叉树，大顶堆(父≥子)或小顶堆(父≤子)。<br>用数组存储。建堆O(n)，调整O(logn)。堆排序就靠它。'},
+  ]},{ch:'第5章 图 — 2021-2024连续4年考！',items:[
+    {t:'图的两种存储',b:'<b>邻接矩阵</b>：N×N二维数组，G[i][j]=1表示有边。空间O(n²)。适合<b>稠密图</b>。<br><b>邻接表</b>：每个节点挂一个链表存邻居。空间O(n+e)。适合<b>稀疏图</b>。<br>遍历：邻接矩阵O(n²)，邻接表O(n+e)。'},
+    {t:'DFS(深度优先)',b:'沿一条路走到底→回溯→走另一条。用<b>栈/递归</b>实现。<br><pre>void dfs(int u){\n  visited[u]=1;\n  for(每个邻居v) if(!visited[v]) dfs(v);\n}</pre>应用：连通分量、拓扑排序、找环、回溯搜索。'},
+    {t:'BFS(广度优先)',b:'一层层往外扩散。用<b>队列</b>实现。<br>BFS找<b>无权图最短路径</b>——第一次到达=最短距离。<br>应用：最短路径(无权)、层序遍历、网络爬虫。'},
+    {t:'Dijkstra最短路径(408+复旦双重重点)',b:'每次选距离最小的未访问节点→用其更新所有邻居。<br>O(n²)适合稠密图。堆优化O(mlogn)适合稀疏图。<br><span class="tag trap">⚠️不能处理负权边！</span>(负权用Bellman-Ford或SPFA)<br><span class="tag exam">408考手工模拟(选择题)，复旦机考要求手写代码。</span>'},
+    {t:'拓扑排序(2024真题!)',b:'<b>Kahn算法</b>：①入度为0的节点入队 ②出队→删除其出边(邻居入度-1)→入度变0者入队。<br>所有节点都出队=有拓扑序。有剩余=图中有环。<br><span class="tag exam">408真题2024</span>综合题。2021/2023年也考图的度。'},
+  ]},{ch:'第6章 查找',items:[
+    {t:'折半查找(二分)=猜数字游戏',b:'每次猜中间数→太大调小→太小调大→砍掉一半。O(logn)。<br><b>前提：必须有序+必须能随机存取！</b>链表不能二分。<br><b>判定树</b>是一棵平衡BST。查找成功/失败的ASL可从判定树推算。<br><span class="tag formula">ASL成功≈log₂(n+1)-1</span>。'},
+    {t:'BST二叉搜索树',b:'左子树&lt;根&lt;右子树。中序遍历=升序序列。<br><b>插入</b>：小于根→递归左子树；大于→右子树。<br><b>删除</b>：①叶→直接删 ②单孩子→子替父 ③双孩子→中序后继替代。<br>平均O(logn)，最坏O(n)(退化成链表→和顺序查找没区别)。<br><b>AVL</b>=平衡的BST。左右子树高度差≤1。通过<b>四种旋转</b>(LL/RR/LR/RL)维持平衡。'},
+    {t:'B树 vs B+树(每年必考!)',b:'<b>B树</b>：节点同时存键和数据。所有叶节点在同一层。<br><b>B+树</b>：只有叶节点存数据，非叶节点只存索引。叶节点用链表串联。<br>都是<b>多路平衡查找树</b>，用于数据库索引。<br><span class="tag exam">408每年必考</span>结构区别：B+树叶节点链表串联支持范围查询。'},
+    {t:'哈希表=快递柜',b:'hash(key)=key%p(p是不大于表长的素数)→直接定位。<br><b>冲突处理</b>：<br>· 开放定址法：找下一个空位(线性探测/二次探测/伪随机)<br>· 链地址法：同一槽位拉链表<br><span class="tag formula">装填因子α=n/m</span>。链地址法ASL≈1+α/2。<br>线性探测：ASL≈½(1+1/(1-α))。<br><span class="tag exam">408每年至少1道哈希题</span>。'},
+  ]},{ch:'第7章 排序 ⭐必默写',items:[
+    {t:'排序对比表(408每年至少1道题!)',b:'<table><tr><th>算法</th><th>平均时间</th><th>最坏时间</th><th>空间</th><th>稳定?</th></tr><tr><td>直接插入</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>冒泡</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>简单选择</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td>希尔</td><td>~O(n¹·³)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>快速</b></td><td><b>O(nlogn)</b></td><td>O(n²)</td><td>O(logn)</td><td><b>❌</b></td></tr><tr><td><b>堆</b></td><td><b>O(nlogn)</b></td><td>O(nlogn)</td><td>O(1)</td><td><b>❌</b></td></tr><tr><td><b>归并</b></td><td><b>O(nlogn)</b></td><td>O(nlogn)</td><td>O(n)</td><td><b>✅</b></td></tr><tr><td>基数</td><td>O(d(n+r))</td><td>O(d(n+r))</td><td>O(n+r)</td><td>✅</td></tr></table>'},
+    {t:'快排：为什么快，又为什么可能慢？',b:'<b>选pivot→分区(小左大右)→递归左右。</b><br>最好O(nlogn)：每次pivot恰好平分数组(随机或三数取中)。<br>最坏O(n²)：<b>已有序+选首元素为pivot</b>→每次只减少1个元素。<br><span class="tag trap">快排不稳定!</span>相同元素可能因为pivot交换位置。<br><span class="tag exam">408综合题最高频代码</span>——必须能闭卷写出partition+递归。'},
+    {t:'归并排序：唯一稳定的O(nlogn)',b:'<b>分治：分成两半各自排序→merge合并两个有序数组。</b><br>merge用双指针：两个数组各指一头，比较，小的放入结果。<br>空间O(n)——需要临时数组存放合并结果。<br><b>外部排序的基础</b>：多路归并。<br><span class="tag exam">408常考</span>：归并的稳定性+空间复杂度对比快排和堆排。'},
+    {t:'堆排序：原地O(nlogn)',b:'①<b>建堆</b>：从⌊n/2⌋开始向下调整→O(n)<br>②循环：取堆顶(最大)→与末尾交换→缩堆→向下调整→O(nlogn)<br>空间O(1)=原地排序。<span class="tag trap">但堆排序不稳定!</span><br>建堆过程会破坏相同元素的相对顺序。'},
+  ]}];
   var h='<h3>📚 408数据结构百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">严蔚敏+大话数据结构+王道/天勤</p>';
   for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="ds'+i+'"><div class="kh" onclick="document.getElementById(\'ds'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
   document.getElementById('dsk-area').innerHTML=h;
