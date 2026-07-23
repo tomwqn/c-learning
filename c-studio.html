@@ -1,32 +1,28 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>C语言学习平台 — 复旦机考+408数据结构</title>
 <style>
 :root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);height:100vh;display:flex}
-a{color:var(--a);text-decoration:none}
-#sb{width:210px;min-width:210px;background:var(--s);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
-.sb-logo{padding:14px;font-size:14px;font-weight:700;color:var(--a);border-bottom:1px solid var(--b);cursor:pointer;line-height:1.3}
-.sb-logo span{font-size:9px;color:var(--m);display:block;font-weight:400}
-.sb-btn{display:flex;align-items:center;gap:7px;width:100%;padding:10px 14px;border:none;background:none;color:var(--m);font-size:12px;cursor:pointer;text-align:left;border-left:3px solid transparent;font-family:inherit}
-.sb-btn:hover{color:var(--t);background:rgba(255,255,255,.03)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);display:flex;height:100vh;overflow:hidden}
+#sb{width:200px;min-width:200px;background:var(--s);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sb-hd{padding:14px 14px 10px;font-size:14px;font-weight:700;color:var(--a);border-bottom:1px solid var(--b);line-height:1.3;cursor:pointer}
+.sb-hd span{font-size:9px;color:var(--m);display:block;font-weight:400}
+.sb-btn{display:flex;align-items:center;gap:7px;width:100%;padding:10px 14px;border:none;background:none;color:var(--m);font-size:12px;cursor:pointer;text-align:left;border-left:3px solid transparent;font-family:inherit;transition:all .12s}
+.sb-btn:hover{color:var(--t);background:rgba(255,255,255,.04)}
 .sb-btn.on{color:var(--a);background:rgba(88,166,255,.08);border-left-color:var(--a);font-weight:600}
 .sb-btn .ico{font-size:15px;width:20px;text-align:center}
-#main{flex:1;overflow-y:auto}
-.tab{display:none}
-.tab.on{display:block}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.pg{display:none;flex:1;flex-direction:column;overflow:hidden}
+.pg.on{display:flex}
 
 /* dashboard */
-.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:16px}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .sc{background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px}
-.sc .lb{font-size:9px;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.sc .lb{font-size:9px;color:var(--m);letter-spacing:.5px;margin-bottom:2px}
 .sc .vl{font-size:24px;font-weight:700}.sc .sb{font-size:10px;color:var(--m);margin-top:2px}
 .vg{color:var(--g)}.vb{color:var(--a)}.vo{color:var(--o)}.vp{color:var(--p)}
 .pb{height:6px;background:var(--b);border-radius:3px;overflow:hidden;margin-top:6px}
-.pb .fl{height:100%;background:var(--g);border-radius:3px;transition:width .5s}
+.pb .fl{height:100%;background:var(--g);border-radius:3px}
 
 /* calendar */
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:8px}
@@ -35,19 +31,17 @@ a{color:var(--a);text-decoration:none}
 .cal .dy:hover{border-color:var(--a)}
 .cal .dy.td{border-color:var(--a);font-weight:700}
 .cal .dy.hn{background:rgba(88,166,255,.15);color:var(--a);font-weight:600}
-.cal .dy.em{color:var(--m)}
 .cal .dy.om{color:rgba(139,148,158,.3)}
 
 /* knowledge */
-.ks{margin:16px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
-.ks .kh{padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
+.ks{margin-bottom:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.ks .kh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
 .ks .kh:hover{background:rgba(255,255,255,.03)}
-.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.ks .kh .kn{width:26px;height:26px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
 .ks .kh .kt{font-size:14px;font-weight:600}
 .ks .kh .ka{transition:transform .2s;margin-left:auto;font-size:10px;color:var(--m)}
-.ks .kb{display:none;padding:0 16px 14px;border-top:1px solid var(--b)}
-.ks.open .kb{display:block}
-.ks.open .ka{transform:rotate(90deg)}
+.ks .kb{display:none;padding:0 14px 12px;border-top:1px solid var(--b)}
+.ks.open .kb{display:block}.ks.open .ka{transform:rotate(90deg)}
 .kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
 .kc h5{font-size:12px;color:var(--a);margin-bottom:6px}
 .kc p,.kc li{font-size:12px;line-height:1.75}
@@ -61,16 +55,16 @@ a{color:var(--a);text-decoration:none}
 .kc table td,.kc table th{border-bottom:1px solid var(--b);padding:4px 6px;text-align:left}
 
 /* learn */
-.lw{display:flex;height:calc(100vh - 0px)}
-.lvs{width:230px;min-width:230px;border-right:1px solid var(--b);overflow-y:auto;background:var(--s)}
+.lw{display:flex;flex:1;overflow:hidden}
+.lvs{width:220px;min-width:220px;border-right:1px solid var(--b);overflow-y:auto;background:var(--s);flex-shrink:0}
 .lvs .ph{font-size:9px;color:var(--m);padding:8px 10px 3px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
 .lvs .lv{display:flex;align-items:center;gap:5px;width:100%;padding:6px 10px;border:none;background:none;color:var(--t);font-size:11px;cursor:pointer;text-align:left;font-family:inherit}
 .lvs .lv:hover{background:rgba(255,255,255,.03)}
 .lvs .lv.on{background:rgba(88,166,255,.12);color:var(--a);font-weight:600}
 .lvs .lv .n{font-size:9px;color:var(--m);min-width:14px}
 .lvs .lv.done .n{color:var(--g)}
-.lvs .lv.done .ck{display:inline;color:var(--g);font-size:10px;margin-left:auto}
-.lvs .lv .ck{display:none}
+.lvs .lv .ck{display:none;color:var(--g);font-size:10px;margin-left:auto}
+.lvs .lv.done .ck{display:inline}
 .lvm{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .lvb{flex:1;display:flex;overflow:hidden}
 .lvl{flex:1;overflow-y:auto;padding:14px;min-width:280px}
@@ -85,8 +79,7 @@ a{color:var(--a);text-decoration:none}
 .lvr .op .oo{background:#000;padding:8px 12px;font-family:'Consolas',monospace;font-size:11px;min-height:40px;max-height:150px;overflow-y:auto;white-space:pre-wrap}
 .lvr .ba{display:flex;gap:6px;padding:8px 12px;flex-shrink:0;flex-wrap:wrap}
 .btn{padding:5px 12px;border-radius:5px;border:1px solid var(--b);background:var(--s);color:var(--t);font-size:11px;cursor:pointer;font-family:inherit}
-.btn:hover{background:rgba(255,255,255,.06)}
-.btn.pm{background:var(--a);color:#fff;border-color:var(--a)}
+.btn:hover{background:rgba(255,255,255,.06)}.btn.pm{background:var(--a);color:#fff;border-color:var(--a)}
 .kb{background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.15);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.65}
 .kb h4{font-size:12px;color:var(--a);margin-bottom:4px}
 .kb code{background:var(--s);padding:1px 4px;border-radius:3px;font-size:11px;color:var(--o)}
@@ -100,53 +93,37 @@ a{color:var(--a);text-decoration:none}
 .je textarea:focus{outline:none;border-color:var(--a)}
 #toast{position:fixed;top:16px;right:16px;padding:8px 14px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;background:#1a3c1a;color:var(--g);border:1px solid var(--g)}
 #toast.show{opacity:1}
-@media(max-width:900px){#sb{display:none}.lw{flex-direction:column}.lvs{width:100%;min-width:auto;max-height:100px}.lvb{flex-direction:column}}
-</style>
-</head>
-<body>
+@media(max-width:900px){#sb{display:none}.lw{flex-direction:column}.lvs{width:100%;min-width:auto;max-height:100px}}
+</style></head><body>
 
 <div id="sb">
-  <div class="sb-logo" onclick="switchTab(0)">🎯 C语言学习平台<span>复旦机考 + 408数据结构</span></div>
-  <button class="sb-btn on" onclick="switchTab(0)"><span class="ico">📊</span> 学习总览</button>
-  <button class="sb-btn" onclick="switchTab(1)"><span class="ico">🧱</span> C语言基础</button>
-  <button class="sb-btn" onclick="switchTab(2)"><span class="ico">📖</span> 408数据结构</button>
-  <button class="sb-btn" onclick="switchTab(3)"><span class="ico">🖥️</span> 复旦机考</button>
-  <button class="sb-btn" onclick="switchTab(4)"><span class="ico">📝</span> 学习日志</button>
-  <button class="sb-btn" onclick="switchTab(5)"><span class="ico">📚</span> C语言百科</button>
-  <button class="sb-btn" onclick="switchTab(6)"><span class="ico">📚</span> 408百科</button>
+ <div class="sb-hd" onclick="switchTab(0)">🎯 C语言学习平台<span>复旦机考 + 408数据结构</span></div>
+ <button class="sb-btn on" onclick="switchTab(0)"><span class="ico">📊</span>学习总览</button>
+ <button class="sb-btn" onclick="switchTab(1)"><span class="ico">🧱</span>C语言基础</button>
+ <button class="sb-btn" onclick="switchTab(2)"><span class="ico">📖</span>408数据结构</button>
+ <button class="sb-btn" onclick="switchTab(3)"><span class="ico">🖥️</span>复旦机考</button>
+ <button class="sb-btn" onclick="switchTab(4)"><span class="ico">📝</span>学习日志</button>
+ <button class="sb-btn" onclick="switchTab(5)"><span class="ico">📚</span>C语言百科</button>
+ <button class="sb-btn" onclick="switchTab(6)"><span class="ico">📚</span>408百科</button>
 </div>
-
 <div id="main">
-  <!-- TAB 0: DASHBOARD -->
-  <div class="tab on" id="tab0"><div style="padding:16px"><p style="color:var(--m)">⏳ 加载中...</p></div></div>
-
-  <!-- TAB 1: C语言基础 -->
-  <div class="tab" id="tab1"><div class="lw"><div class="lvs" id="lvs-c"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-c"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-c"><div>1</div></div><textarea class="code" id="code-c" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('c')">▶ 运行</button><button class="btn" onclick="resetCode('c')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-c">— 点击运行查看结果 —</div></div></div></div></div></div>
-
-  <!-- TAB 2: 408数据结构 -->
-  <div class="tab" id="tab2"><div class="lw"><div class="lvs" id="lvs-ds"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-ds"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-ds"><div>1</div></div><textarea class="code" id="code-ds" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('ds')">▶ 运行</button><button class="btn" onclick="resetCode('ds')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-ds">— 点击运行查看结果 —</div></div></div></div></div></div>
-
-  <!-- TAB 3: 复旦机考 -->
-  <div class="tab" id="tab3"><div class="lw"><div class="lvs" id="lvs-fd"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-fd"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-fd"><div>1</div></div><textarea class="code" id="code-fd" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('fd')">▶ 运行</button><button class="btn" onclick="resetCode('fd')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-fd">— 点击运行查看结果 —</div></div></div></div></div></div>
-
-  <!-- TAB 4: 学习日志 -->
-  <div class="tab" id="tab4"><div style="padding:16px;max-width:800px"><h3>📝 学习日志</h3><div id="journal-area" style="margin-top:12px"></div></div></div>
-
-  <!-- TAB 5: C语言百科 -->
-  <div class="tab" id="tab5"><div style="padding:16px;max-width:900px" id="cref-area"></div></div>
-
-  <!-- TAB 6: 408百科 -->
-  <div class="tab" id="tab6"><div style="padding:16px;max-width:900px" id="dsk-area"></div></div>
+<div class="pg on" id="pg0"><div id="dash-area" style="padding:16px;overflow-y:auto"><p style="color:var(--m)">⏳</p></div></div>
+<div class="pg" id="pg1"><div class="lw"><div class="lvs" id="lvs-c"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-c"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-c"><div>1</div></div><textarea class="code" id="code-c" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('c')">▶ 运行</button><button class="btn" onclick="resetCode('c')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-c" style="color:var(--m)">— 点击运行查看结果 —</div></div></div></div></div></div></div>
+<div class="pg" id="pg2"><div class="lw"><div class="lvs" id="lvs-ds"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-ds"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-ds"><div>1</div></div><textarea class="code" id="code-ds" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('ds')">▶ 运行</button><button class="btn" onclick="resetCode('ds')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-ds" style="color:var(--m)">— 点击运行查看结果 —</div></div></div></div></div></div></div>
+<div class="pg" id="pg3"><div class="lw"><div class="lvs" id="lvs-fd"></div><div class="lvm"><div class="lvb"><div class="lvl" id="lvl-fd"></div><div class="lvr"><div class="eh">📝 main.c</div><div class="ew"><div class="ln" id="ln-fd"><div>1</div></div><textarea class="code" id="code-fd" spellcheck="false"></textarea></div><div class="ba"><button class="btn pm" onclick="runCode('fd')">▶ 运行</button><button class="btn" onclick="resetCode('fd')">↺ 重置</button></div><div class="op"><div class="oh">📤 输出</div><div class="oo" id="out-fd" style="color:var(--m)">— 点击运行查看结果 —</div></div></div></div></div></div></div>
+<div class="pg" id="pg4"><div id="journal-area" style="padding:16px;overflow-y:auto;max-width:800px"></div></div>
+<div class="pg" id="pg5"><div id="cref-area" style="padding:16px;overflow-y:auto;max-width:900px"></div></div>
+<div class="pg" id="pg6"><div id="dsk-area" style="padding:16px;overflow-y:auto;max-width:900px"></div></div>
 </div>
 <div id="toast"></div>
 
 <script>
-// ===================== 超可靠切换 =====================
+// ========== RELIABLE TAB SWITCH ==========
 function switchTab(n){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.sb-btn').forEach((b,i)=>b.classList.toggle('on',i===n));
-  var el=document.getElementById('tab'+n);
-  if(el){el.classList.add('on');}
+  for(var i=0;i<7;i++){document.getElementById('pg'+i).style.display='none';}
+  document.getElementById('pg'+n).style.display='flex';
+  var btns=document.querySelectorAll('.sb-btn');
+  for(var i=0;i<btns.length;i++){btns[i].classList.toggle('on',i===n);}
   if(n===0)buildDash();
   if(n===1)initLearn('c');
   if(n===2)initLearn('ds');
@@ -156,147 +133,176 @@ function switchTab(n){
   if(n===6)buildDSKnow();
 }
 
-// ===================== 存储 =====================
+// ========== STORAGE ==========
 function g(k){try{return JSON.parse(localStorage[k]||'{}')}catch(e){return{}}}
 function s(k,v){localStorage[k]=JSON.stringify(v)}
-function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
 var TODAY=(new Date()).toISOString().slice(0,10);
-var K={C:'cs_mod_c',DS:'cs_mod_ds',FD:'cs_mod_fd',J:'cs_journal'};
-var curLvC=0,curLvDS=0,curLvFD=0;
+var K={C:'cs_mc',DS:'cs_mds',FD:'cs_mfd',J:'cs_j'};
+var cur={c:0,ds:0,fd:0};
 
-// ===================== DASHBOARD =====================
+// ========== DASHBOARD ==========
 function buildDash(){
   var cd=Object.values(g(K.C)).filter(function(v){return v}).length;
   var dd=Object.values(g(K.DS)).filter(function(v){return v}).length;
   var fd=Object.values(g(K.FD)).filter(function(v){return v}).length;
-  var tc=LV_C.length,td=LV_DS.length,tf=LV_FD.length;
-  var all=cd+dd+fd,total=tc+td+tf;
+  var tc=LC.length,td=LDS.length,tf=LFD.length,all=cd+dd+fd,total=tc+td+tf;
   var j=g(K.J);var d=new Date();var streak=0;
   for(var i=0;i<365;i++){var k=d.toISOString().slice(0,10);if(j[k]&&j[k].trim())streak++;else if(i>0)break;d.setDate(d.getDate()-1);}
   var cal=makeCal((new Date()).getFullYear(),(new Date()).getMonth());
-  var tdv=j[TODAY]||'';
-  document.getElementById('tab0').innerHTML=
+  document.getElementById('dash-area').innerHTML=
   '<div class="dg">'+
   '<div class="sc"><div class="lb">总闯关</div><div class="vl vg">'+all+'/'+total+'</div><div class="sb">'+Math.round(all/total*100)+'%</div><div class="pb"><div class="fl" style="width:'+Math.round(all/total*100)+'%"></div></div></div>'+
-  '<div class="sc"><div class="lb">C语言</div><div class="vl vb">'+cd+'/'+tc+'</div><div class="sb">基础语法+指针</div></div>'+
-  '<div class="sc"><div class="lb">408</div><div class="vl vp">'+dd+'/'+td+'</div><div class="sb">真题考点</div></div>'+
-  '<div class="sc"><div class="lb">复旦机考</div><div class="vl vo">'+fd+'/'+tf+'</div><div class="sb">真题题型</div></div>'+
-  '<div class="sc"><div class="lb">🔥 连续学习</div><div class="vl vo">'+streak+'天</div><div class="sb">每天写一点</div></div>'+
+  '<div class="sc"><div class="lb">C语言基础</div><div class="vl vb">'+cd+'/'+tc+'</div><div class="sb">22关·从零开始</div></div>'+
+  '<div class="sc"><div class="lb">408数据结构</div><div class="vl vp">'+dd+'/'+td+'</div><div class="sb">22关·真题考点</div></div>'+
+  '<div class="sc"><div class="lb">复旦机考</div><div class="vl vo">'+fd+'/'+tf+'</div><div class="sb">18关·算法实战</div></div>'+
+  '<div class="sc"><div class="lb">🔥连续学习</div><div class="vl vo">'+streak+'天</div><div class="sb">每天记录</div></div>'+
   '<div class="sc"><div class="lb">知识库</div><div class="vl vp">2本</div><div class="sb">C百科+408百科</div></div>'+
   '</div>'+
-  '<div style="margin:0 16px 8px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px"><h3 style="font-size:13px;color:var(--a);margin-bottom:6px">📅 '+(new Date()).getFullYear()+'年'+((new Date()).getMonth()+1)+'月</h3><div class="cal">'+cal+'</div></div>'+
-  '<div style="margin:0 16px 16px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px"><h3 style="font-size:13px;color:var(--a);margin-bottom:6px">✏️ 今日记录（可跳过）</h3><div class="je"><textarea id="jtoday">'+esc(tdv)+'</textarea><button class="btn pm" style="margin-top:6px" onclick="saveJToday()">💾 保存</button></div></div>';
+  '<div style="margin-top:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px"><h3 style="font-size:13px;color:var(--a);margin-bottom:6px">📅 '+(new Date()).getFullYear()+'年'+((new Date()).getMonth()+1)+'月</h3><div class="cal">'+cal+'</div></div>'+
+  '<div style="margin-top:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px"><h3 style="font-size:13px;color:var(--a);margin-bottom:6px">✏️ 今日记录（可跳过）</h3><div class="je"><textarea id="jtoday">'+esc(j[TODAY]||'')+'</textarea><button class="btn pm" style="margin-top:6px" onclick="saveJToday()">💾 保存</button></div></div>';
 }
 
-function saveJToday(){var j=g(K.J);var v=document.getElementById('jtoday').value;j[TODAY]=v;s(K.J,j);toast('✅ 已保存')}
+function saveJToday(){var j=g(K.J);j[TODAY]=document.getElementById('jtoday').value;s(K.J,j);toast('✅ 已保存')}
 
 function makeCal(y,m){
   var j=g(K.J);var f=new Date(y,m,1);var start=f.getDay();var dim=new Date(y,m+1,0).getDate();
-  var h='';var wds=['日','一','二','三','四','五','六'];
-  for(var i=0;i<7;i++)h+='<div class="dl">'+wds[i]+'</div>';
+  var h='';['日','一','二','三','四','五','六'].forEach(function(s){h+='<div class="dl">'+s+'</div>'});
   for(var i=0;i<start;i++)h+='<div class="dy om"></div>';
   for(var d=1;d<=dim;d++){
     var key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    var cls='dy';if(key===TODAY)cls+=' td';if(j[key]&&j[key].trim())cls+=' hn';else cls+=' em';
+    var cls='dy';if(key===TODAY)cls+=' td';if(j[key]&&j[key].trim())cls+=' hn';
     h+='<div class="'+cls+'" onclick="editDay(\''+key+'\')" title="'+key+'">'+d+'</div>';
   }
   return h;
 }
 
-function editDay(k){
-  var j=g(K.J);var note=j[k]||'';
-  var content=prompt('📅 '+k+'\n记录学习内容（可为空）：',note);
-  if(content!==null){j[k]=content;s(K.J,j);buildDash();toast('✅ '+k+' 已更新')}
-}
+function editDay(k){var j=g(K.J);var n=prompt(k,(j[k]||''));if(n!==null){j[k]=n;s(K.J,j);buildDash()}}
 
-// ===================== JOURNAL =====================
+// ========== JOURNAL ==========
 function buildJournal(){
   var j=g(K.J);var ks=Object.keys(j).filter(function(k){return k!=='_tc'}).sort().reverse().slice(0,60);
-  var area=document.getElementById('journal-area');
   var cal=makeCal((new Date()).getFullYear(),(new Date()).getMonth());
-  var h='<div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px;margin-bottom:16px"><h4 style="font-size:12px;color:var(--a);margin-bottom:6px">📅 '+(new Date()).getFullYear()+'年'+((new Date()).getMonth()+1)+'月</h4><div class="cal">'+cal+'</div></div>';
-  h+='<h4 style="font-size:13px;color:var(--m);margin-bottom:8px">最近记录</h4>';
+  var h='<h3>📝 学习日志</h3><div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:14px;margin:12px 0"><h4 style="font-size:12px;color:var(--a);margin-bottom:6px">📅 '+(new Date()).getFullYear()+'年'+((new Date()).getMonth()+1)+'月</h4><div class="cal">'+cal+'</div></div><h4 style="font-size:13px;color:var(--m);margin-bottom:8px">最近记录</h4>';
   if(ks.length)for(var i=0;i<ks.length;i++){var k=ks[i];h+='<div style="background:var(--s);border:1px solid var(--b);border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px;line-height:1.6"><div style="font-size:10px;color:var(--m);margin-bottom:2px">📅 '+k+'</div>'+esc(j[k]||'(空)')+'</div>';}
   else h+='<p style="color:var(--m)">还没有日志。点击日历上的日期即可记录。</p>';
-  area.innerHTML=h;
+  document.getElementById('journal-area').innerHTML=h;
 }
 
-// ===================== LEVEL DATA =====================
-// --- C语言基础 (大白话版) ---
-var LV_C=[
-{ph:'认识C语言',tg:'语法',df:'⭐',ti:'Hello World',de:'让电脑说"Hello, World!"。每个C程序从main()这个大门口开始。',tp:'#include <stdio.h>\n\nint main(){\n  printf("Hello, World!\\n");\n  return 0;\n}',ex:'Hello, World!\n',
- kn:'<code>#include</code> = "去工具箱里拿工具"。<code>stdio.h</code> 是装输入输出工具的工具箱。<br><code>int main(){}</code> = 程序的大门，电脑从这里开始干活。<br><code>printf()</code> = 在屏幕上打印东西。<code>\\n</code> = 回车换行，就像打字机打完一行要"叮"一声换行。<br><code>return 0;</code> = "我干完了，一切正常"，跟操作系统报告一声。<br><br><b>💡 大白话</b>：写C程序=写一份"菜谱"，main是第一步，printf就像喊一嗓子让电脑在屏幕上显示文字。'},
-{ph:'认识C语言',tg:'语法',df:'⭐',ti:'变量=贴标签的盒子',de:'声明int age=20，用printf输出"年龄: 20"。',tp:'#include <stdio.h>\n\nint main(){\n  int age=20;\n  printf("年龄: %d\\n",age);\n  return 0;\n}',ex:'年龄: 20\n',
- kn:'<b>变量</b> = 一个有名字的小盒子，用来装数据。<br><code>int age = 20</code> = "拿一个只能装整数的盒子，贴上标签age，里面放20"。<br><code>printf("年龄: %d", age)</code> = %d是个洞，age的值会填进这个洞里。<br><br><b>💡 盒子种类</b>：<code>int</code>(整数盒子)、<code>float</code>(小数盒子)、<code>char</code>(装单个字符的盒子)。<br><b>⚠️ 常见错误</b>：printf里写了%d但忘了给变量→打印出来是乱码！'},
-{ph:'认识C语言',tg:'语法',df:'⭐',ti:'scanf=让用户填盒子',de:'读入名字，输出"你好, xxx!"',tp:'#include <stdio.h>\n\nint main(){\n  char name[100];\n  scanf("%s",name);\n  printf("你好, %s!\\n",name);\n  return 0;\n}',ex:'你好, Tom!\n',si:'Tom',
- kn:'<code>scanf("%s",name)</code> = "等着！让用户在键盘上打一个单词，存到name这个盒子里"。<br><b>⚠️ 关键区别</b>：整数要写 <code>scanf("%d", &age)</code>（<b>&</b>="告诉我这个盒子的地址在哪"）；字符串不用&，因为数组名本身就是地址。<br><b>💡 记忆法</b>：scanf需要知道"东西送到哪里去"→需要地址。printf只需要"看看东西长什么样"→不需要地址。'},
-{ph:'控制流程',tg:'语法',df:'⭐',ti:'if=做选择题',de:'读入整数，偶数输出"偶数"，奇数输出"奇数"',tp:'#include <stdio.h>\n\nint main(){\n  int n;scanf("%d",&n);\n  if(n%2==0)printf("偶数\\n");\n  else printf("奇数\\n");\n  return 0;\n}',ex:'偶数\n',si:'8',
- kn:'<code>if(条件){做这个} else {做那个}</code> = "如果(下雨){带伞}否则{不带伞}"。<br><code>n%2==0</code> = n除以2的余数是0吗？是=偶数，不是=奇数。<br><br><b>⚠️ 头号陷阱</b>：<code>=</code>是赋值（"把右边装进左边"），<code>==</code>才是比较（"它们相等吗？"）。写 <code>if(x=5)</code> 不会报错——它把5装进x，然后永远为真！'},
-{ph:'控制流程',tg:'语法',df:'⭐',ti:'for=让电脑重复干活',de:'读入N，输出1+2+…+N',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  for(int i=1;i<=N;i++)sum+=i;\n  printf("%d\\n",sum);\n  return 0;\n}',ex:'5050\n',si:'100',
- kn:'<code>for(出发; 终点; 步长){重复的事}</code> = "从1出发，每次走1步，走到N时停下来，每走一步把i加到sum里"。<br><code>i++</code> = i=i+1。 <code>sum+=i</code> = sum=sum+i。<br><b>💡 大白话</b>：for循环=让电脑当苦力——它最擅长重复做一件事不抱怨。'},
-{ph:'数组=一排盒子',tg:'语法',df:'⭐⭐',ti:'找最大值',de:'N个数排队站好（数组），挑出最大的那个。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  int max=a[0];\n  for(int i=1;i<N;i++)if(a[i]>max)max=a[i];\n  printf("%d\\n",max);\n  return 0;\n}',ex:'9\n',si:'5\n3 7 9 2 6',
- kn:'<b>数组</b> = 一排连续的小盒子，每个盒子按编号0,1,2...叫。<br><code>a[0]</code>是第一个盒子，<code>a[4]</code>是第五个盒子。<br><b>⚠️ 编号从0开始不是1</b>——这是几乎所有初学者都会踩的坑。<br><b>💡 找最大值</b>：先假设第一个最大，然后逐个比较，看到更大的就更新。'},
-{ph:'指针=存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'指针到底是个啥？',de:'int x=42; 用指针p指着x，通过p把x改成100。这是C语言最难也最重要的概念。',tp:'#include <stdio.h>\n\nint main(){\n  int x=42;\n  int *p=&x;\n  *p=100;\n  printf("%d\\n",x);\n  return 0;\n}',ex:'100\n',
- kn:'<b>指针 = 一张写着门牌号的小纸条</b>。<br><code>int x=42</code> = 门牌号100的房子里，放了数字42。<br><code>int *p=&x</code> = 纸条p上写了"100号"。<br><code>*p=100</code> = "按纸条上的地址找到100号房子，把里面的42扔掉，放100进去"。<br><code>&</code> = "告诉我你家的门牌号"<br><code>*</code> = "去这个门牌号，看/改里面的东西"<br><b>💡 K.N.King说</b>：指针并不复杂，它就是"间接访问"——不是直接拿东西，而是通过纸条告诉你东西在哪。<br><b>⚠️ 致命错误</b>：纸条没写地址就去找（野指针）→程序崩溃！永远先给指针赋值再使用。'},
-{ph:'指针=存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'swap：为什么传指针才能改',de:'写swap交换两个整数。408/机考必考：理解值传递和地址传递的区别。',tp:'#include <stdio.h>\n\nvoid swap(int *a,int *b){\n  int t=*a;*a=*b;*b=t;\n}\n\nint main(){\n  int x=3,y=5;swap(&x,&y);\n  printf("%d %d\\n",x,y);\n  return 0;\n}',ex:'5 3\n',
- kn:'<b>值传递</b> = 复印一份给你（你改复印件，原件不变）。<br><b>地址传递</b> = 告诉你原件在哪（你去改原件）。<br><br><b>💡 生活比喻</b>：<br>值传递=我把菜单拍照发给你，你在照片上P图加了个菜——我手里的菜单没变。<br>地址传递=我告诉你"菜单在桌子的第3个抽屉里"，你去抽屉里直接在菜单上加菜——改了。<br><br><b>⚠️ 408必考</b>：选择题让你判断"输出什么"——看函数参数有没有*、调用时有没有&。'},
-{ph:'递归=套娃',tg:'核心',df:'⭐⭐',ti:'阶乘：自己调用自己',de:'写递归函数求n!。递归是树遍历和DFS的基础。',tp:'#include <stdio.h>\n\nint fact(int n){\n  if(n<=1)return 1;\n  return n*fact(n-1);\n}\n\nint main(){\n  int n;scanf("%d",&n);\n  printf("%d\\n",fact(n));\n  return 0;\n}',ex:'120\n',si:'5',
- kn:'<b>递归</b> = 函数自己调用自己，像俄罗斯套娃一层层剥开。<br><b>两个要素</b>：① <b>什么时候停</b>（n≤1返回1）② <b>怎么缩小</b>（n×更小的fact(n-1)）。<br><b>💡 栈的理解</b>：每次递归都像在纸堆上压一张新纸，最后一层层抽回来。<br><b>⚠️ 递归太深→栈压爆→程序崩溃</b>。C的栈通常只有几MB。'},
+// ========== LEVEL DATA ==========
+// C语言基础 - 22关, 从零循序渐进
+var LC=[
+{ph:'第1步：让电脑开口说话',tg:'入门',df:'⭐',ti:'Hello World',de:'写出人生第一个C程序：让电脑在屏幕上打印"Hello, World!"',tp:'#include <stdio.h>\n\nint main(){\n  printf("Hello, World!\\n");\n  return 0;\n}',ex:'Hello, World!\n',
+ kn:'<code>#include &lt;stdio.h&gt;</code> = 告诉电脑"我要用打印功能"。<br><code>int main(){}</code> = 程序的大门，电脑从{开始执行到}结束。<br><code>printf("...")</code> = 在屏幕上打印双引号里的内容。<br><code>\\n</code> = 换行（就像打字机打完一行"叮"一声换到下一行）。<br><code>return 0;</code> = "我干完了，一切正常"——跟操作系统报告。<br><br><b>💡 大白话</b>：C程序像一份菜谱，main是第一步，printf就是喊一嗓子。'},
+{ph:'第1步：让电脑开口说话',tg:'入门',df:'⭐',ti:'printf详解',de:'用printf打印多行文字，理解\\n的作用。',tp:'#include <stdio.h>\n\nint main(){\n  printf("第一行\\n");\n  printf("第二行\\n");\n  printf("第三行没有换行");\n  printf("所以会和上一行粘在一起\\n");\n  return 0;\n}',ex:'第一行\n第二行\n第三行没有换行所以会和上一行粘在一起\n',
+ kn:'每个printf不会自动换行。不加<code>\\n</code>的话下一句输出会接在后面。<br><code>\\t</code> = 跳到下一个制表位(对齐用)。<code>\\\\</code> = 打一个反斜杠。<br><b>💡 记住</b>：打印多行信息→每行结尾加\\n。'},
+{ph:'第2步：变量——贴标签的盒子',tg:'入门',df:'⭐',ti:'整数变量',de:'声明整数变量age=20，用printf输出。',tp:'#include <stdio.h>\n\nint main(){\n  int age=20;\n  printf("年龄: %d\\n",age);\n  return 0;\n}',ex:'年龄: 20\n',
+ kn:'<b>声明变量</b> = "拿一个只能装XX类型数据的盒子，贴标签，放初始值"。<br><code>int age=20;</code> = int型盒子贴标签age，放20进去。<br>printf中<b>%d</b>是个"洞"，age的值会填进这个洞里。<br><br><b>⚠️ 常见错</b>：printf里写了%d但忘记给变量→打印出随机数字！'},
+{ph:'第2步：变量——贴标签的盒子',tg:'入门',df:'⭐',ti:'小数和字符变量',de:'声明float和char变量，用printf输出。',tp:'#include <stdio.h>\n\nint main(){\n  float price=9.99;\n  char grade=\'A\';\n  printf("价格: %.2f\\n",price);\n  printf("等级: %c\\n",grade);\n  return 0;\n}',ex:'价格: 9.99\n等级: A\n',
+ kn:'<b>变量类型</b>：<code>int</code>(整数)、<code>float</code>(小数)、<code>double</code>(更精确的小数)、<code>char</code>(单个字符)。<br>printf占位符：<b>%d</b>→int, <b>%f</b>→float, <b>%c</b>→char, <b>%s</b>→字符串。<br><code>%.2f</code> = 保留2位小数显示。<br><b>⚠️</b> 字符用<b>单引号</b>\'A\'，不是双引号"A"。'},
+{ph:'第3步：让用户输入数据',tg:'入门',df:'⭐',ti:'scanf读取整数',de:'读入用户输入的两个整数，求和输出。',tp:'#include <stdio.h>\n\nint main(){\n  int a,b;\n  scanf("%d %d",&a,&b);\n  printf("%d + %d = %d\\n",a,b,a+b);\n  return 0;\n}',ex:'3 + 5 = 8\n',si:'3 5',
+ kn:'<code>scanf("%d",&a)</code> = "等着！让用户输入整数，存到a的地址里"。<br><b>⚠️ 整数scanf必须加&</b>！& = "告诉我这个盒子的地址在哪"。<br>scanf是"把东西放进盒子"→需要知道盒子的位置→要地址。printf是"看看盒子里有什么"→不需要地址。<br><b>💡 记忆法</b>：输<u>s</u>canf→<u>送</u>数据→要地址；<u>p</u>rintf→<u>看</u>数据→不要地址。'},
+{ph:'第3步：让用户输入数据',tg:'入门',df:'⭐',ti:'scanf读取字符串',de:'读入用户的名字，打招呼。字符串不需要&。',tp:'#include <stdio.h>\n\nint main(){\n  char name[100];\n  scanf("%s",name);\n  printf("你好, %s!\\n",name);\n  return 0;\n}',ex:'你好, Tom!\n',si:'Tom',
+ kn:'<b>字符串scanf不加&</b>：因为数组名本身就是地址。<br><code>char name[100]</code> = 申请100个char盒子连成一排,name本身就是这排盒子的起始地址。<br><b>⚠️ scanf遇空格会停止</b>——输入"Tom Jerry"只会读到"Tom"。要读带空格的用<code>fgets</code>。'},
+{ph:'第4步：做判断',tg:'入门',df:'⭐',ti:'if-else：判断奇偶',de:'输入整数，偶数输出"偶数"，奇数输出"奇数"。',tp:'#include <stdio.h>\n\nint main(){\n  int n;scanf("%d",&n);\n  if(n%2==0)printf("偶数\\n");\n  else printf("奇数\\n");\n  return 0;\n}',ex:'偶数\n',si:'8',
+ kn:'<code>if(条件){做A}else{做B}</code> = "如果条件成立→做A，否则→做B"。<br><code>n%2</code> = n除以2的余数。余0=偶数，余1=奇数。<br><b>⚠️⚠️⚠️ 头号陷阱</b>：<code>=</code>是赋值，<code>==</code>是比较！<br>写<code>if(x=5)</code>不会报错——它把5赋给x，且永远为真！'},
+{ph:'第4步：做判断',tg:'入门',df:'⭐',ti:'if-else if：成绩等级',de:'输入分数，输出ABCD等级。≥90→A，80-89→B，依此类推。',tp:'#include <stdio.h>\n\nint main(){\n  int s;scanf("%d",&s);\n  if(s>=90)printf("A\\n");\n  else if(s>=80)printf("B\\n");\n  else if(s>=70)printf("C\\n");\n  else if(s>=60)printf("D\\n");\n  else printf("F\\n");\n  return 0;\n}',ex:'B\n',si:'85',
+ kn:'<b>多分支判断</b>：从上到下依次检查，第一个满足的就执行，后面的不看了。<br><b>⚠️顺序很重要</b>：写成<code>if(s>=60)...else if(s>=80)...</code>会出错！≥60的先拦截了，≥80的永远到不了。必须从高到低写。'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐',ti:'for循环：1加到100',de:'用for循环计算1+2+…+N的和。',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  for(int i=1;i<=N;i++)sum+=i;\n  printf("%d\\n",sum);\n  return 0;\n}',ex:'5050\n',si:'100',
+ kn:'<code>for(起点;终点;步长){重复的事}</code> = "从i=1出发，每次i+1，当i≤N时一直做"。<br><code>i++</code> = i=i+1。<code>sum+=i</code> = sum=sum+i。<br><b>💡 大白话</b>：循环就是让电脑当苦力——它最擅长重复做同一件事不抱怨。'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐',ti:'while循环',de:'用while循环同样求1到N的和。对比for和while的区别。',tp:'#include <stdio.h>\n\nint main(){\n  int N,sum=0,i=1;scanf("%d",&N);\n  while(i<=N){sum+=i;i++;}\n  printf("%d\\n",sum);\n  return 0;\n}',ex:'5050\n',si:'100',
+ kn:'<code>while(条件){循环体}</code> = "当条件成立时一直做"。<br><b>for vs while</b>：知道循环次数→用for；不知道要循环多少次→用while。<br>while的循环变量需要在外面声明，条件变化写在循环体里（容易忘！）。'},
+{ph:'第5步：循环——让电脑重复干活',tg:'入门',df:'⭐⭐',ti:'嵌套循环：乘法表',de:'打印下三角乘法表前N行。例如N=3输出"1x1=1 1x2=2 2x2=2 1x3=3 2x3=6 3x3=9"。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);\n  for(int i=1;i<=N;i++){\n    for(int j=1;j<=i;j++)printf("%dx%d=%d ",j,i,j*i);\n    printf("\\n");\n  }\n  return 0;\n}',ex:'1x1=1 \n1x2=2 2x2=4 \n1x3=3 2x3=6 3x3=9 \n',si:'3',
+ kn:'<b>嵌套循环</b> = 循环里面套循环。外层控制"行"，内层控制"列"。<br>外层i从1走到N，第i行有i个算式（j从1到i）。<br><b>💡 写嵌套循环的技巧</b>：先想清楚一行怎么写→然后想这一行怎么重复N次。'},
+{ph:'第6步：数组——一排连续的盒子',tg:'入门',df:'⭐⭐',ti:'一维数组基础',de:'创建数组，遍历打印所有元素。',tp:'#include <stdio.h>\n\nint main(){\n  int a[5]={10,20,30,40,50};\n  for(int i=0;i<5;i++)printf("%d ",a[i]);\n  printf("\\n");return 0;\n}',ex:'10 20 30 40 50 \n',
+ kn:'<code>int a[5]</code> = 申请5个int盒子连成一排。<br><b>下标从0开始</b>：a[0]是第1个、a[4]是第5个。<br><code>int a[5]={10,20,30,40,50}</code> = 声明+初始化一步到位。<br><b>⚠️ 越界访问</b>：a[5]不存在但编译器不报错→读/写到别人的内存→最危险的bug。'},
+{ph:'第6步：数组——一排连续的盒子',tg:'入门',df:'⭐⭐',ti:'数组：找最大/最小值',de:'用一个循环遍历数组，找到最大值和最小值。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  int max=a[0],min=a[0];\n  for(int i=1;i<N;i++){\n    if(a[i]>max)max=a[i];\n    if(a[i]<min)min=a[i];\n  }\n  printf("Max=%d Min=%d\\n",max,min);\n  return 0;\n}',ex:'Max=9 Min=2\n',si:'5\n3 7 9 2 6',
+ kn:'<b>解题模式</b>：假设第一个是最大/最小→遍历→遇到更大/更小的就更新。<br><b>💡 这是408顺序表所有操作的基础模式</b>——用一个循环遍历、维护一个结果。'},
+{ph:'第7步：函数——给代码块取名字',tg:'核心',df:'⭐⭐',ti:'自定义函数',de:'写一个add函数，接收两个int参数，返回它们的和。',tp:'#include <stdio.h>\n\nint add(int a,int b){return a+b;}\n\nint main(){\n  int x,y;scanf("%d%d",&x,&y);\n  printf("%d\\n",add(x,y));\n  return 0;\n}',ex:'8\n',si:'3 5',
+ kn:'<b>函数格式</b>：<code>返回类型 函数名(参数列表){函数体;return 返回值;}</code><br><b>为什么用函数？</b>① 避免重复写同样的代码 ② 给代码块取个有意义的名字→好读。<br>函数定义写在main前面（先声明再调用）。'},
+{ph:'第7步：函数——给代码块取名字',tg:'核心',df:'⭐⭐',ti:'函数：值传递',de:'写一个函数试图修改参数，观察main里的变量有没有变。',tp:'#include <stdio.h>\n\nvoid change(int x){x=100;}\n\nint main(){\n  int a=10;\n  change(a);\n  printf("a=%d\\n",a);\n  return 0;\n}',ex:'a=10\n',
+ kn:'<b>值传递</b> = 函数收到的是<b>复印件</b>。改复印件不影响原件。<br>这个例子里change把复印件改成了100，但main里的a还是10。<br><b>💡 生活比喻</b>：我把菜单拍照发给你（复印件），你在照片上加了道菜——我手里的菜单没变。<br>要真正改main里的变量？→需要传地址（指针考点，下一关就讲）。'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'指针初探：&和*',de:'用指针指向一个变量，通过指针修改它。C语言最核心也最让人头疼的概念。',tp:'#include <stdio.h>\n\nint main(){\n  int x=42;\n  int *p=&x;  // p是纸条，写了x的门牌号\n  *p=100;     // 按纸条上的地址找到x，改成100\n  printf("%d\\n",x);\n  return 0;\n}',ex:'100\n',
+ kn:'<b>指针 = 一张写着门牌号的小纸条</b>。<br><code>&x</code> = "x家的门牌号是多少？"<br><code>*p</code> = "去纸条p写的那个门牌号，看/改里面的东西"。<br><br><b>K.N.King说</b>：指针不复杂，它只是"间接访问"——你不直接拿东西，而是通过纸条告诉你东西在哪。<br><b>⚠️ 致命错误</b>：<code>int *p; *p=5;</code> ← p没写门牌号就去访问（野指针）→程序崩溃！永远先赋值再使用。'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐⭐',ti:'swap：地址传递',de:'写swap函数交换两个整数的值。408必考：为什么传指针才能改原变量。',tp:'#include <stdio.h>\n\nvoid swap(int *a,int *b){\n  int t=*a;*a=*b;*b=t;\n}\n\nint main(){\n  int x=3,y=5;swap(&x,&y);\n  printf("%d %d\\n",x,y);\n  return 0;\n}',ex:'5 3\n',
+ kn:'<b>地址传递</b> = 不是给你复印件，而是告诉你原件在哪——你直接去改原件。<br><code>swap(&x,&y)</code> = "你记下x和y的门牌号，去交换它们里面的东西"。<br><code>int *a</code> = a是一张纸条。<code>*a</code> = 按纸条上的地址找到那个盒子。<br><br><b>💡 关于*的解释</b>：<br>声明时的<code>int *a</code>：读作"a是一个指向int的指针"。<br>使用时的<code>*a</code>：读作"a指向的那个int盒子里的值"。<br><b>408选择题</b>：分析"传值还是传址，输出什么"——看有没有*和&。'},
+{ph:'第8步：指针——存地址的纸条',tg:'核心',df:'⭐⭐',ti:'指针与数组',de:'用指针方式遍历数组，理解arr[i]就是*(arr+i)。',tp:'#include <stdio.h>\n\nint main(){\n  int a[]={10,20,30,40,50};\n  int *p=a;\n  for(int i=0;i<5;i++)printf("%d ",*(p+i));\n  printf("\\n");return 0;\n}',ex:'10 20 30 40 50 \n',
+ kn:'<code>a[i]</code> 就是 <code>*(a+i)</code> 的简写——C编译器内部就这么翻译的。<br>数组名a = 指向首元素的<b>指针常量</b>(不能改)。<br><code>int *p=a;</code> → p可以改(p++=指下一个)，a不能改。'},
+{ph:'第9步：递归——自己调用自己',tg:'核心',df:'⭐⭐',ti:'阶乘(n!)',de:'写递归函数求n!。递归是树遍历和DFS算法的前提。',tp:'#include <stdio.h>\n\nint fact(int n){\n  if(n<=1)return 1;\n  return n*fact(n-1);\n}\n\nint main(){\n  int n;scanf("%d",&n);\n  printf("%d\\n",fact(n));\n  return 0;\n}',ex:'120\n',si:'5',
+ kn:'<b>递归 = 俄罗斯套娃</b>——每层套一个更小的自己。<br><b>两个必备要素</b>：<br>① <b>基准条件</b>：什么时候停？(n≤1时返回1)<br>② <b>递归体</b>：怎么缩小问题？(n×更小的fact(n-1))<br><br><b>执行过程</b>：fact(5)→5×fact(4)→4×fact(3)→...→到达fact(1)=1→返回。<br><b>⚠️ 递归太深→栈溢出</b>。C的栈通常只有几MB。'},
+{ph:'第10步：结构体——自定义复合类型',tg:'核心',df:'⭐⭐',ti:'struct定义',de:'定义Student结构体，包含姓名和分数。链表和树节点的基础。',tp:'#include <stdio.h>\n\nstruct Student{\n  char name[20];\n  int score;\n};\n\nint main(){\n  struct Student s={"Tom",95};\n  printf("%s: %d\\n",s.name,s.score);\n  return 0;\n}',ex:'Tom: 95\n',
+ kn:'<b>struct = 把多个不同类型的数据打包成一个新类型</b>。<br>用<code>.</code>访问成员：<code>s.name</code>、<code>s.score</code>。<br><code>typedef struct{...}Student;</code> 之后就可以直接用Student了。<br><b>💡 408用在哪？</b> 所有链表节点、树节点都是基于struct+指针定义。'},
+{ph:'第11步：动态内存',tg:'核心',df:'⭐⭐⭐',ti:'malloc/free',de:'用malloc动态分配数组，用完必须free。408代码题必考。',tp:'#include <stdio.h>\n#include <stdlib.h>\n\nint main(){\n  int N,sum=0;scanf("%d",&N);\n  int *a=(int*)malloc(N*sizeof(int));\n  for(int i=0;i<N;i++){scanf("%d",&a[i]);sum+=a[i];}\n  printf("平均=%.2f\\n",(double)sum/N);\n  free(a);\n  return 0;\n}',ex:'平均=3.00\n',si:'5\n1 2 3 4 5',
+ kn:'<b>malloc(N*sizeof(int))</b> = "操作系统！给我N个int盒子用！"<br>malloc返回<b>void*</b>，需要用(int*)强制转换。<br><b>用完一定要free！</b>不free=借东西不还→内存泄漏。<br><b>⚠️ free后继续用</b>=悬垂指针→未定义行为→程序随机崩溃。<br><br><b>栈 vs 堆</b>：<br>栈=局部变量，自动管理，大小有限。<br>堆=malloc分配，手动管理，大小灵活。'},
+{ph:'第11步：动态内存',tg:'核心',df:'⭐⭐',ti:'文件读写',de:'把数据写入文件，再从文件读出来。复旦机考可能要求文件操作。',tp:'#include <stdio.h>\n\nint main(){\n  FILE *f=fopen("test.txt","w");\n  fprintf(f,"Hello File!\\n");\n  fclose(f);\n  printf("写入完成\\n");\n  return 0;\n}',ex:'写入完成\n',
+ kn:'<code>fopen("文件名","w")</code> = 打开文件准备写（w=覆盖写，a=追加，r=读）。<br><code>fprintf</code>、<code>fscanf</code> 用法和printf/scanf一样，只是多了一个文件指针参数。<br><code>fclose</code> = 用完要关——不关可能丢数据。<br><b>⚠️ fopen可能失败</b>（权限不够/磁盘满）→返回NULL→实际代码要检查。'},
 ];
 
-// --- 408数据结构 (真题改编) ---
-var LV_DS=[
-{ph:'顺序表',tg:'顺序表',df:'⭐⭐',ti:'数组左移 (2010真题)',de:'数组前p个元素移到末尾。',tp:'#include <stdio.h>\n\nint main(){\n  int N,p;scanf("%d%d",&N,&p);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  // 三步反转法: ①反前p ②反后N-p ③整体反\n  \n  for(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;\n}',ex:'3 4 5 1 2 \n',si:'5 2\n1 2 3 4 5',
- kn:'三步反转法：反转[0,p-1]→反转[p,N-1]→反转[0,N-1]。时间O(n)空间O(1)。',et:'408真题2010'},
-{ph:'顺序表',tg:'顺序表',df:'⭐⭐⭐',ti:'摩尔投票 (2013真题)',de:'找出现次数>N/2的主元素。',tp:'#include <stdio.h>\n\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  // 候选+计数器\n  \n  return 0;\n}',ex:'5\n',si:'6\n5 5 2 5 5 1',
- kn:'候选cand+计数器cnt。遇相同cnt++，不同cnt--，cnt=0时换人。',et:'408真题2013'},
-{ph:'链表',tg:'链表',df:'⭐⭐⭐',ti:'单链表建表 (基础!)',de:'尾插法创建单链表。408所有链表题的前提。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int data;struct Node*next;}Node;\nint main(){\n  int N,v;scanf("%d",&N);\n  Node*head=NULL,*tail=NULL;\n  for(int i=0;i<N;i++){\n    scanf("%d",&v);\n    Node*p=(Node*)malloc(sizeof(Node));\n    p->data=v;p->next=NULL;\n    if(!head)head=tail=p;\n    else{tail->next=p;tail=p;}\n  }\n  for(Node*p=head;p;p=p->next)printf("%d -> ",p->data);\n  printf("NULL\\n");return 0;\n}',ex:'1 -> 2 -> 3 -> NULL\n',si:'3\n1 2 3',
- kn:'链表=火车。每节车厢(节点)装货(data)并挂着下一节车厢的钩子(next)。尾插法维护最后一节车厢tail。',et:'408核心：链式存储'},
-{ph:'栈队列',tg:'栈队列',df:'⭐⭐⭐',ti:'循环队列 (每年必考)',de:'实现循环队列MAX=5。408每年至少1道题！',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 5\nint q[MAX],f=0,r=0;\nvoid eq(int x){if((r+1)%MAX==f)return;q[r]=x;r=(r+1)%MAX;}\nint dq(){if(f==r)return-1;int x=q[f];f=(f+1)%MAX;return x;}\nint main(){\n  char c[10];int x;\n  while(scanf("%s",c)!=EOF){\n    if(strcmp(c,"end")==0)break;\n    if(strcmp(c,"eq")==0){scanf("%d",&x);eq(x);}\n    else if(strcmp(c,"dq")==0)printf("%d\\n",dq());\n  }\n  return 0;\n}',ex:'1\n2\n3\n',si:'eq 1\neq 2\neq 3\ndq\ndq\ndq\nend',
- kn:'<b>必背：空→f==r，满→(r+1)%MAX==f，元素数→(r-f+MAX)%MAX</b>。牺牲一个格子区分空和满。',et:'408每年必考'},
-{ph:'树',tg:'树',df:'⭐⭐⭐',ti:'二叉树遍历',de:'前序+中序→后序。408经典题型。',tp:'#include <stdio.h>\n#include <string.h>\nvoid post(char*pre,char*in,int len){\n  if(len<=0)return;\n  char root=pre[0];int pos=0;\n  while(in[pos]!=root)pos++;\n  post(pre+1,in,pos);\n  post(pre+1+pos,in+pos+1,len-pos-1);\n  printf("%c",root);\n}\nint main(){\n  char p[100],in[100];scanf("%s%s",p,in);\n  post(p,in,strlen(p));printf("\\n");return 0;\n}',ex:'DEBFCA\n',si:'ABDECF DBEACF',
- kn:'前序首字母=根。在中序里找到根→左边是左子树、右边是右子树→递归。',et:'408经典题：两种遍历求第三种'},
-{ph:'排序',tg:'排序',df:'⭐⭐⭐',ti:'快速排序 (最高频!)',de:'手写快排。408综合题最高频代码。',tp:'#include <stdio.h>\nvoid qs(int a[],int l,int r){\n  if(l>=r)return;int p=a[l],i=l,j=r;\n  while(i<j){while(i<j&&a[j]>=p)j--;a[i]=a[j];while(i<j&&a[i]<=p)i++;a[j]=a[i];}\n  a[i]=p;qs(a,l,i-1);qs(a,i+1,r);\n}\nint main(){\n  int N;scanf("%d",&N);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  qs(a,0,N-1);\n  for(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;\n}',ex:'1 2 5 7 9 \n',si:'5\n5 2 7 1 9',
- kn:'快排=选老大(pivot)→小弟站左边,大哥站右边→左右再递归。O(nlogn)不稳定。',et:'408综合题最高频！'},
+// 408数据结构 - 22关
+var LDS=[
+{ph:'顺序表 (408共6次考)',tg:'顺序表',df:'⭐⭐',ti:'顺序表插入',de:'升序数组插入x后保持升序。理解O(n)移动代价。',tp:'#include <stdio.h>\nint main(){int N,x,a[101];scanf("%d",&N);\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);scanf("%d",&x);\nint pos=N;for(int i=0;i<N;i++)if(a[i]>x){pos=i;break;}\nfor(int i=N;i>pos;i--)a[i]=a[i-1];a[pos]=x;\nfor(int i=0;i<=N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'1 3 5 7 9 \n',si:'4\n1 3 7 9\n5',
+ kn:'<b>步骤</b>：①找插入位置 ②从后往前移元素 ③插入。<br><span class="tag formula">408公式</span> 第i位插入需移动<b>n-i+1</b>个元素。<br><b>💡 为什么从后往前移？</b> 从前往后移会覆盖后面的数据。',et:'408选择题必考：插入/删除所需移动元素数量'},
+{ph:'顺序表 (408共6次考)',tg:'顺序表',df:'⭐⭐⭐',ti:'数组左移 (2010真题)',de:'数组中前p个元素移到末尾。',tp:'#include <stdio.h>\nvoid rev(int a[],int l,int r){while(l<r){int t=a[l];a[l]=a[r];a[r]=t;l++;r--;}}\nint main(){int N,p;scanf("%d%d",&N,&p);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nrev(a,0,p-1);rev(a,p,N-1);rev(a,0,N-1);\nfor(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'3 4 5 1 2 \n',si:'5 2\n1 2 3 4 5',
+ kn:'<b>三步反转法</b>：①反[0,p-1] ②反[p,N-1] ③整体反。O(n)时间O(1)空间。',et:'408真题2010'},
+{ph:'顺序表 (408共6次考)',tg:'顺序表',df:'⭐⭐⭐⭐',ti:'两序列中位数 (2011真题)',de:'两等长升序序列A,B求合并后中位数。',tp:'#include <stdio.h>\nint main(){int N;scanf("%d",&N);int a[N],b[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nfor(int i=0;i<N;i++)scanf("%d",&b[i]);\nint i=0,j=0,cnt=0,target;\nwhile(i<N&&j<N){cnt++;if(a[i]<b[j]){if(cnt==N)target=a[i];i++;}else{if(cnt==N)target=b[j];j++;}}\nprintf("%d\\n",target);return 0;}',ex:'6\n',si:'5\n1 3 5 7 9\n2 4 6 8 10',kn:'归并计数到第N个。最优二分O(logn)。但暴力归并O(n)也能拿分。',et:'408真题2011：分治法'},
+{ph:'顺序表 (408共6次考)',tg:'顺序表',df:'⭐⭐⭐',ti:'摩尔投票 (2013真题)',de:'找出现次数>N/2的主元素。',tp:'#include <stdio.h>\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nint cand=a[0],cnt=1;\nfor(int i=1;i<N;i++){if(cnt==0){cand=a[i];cnt=1;}else if(a[i]==cand)cnt++;else cnt--;}\ncnt=0;for(int i=0;i<N;i++)if(a[i]==cand)cnt++;\nprintf("%d\\n",cnt>N/2?cand:-1);return 0;}',ex:'5\n',si:'6\n5 5 2 5 5 1',kn:'候选+计数器。O(n)时间O(1)空间。注意最后要验证是否真的>N/2。',et:'408真题2013'},
+{ph:'链表 (408共4次考)',tg:'链表',df:'⭐⭐⭐',ti:'单链表建表',de:'尾插法创建单链表并遍历输出。408所有链表题的基础。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct N{int d;struct N*nxt;}N;\nint main(){int n,v;scanf("%d",&n);\nN*h=NULL,*t=NULL;\nfor(int i=0;i<n;i++){scanf("%d",&v);N*p=(N*)malloc(sizeof(N));p->d=v;p->nxt=NULL;if(!h)h=t=p;else{t->nxt=p;t=p;}}\nfor(N*p=h;p;p=p->nxt)printf("%d -> ",p->d);printf("NULL\\n");return 0;}',ex:'1 -> 2 -> 3 -> NULL\n',si:'3\n1 2 3',kn:'每个节点malloc分配。尾插法维护tail指针。',et:'408核心基础'},
+{ph:'链表 (408共4次考)',tg:'链表',df:'⭐⭐⭐',ti:'链表倒数第k个 (2009真题)',de:'用快慢指针找单链表倒数第k个节点。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct N{int d;struct N*nxt;}N;\nN* find(N*h,int k){N*fast=h,*slow=h;for(int i=0;i<k;i++)fast=fast->nxt;\nwhile(fast){fast=fast->nxt;slow=slow->nxt;}return slow;}\n// main中建表+调用省略',kn:'快指针先走k步，然后快慢一起走，快指针到NULL时慢指针=倒数第k个。',et:'408真题2009'},
+{ph:'链表 (408共4次考)',tg:'链表',df:'⭐⭐⭐',ti:'链表反转',de:'反转单链表。2019年408题的前置技能。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct N{int d;struct N*nxt;}N;\nN* rev(N*h){N*prev=NULL,*cur=h;while(cur){N*nxt=cur->nxt;cur->nxt=prev;prev=cur;cur=nxt;}return prev;}\n// 建表+调用省略',kn:'头插法反转。三指针：prev(前驱)、cur(当前)、nxt(暂存下一个)。',et:'408真题2019相关'},
+{ph:'栈与队列 (408几乎每年考)',tg:'栈队列',df:'⭐⭐⭐',ti:'循环队列 (每年必考)',de:'实现循环队列。408必背公式。',tp:'#include <stdio.h>\n#define M 5\nint q[M],f=0,r=0;\nint full(){return(r+1)%M==f;}\nint empty(){return f==r;}\nvoid eq(int x){if(!full()){q[r]=x;r=(r+1)%M;}}\nint dq(){if(empty())return-1;int x=q[f];f=(f+1)%M;return x;}\nint main(){eq(1);eq(2);eq(3);printf("%d\\n%d\\n%d\\n",dq(),dq(),dq());return 0;}',ex:'1\n2\n3\n',
+ kn:'<b>必背公式</b>：空→f==r，满→(r+1)%M==f，元素数→(r-f+M)%M。<br>为什么牺牲一个单元？否则空和满都满足f==r，无法区分。',et:'408每年至少1道题'},
+{ph:'栈与队列 (408几乎每年考)',tg:'栈队列',df:'⭐⭐⭐',ti:'基本计算器 (2024复旦真题)',de:'用栈实现加减法计算器。',tp:'#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\nint main(){char s[200];scanf("%s",s);int stk[100],top=-1,num=0,sign=1;\nfor(int i=0;s[i];i++){if(s[i]>=\'0\'&&s[i]<=\'9\'){num=num*10+(s[i]-\'0\');}\nelse{stk[++top]=sign*num;num=0;sign=(s[i]==\'+\')?1:-1;}}\nstk[++top]=sign*num;int ans=0;for(int i=0;i<=top;i++)ans+=stk[i];\nprintf("%d\\n",ans);return 0;}',ex:'5\n',si:'2+3-1+1',kn:'遇到+-号→把当前数(带符号)入栈→最后栈中所有数相加。',et:'2024复旦真题第3题'},
+{ph:'树 (408共3次考)',tg:'树',df:'⭐⭐⭐',ti:'二叉树遍历',de:'前序+中序→后序。408经典题型。',tp:'#include <stdio.h>\n#include <string.h>\nvoid post(char*pre,char*in,int len){if(len<=0)return;char r=pre[0];int p=0;while(in[p]!=r)p++;post(pre+1,in,p);post(pre+1+p,in+p+1,len-p-1);printf("%c",r);}\nint main(){char a[100],b[100];scanf("%s%s",a,b);post(a,b,strlen(a));printf("\\n");return 0;}',ex:'DEBFCA\n',si:'ABDECF DBEACF',kn:'前序首字母=根。中序定位根→左边=左子树，右边=右子树→递归。',et:'408经典：两种遍历求第三种'},
+{ph:'树 (408共3次考)',tg:'树',df:'⭐⭐⭐',ti:'WPL计算 (2014真题)',de:'二叉树带权路径长度=Σ(叶权值×深度)。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int w;struct T*l,*r;}T;\nint wpl(T*r,int d){if(!r)return 0;if(!r->l&&!r->r)return r->w*d;return wpl(r->l,d+1)+wpl(r->r,d+1);}\n// main建树省略',kn:'遇叶节点(左右孩子都为NULL)→返回权×深。否则返回左右WPL之和。',et:'408真题2014'},
+{ph:'树 (408共3次考)',tg:'树',df:'⭐⭐⭐',ti:'BST判断 (2022真题)',de:'判断一棵二叉树是否为二叉搜索树(左<根<右)。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int d;struct T*l,*r;}T;\nint isBST(T*r,int min,int max){if(!r)return 1;if(r->d<=min||r->d>=max)return 0;return isBST(r->l,min,r->d)&&isBST(r->r,r->d,max);}\n// main中调用isBST(root,-999999,999999)',kn:'递归：每个节点必须在(min,max)区间内。左子树上界=当前节点值，右子树下界=当前节点值。',et:'408真题2022'},
+{ph:'图 (2021-2024连续考!)',tg:'图',df:'⭐⭐⭐',ti:'入度出度 (2021/2023真题)',de:'计算有向图每个节点的入度和出度。',tp:'#include <stdio.h>\nint main(){int N;scanf("%d",&N);int G[N][N];\nfor(int i=0;i<N;i++)for(int j=0;j<N;j++)scanf("%d",&G[i][j]);\nfor(int i=0;i<N;i++){int o=0,in=0;\nfor(int j=0;j<N;j++){o+=G[i][j];in+=G[j][i];}\nprintf("节点%d: 出度%d 入度%d\\n",i,o,in);}return 0;}',ex:'节点0: 出度2 入度1\n节点1: 出度1 入度2\n',si:'3\n0 1 1\n1 0 0\n0 1 0',kn:'出度=第i行的和。入度=第i列的和。遍历行/列计数即可。',et:'408真题2021/2023'},
+{ph:'图 (2021-2024连续考!)',tg:'图',df:'⭐⭐⭐',ti:'BFS遍历',de:'邻接表存储的无向图，BFS输出遍历序列。',tp:'#include <stdio.h>\n#include <stdlib.h>\n#define M 100\ntypedef struct E{int to;struct E*nxt;}E;\nE*adj[M];int vis[M];\nvoid add(int u,int v){E*e=(E*)malloc(sizeof(E));e->to=v;e->nxt=adj[u];adj[u]=e;}\nvoid bfs(int s){int q[M],f=0,r=0;vis[s]=1;q[r++]=s;\nwhile(f<r){int u=q[f++];printf("%d ",u);\nfor(E*e=adj[u];e;e=e->nxt)if(!vis[e->to]){vis[e->to]=1;q[r++]=e->to;}}}\nint main(){int N,M,u,v;scanf("%d%d",&N,&M);\nfor(int i=0;i<M;i++){scanf("%d%d",&u,&v);add(u,v);add(v,u);}bfs(0);printf("\\n");return 0;}',ex:'0 1 2 3 \n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'BFS用队列。起点入队→循环：出队访问→未访问邻居入队。',et:'图遍历是图论算法的基础'},
+{ph:'图 (2021-2024连续考!)',tg:'图',df:'⭐⭐⭐',ti:'拓扑排序 (2024真题)',de:'判断有向图是否有拓扑序列(是否有环)。',tp:'#include <stdio.h>\n#include <string.h>\nint main(){int N,M,u,v;scanf("%d%d",&N,&M);int ind[100]={0},G[100][100];memset(G,0,sizeof(G));\nfor(int i=0;i<M;i++){scanf("%d%d",&u,&v);G[u][v]=1;ind[v]++;}\nint q[100],f=0,r=0,cnt=0;\nfor(int i=0;i<N;i++)if(ind[i]==0)q[r++]=i;\nwhile(f<r){int u=q[f++];cnt++;\nfor(int v=0;v<N;v++)if(G[u][v]){ind[v]--;if(ind[v]==0)q[r++]=v;}}\nprintf(cnt==N?"有拓扑序\\n":"有环\\n");return 0;}',ex:'有拓扑序\n',si:'4 4\n0 1\n0 2\n1 3\n2 3',kn:'Kahn算法：入度0者入队→出队删出边(邻居入度-1)→入度0者入队。全出=无环。',et:'408真题2024'},
+{ph:'查找',tg:'查找',df:'⭐⭐⭐',ti:'折半查找 (二分)',de:'在升序数组中用二分查找target。',tp:'#include <stdio.h>\nint bs(int a[],int n,int t){int l=0,r=n-1;\nwhile(l<=r){int m=(l+r)/2;if(a[m]==t)return m;if(a[m]<t)l=m+1;else r=m-1;}return-1;}\nint main(){int N,t;scanf("%d%d",&N,&t);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);printf("%d\\n",bs(a,N,t));return 0;}',ex:'3\n',si:'6 5\n1 3 5 7 9 11',kn:'每次比较中间元素，砍掉一半。O(logn)。<b>前提：必须有序！必须能随机存取！</b>链表不能二分。',et:'408常考：ASL计算、判定树'},
+{ph:'查找',tg:'查找',df:'⭐⭐⭐',ti:'哈希表 (链地址法)',de:'实现链地址法哈希表。hash(x)=x%7。',tp:'#include <stdio.h>\n#include <stdlib.h>\n#define M 7\ntypedef struct N{int d;struct N*nxt;}N;\nN* ht[M];\nvoid ins(int x){int h=x%M;N*p=(N*)malloc(sizeof(N));p->d=x;p->nxt=ht[h];ht[h]=p;}\nint find(int x){int h=x%M;for(N*p=ht[h];p;p=p->nxt)if(p->d==x)return 1;return 0;}\nint main(){ins(10);ins(17);ins(24);printf("%d\\n",find(10));return 0;}',ex:'1\n',kn:'链地址法=每个槽位拉一个链表。装填因子α=n/m。',et:'408每年至少1道哈希题'},
+{ph:'排序 (408核心)',tg:'排序',df:'⭐⭐⭐',ti:'快速排序 (最高频!)',de:'手写快排。408综合题最高频代码。',tp:'#include <stdio.h>\nvoid qs(int a[],int l,int r){\nif(l>=r)return;int p=a[l],i=l,j=r;\nwhile(i<j){while(i<j&&a[j]>=p)j--;a[i]=a[j];while(i<j&&a[i]<=p)i++;a[j]=a[i];}\na[i]=p;qs(a,l,i-1);qs(a,i+1,r);}\nint main(){int N;scanf("%d",&N);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);qs(a,0,N-1);\nfor(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'1 2 5 7 9 \n',si:'5\n5 2 7 1 9',kn:'分治：选pivot→小左大右→递归。O(nlogn)不稳定。最坏O(n²)。',et:'408综合题最高频代码！必须闭卷写。'},
+{ph:'排序 (408核心)',tg:'排序',df:'⭐⭐⭐',ti:'归并排序 (稳定!)',de:'手写归并排序。唯一稳定的O(nlogn)内部排序。',tp:'#include <stdio.h>\n#include <stdlib.h>\nvoid merge(int a[],int l,int m,int r){int n1=m-l+1,n2=r-m,*L=(int*)malloc(n1*4),*R=(int*)malloc(n2*4);for(int i=0;i<n1;i++)L[i]=a[l+i];for(int i=0;i<n2;i++)R[i]=a[m+1+i];int i=0,j=0,k=l;while(i<n1&&j<n2)a[k++]=(L[i]<=R[j])?L[i++]:R[j++];while(i<n1)a[k++]=L[i++];while(j<n2)a[k++]=R[j++];free(L);free(R);}\nvoid ms(int a[],int l,int r){if(l>=r)return;int m=(l+r)/2;ms(a,l,m);ms(a,m+1,r);merge(a,l,m,r);}\nint main(){int N;scanf("%d",&N);int a[N];for(int i=0;i<N;i++)scanf("%d",&a[i]);ms(a,0,N-1);for(int i=0;i<N;i++)printf("%d ",a[i]);printf("\\n");return 0;}',ex:'1 3 4 5 8 \n',si:'5\n5 3 8 1 4',kn:'分治→合并两个有序数组。O(nlogn)稳定。空间O(n)。外部排序基础。',et:'常考稳定性+空间复杂度对比'},
+{ph:'排序 (408核心)',tg:'排序',df:'⭐⭐⭐',ti:'排序对比表 (必默!)',de:'在printf中打印所有排序算法的复杂度+稳定性表格。',tp:'#include <stdio.h>\nint main(){\nprintf("算法      时间(平均)  空间    稳定?\\n");\nprintf("====================================\\n");\nprintf("插入排序  O(n^2)     O(1)    稳定\\n");\nprintf("冒泡排序  O(n^2)     O(1)    稳定\\n");\nprintf("选择排序  O(n^2)     O(1)    不稳定\\n");\nprintf("希尔排序  ~O(n^1.3)  O(1)    不稳定\\n");\nprintf("快速排序  O(nlogn)   O(logn) 不稳定\\n");\nprintf("堆排序    O(nlogn)   O(1)    不稳定\\n");\nprintf("归并排序  O(nlogn)   O(n)    稳定\\n");\nprintf("基数排序  O(d(n+r))  O(n+r)  稳定\\n");\nreturn 0;\n}',ex:'',kn:'这张表408选择题每年至少考1道。必须能默写。',et:'408选择题必考'},
 ];
 
-// --- 复旦机考 (真题题型) ---
-var LV_FD=[
-{ph:'模拟题',tg:'模拟',df:'⭐⭐',ti:'日期差值 (2019真题)',de:'两日期相差天数。',tp:'#include <stdio.h>\nint leap(int y){return(y%4==0&&y%100!=0)||y%400==0;}\nint doy(int y,int m,int d){\n  int ds[]={0,31,28,31,30,31,30,31,31,30,31,30,31};\n  if(leap(y))ds[2]=29;int s=0;\n  for(int i=1;i<m;i++)s+=ds[i];return s+d;\n}\nint main(){\n  int y1,m1,d1,y2,m2,d2;\n  scanf("%d%d%d%d%d%d",&y1,&m1,&d1,&y2,&m2,&d2);\n  // 计算\n  \n  return 0;\n}',ex:'10\n',si:'2019 2 5 2019 2 15',
- kn:'同年：dayOfYear相减。跨年：首年末+尾年初+中间整年天数。',et:'2019复旦真题'},
-{ph:'贪心',tg:'贪心',df:'⭐⭐⭐',ti:'打地鼠/最大选数 (2020真题)',de:'排序后选尽可能多的数，相邻差≥d。',tp:'#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return*(int*)a-*(int*)b;}\nint main(){\n  int N,d;scanf("%d%d",&N,&d);int a[N];\n  for(int i=0;i<N;i++)scanf("%d",&a[i]);\n  qsort(a,N,sizeof(int),cmp);\n  // 贪心：选第一个，找下一个≥当前+d的\n  \n  return 0;\n}',ex:'3\n',si:'5 3\n1 2 4 8 10',
- kn:'排序后贪心——能选就选。贪心策略：选最小的不会比选更大的差。',et:'2020复旦真题'},
-{ph:'DP',tg:'DP',df:'⭐⭐⭐⭐',ti:'01背包 (机考最高频)',de:'N物品容量C。dp[j]=max(dp[j],dp[j-w[i]]+v[i])',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){\n  int N,C,w[100],v[100];scanf("%d%d",&N,&C);\n  for(int i=1;i<=N;i++)scanf("%d%d",&w[i],&v[i]);\n  int dp[1001]={0};\n  for(int i=1;i<=N;i++)for(int j=C;j>=w[i];j--)dp[j]=max(dp[j],dp[j-w[i]]+v[i]);\n  printf("%d\\n",dp[C]);return 0;\n}',ex:'10\n',si:'3 5\n2 4\n3 5\n1 3',
- kn:'<b>dp[j]=max(dp[j],dp[j-w[i]]+v[i])</b>。j从大到小=每件最多选一次。从小到大=可以选无限次(完全背包)。',et:'DP是复旦机考第一高频'},
-{ph:'图论',tg:'图论',df:'⭐⭐⭐⭐',ti:'Dijkstra最短路',de:'N点M边有向图，求1到N最短距离。',tp:'#include <stdio.h>\n#include <string.h>\n#define MAX 100\n#define INF 0x3f3f3f3f\nint G[MAX][MAX],dist[MAX],vis[MAX];\nint main(){\n  int N,M,u,v,w;scanf("%d%d",&N,&M);\n  memset(G,0x3f,sizeof(G));\n  for(int i=0;i<M;i++){scanf("%d%d%d",&u,&v,&w);if(w<G[u][v])G[u][v]=w;}\n  memset(dist,0x3f,sizeof(dist));memset(vis,0,sizeof(vis));dist[1]=0;\n  for(int t=1;t<=N;t++){\n    int u=-1,md=INF;\n    for(int j=1;j<=N;j++)if(!vis[j]&&dist[j]<md){u=j;md=dist[j];}\n    if(u==-1)break;vis[u]=1;\n    for(int v=1;v<=N;v++)if(!vis[v]&&dist[u]+G[u][v]<dist[v])dist[v]=dist[u]+G[u][v];\n  }\n  printf("%d\\n",dist[N]);return 0;\n}',ex:'5\n',si:'4 5\n1 2 2\n1 3 5\n2 3 1\n2 4 5\n3 4 2',
- kn:'每次选距离最小未访问节点→标记→更新邻居。O(n²)。不能处理负权边。',et:'408+复旦双重重点'},
+// 复旦机考 - 18关, 按难度递进
+var LFD=[
+{ph:'热身：模拟题',tg:'模拟',df:'⭐',ti:'BMI分类 (2025真题1)',de:'输入身高(cm)体重(kg)，输出BMI等级。',tp:'#include <stdio.h>\nint main(){float h,w,bmi;scanf("%f%f",&h,&w);h/=100;bmi=w/(h*h);\nif(bmi<18.5)printf("Thin\\n");else if(bmi<24)printf("Normal\\n");else if(bmi<28)printf("Overweight\\n");else printf("Fat\\n");return 0;}',ex:'Normal\n',si:'170 65',kn:'BMI=体重/身高²。简单模拟题考边界条件——不能丢分。',et:'2025复旦真题第1题'},
+{ph:'热身：模拟题',tg:'模拟',df:'⭐⭐',ti:'日期差值 (2019真题)',de:'两个日期相差多少天。',tp:'#include <stdio.h>\nint leap(int y){return(y%4==0&&y%100!=0)||y%400==0;}\nint doy(int y,int m,int d){int ds[]={0,31,28,31,30,31,30,31,31,30,31,30,31};if(leap(y))ds[2]=29;int s=0;for(int i=1;i<m;i++)s+=ds[i];return s+d;}\nint main(){int y1,m1,d1,y2,m2,d2;scanf("%d%d%d%d%d%d",&y1,&m1,&d1,&y2,&m2,&d2);\nint ans=0;if(y1==y2)ans=doy(y2,m2,d2)-doy(y1,m1,d1);else{ans+=doy(y1,12,31)-doy(y1,m1,d1)+1;ans+=doy(y2,m2,d2);for(int y=y1+1;y<y2;y++)ans+=(leap(y)?366:365);}\nprintf("%d\\n",ans);return 0;}',ex:'10\n',si:'2019 2 5 2019 2 15',kn:'同日历年：dayOfYear相减。跨年：首年末+尾年初+中间整年。',et:'2019复旦真题'},
+{ph:'热身：模拟题',tg:'模拟',df:'⭐⭐',ti:'螺旋矩阵 (2025真题2)',de:'生成N×N顺时针螺旋矩阵。',tp:'#include <stdio.h>\nint main(){int N;scanf("%d",&N);int a[20][20],t=0,b=N-1,l=0,r=N-1,c=1;\nwhile(t<=b&&l<=r){for(int i=l;i<=r;i++)a[t][i]=c++;t++;\nfor(int i=t;i<=b;i++)a[i][r]=c++;r--;\nif(t<=b)for(int i=r;i>=l;i--)a[b][i]=c++;b--;\nif(l<=r)for(int i=b;i>=t;i--)a[i][l]=c++;l++;}\nfor(int i=0;i<N;i++){for(int j=0;j<N;j++)printf("%3d",a[i][j]);printf("\\n");}return 0;}',ex:'  1  2  3\n  8  9  4\n  7  6  5\n',si:'3',kn:'维护上下左右四个边界，每走完一边收缩边界。',et:'2025复旦真题第2题'},
+{ph:'贪心',tg:'贪心',df:'⭐⭐⭐',ti:'打地鼠 (2020真题)',de:'选最多数字使排序后相邻差≥d。',tp:'#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return*(int*)a-*(int*)b;}\nint main(){int N,d;scanf("%d%d",&N,&d);int a[N];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);qsort(a,N,sizeof(int),cmp);\nint cnt=1,last=a[0];for(int i=1;i<N;i++)if(a[i]-last>=d){cnt++;last=a[i];}\nprintf("%d\\n",cnt);return 0;}',ex:'3\n',si:'5 3\n1 2 4 8 10',kn:'排序后选第一个，找≥当前+d的最小下一个。贪心选择性质。',et:'2020复旦真题'},
+{ph:'贪心',tg:'贪心',df:'⭐⭐⭐',ti:'教室分配 (2025真题3)',de:'N个活动[开始,结束)，最少几个教室？',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int s,e;}A;\nint cmp(const void*a,const void*b){return((A*)a)->s-((A*)b)->s;}\nint main(){int N;scanf("%d",&N);A a[N];\nfor(int i=0;i<N;i++)scanf("%d%d",&a[i].s,&a[i].e);qsort(a,N,sizeof(A),cmp);\nint rooms[100],cnt=0;\nfor(int i=0;i<N;i++){int found=0;\nfor(int j=0;j<cnt;j++)if(rooms[j]<=a[i].s){rooms[j]=a[i].e;found=1;break;}\nif(!found)rooms[cnt++]=a[i].e;}\nprintf("%d\\n",cnt);return 0;}',ex:'2\n',si:'4\n1 3\n2 4\n3 5\n1 4',kn:'按开始时间排序，维护结束时间列表。找到可复用的就复用，否则新开。',et:'2025复旦真题第3题'},
+{ph:'搜索',tg:'搜索',df:'⭐⭐⭐',ti:'BFS最短路径',de:'N×M网格0可走1为墙，(0,0)到(N-1,M-1)最短步数。',tp:'#include <stdio.h>\n#define M 100\nint g[M][M],vis[M][M],N,m,dx[]={0,0,1,-1},dy[]={1,-1,0,0};\ntypedef struct{int r,c,st;}Q;\nint main(){scanf("%d%d",&N,&m);\nfor(int i=0;i<N;i++)for(int j=0;j<m;j++)scanf("%d",&g[i][j]);\nQ q[10000];int f=0,r=0;q[r++]=(Q){0,0,0};vis[0][0]=1;\nwhile(f<r){Q u=q[f++];if(u.r==N-1&&u.c==m-1){printf("%d\\n",u.st);return 0;}\nfor(int k=0;k<4;k++){int nr=u.r+dx[k],nc=u.c+dy[k];\nif(nr>=0&&nr<N&&nc>=0&&nc<m&&!g[nr][nc]&&!vis[nr][nc]){vis[nr][nc]=1;q[r++]=(Q){nr,nc,u.st+1};}}}\nprintf("No path\\n");return 0;}',ex:'4\n',si:'3 3\n0 0 0\n1 1 0\n0 0 0',kn:'BFS保证无权图第一次到达=最短路径。用队列存储(row,col,步数)。四个方向dx/dy数组遍历。',et:'机考搜索类高频题'},
+{ph:'搜索',tg:'搜索',df:'⭐⭐⭐',ti:'N皇后 (回溯经典)',de:'N×N棋盘放N个互相不攻击的皇后，输出方案数。',tp:'#include <stdio.h>\nint N,cnt=0,col[20],d1[40],d2[40];\nvoid dfs(int row){if(row==N){cnt++;return;}\nfor(int c=0;c<N;c++){if(!col[c]&&!d1[row+c]&&!d2[row-c+N]){col[c]=d1[row+c]=d2[row-c+N]=1;dfs(row+1);col[c]=d1[row+c]=d2[row-c+N]=0;}}}\nint main(){scanf("%d",&N);dfs(0);printf("%d\\n",cnt);return 0;}',ex:'2\n',si:'4',kn:'回溯=DFS+剪枝。每行放皇后→检查列、正对角线(row+col)、反对角线(row-col+N)是否被占→递归。',et:'复旦机考回溯题变种'},
+{ph:'动态规划(复旦最高频!)',tg:'DP',df:'⭐⭐⭐⭐',ti:'01背包',de:'DP入门第一课。dp[j]=max(dp[j],dp[j-w[i]]+v[i])',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N,C,w[100],v[100];scanf("%d%d",&N,&C);\nfor(int i=1;i<=N;i++)scanf("%d%d",&w[i],&v[i]);\nint dp[1001]={0};\nfor(int i=1;i<=N;i++)for(int j=C;j>=w[i];j--)dp[j]=max(dp[j],dp[j-w[i]]+v[i]);\nprintf("%d\\n",dp[C]);return 0;}',ex:'10\n',si:'3 5\n2 4\n3 5\n1 3',kn:'<b>dp[j]=max(dp[j],dp[j-w[i]]+v[i])</b><br><b>⚠️ j必须从大到小！</b>从小到大的话同一件会被选多次(变成完全背包)。<br>01背包=每件最多选1次。完全背包=每件无限选=j从小到大。',et:'复旦机考DP第一高频'},
+{ph:'动态规划(复旦最高频!)',tg:'DP',df:'⭐⭐⭐⭐',ti:'完全背包',de:'每件物品可选无限次。j从小到大！',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N,C,w[100],v[100];scanf("%d%d",&N,&C);\nfor(int i=1;i<=N;i++)scanf("%d%d",&w[i],&v[i]);\nint dp[1001]={0};\nfor(int i=1;i<=N;i++)for(int j=w[i];j<=C;j++)dp[j]=max(dp[j],dp[j-w[i]]+v[i]);\nprintf("%d\\n",dp[C]);return 0;}',ex:'15\n',si:'3 5\n2 4\n3 5\n1 3',kn:'与01背包唯一区别：<b>j从小到大</b>。这样dp[j-w[i]]可能已经选过这件物品→实现无限选。',et:'DP核心变种'},
+{ph:'动态规划(复旦最高频!)',tg:'DP',df:'⭐⭐⭐⭐',ti:'LIS最长上升子序列',de:'数组中找最长严格递增的子序列长度。DP经典。',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N;scanf("%d",&N);int a[N],dp[N],ans=0;\nfor(int i=0;i<N;i++){scanf("%d",&a[i]);dp[i]=1;\nfor(int j=0;j<i;j++)if(a[j]<a[i])dp[i]=max(dp[i],dp[j]+1);\nans=max(ans,dp[i]);}\nprintf("%d\\n",ans);return 0;}',ex:'4\n',si:'6\n1 5 2 4 3 6',kn:'<b>dp[i]=以a[i]结尾的最长上升子序列长度</b>。dp[i]=max(dp[j]+1)其中a[j]<a[i]。O(n²)。',et:'LIS是DP经典题'},
+{ph:'动态规划(复旦最高频!)',tg:'DP',df:'⭐⭐⭐⭐',ti:'最长重复子数组 (2024真题2)',de:'两数组求最长公共连续子数组长度。',tp:'#include <stdio.h>\nint max(int a,int b){return a>b?a:b;}\nint main(){int N,M;scanf("%d%d",&N,&M);int a[N],b[M];\nfor(int i=0;i<N;i++)scanf("%d",&a[i]);\nfor(int i=0;i<M;i++)scanf("%d",&b[i]);\nint dp[2][101]={0},ans=0;\nfor(int i=1;i<=N;i++)for(int j=1;j<=M;j++){\nif(a[i-1]==b[j-1]){dp[i%2][j]=dp[(i-1)%2][j-1]+1;ans=max(ans,dp[i%2][j]);}\nelse dp[i%2][j]=0;}\nprintf("%d\\n",ans);return 0;}',ex:'3\n',si:'5 4\n1 2 3 2 1\n3 2 1 4',kn:'dp[i][j]=a[i-1]==b[j-1]?dp[i-1][j-1]+1:0。取所有dp最大值。滚动数组优化。',et:'2024复旦真题第2题'},
+{ph:'图论',tg:'图论',df:'⭐⭐⭐⭐',ti:'Dijkstra最短路',de:'N点M边有向图，求1到N最短距离。',tp:'#include <stdio.h>\n#include <string.h>\n#define M 100\n#define INF 0x3f3f3f3f\nint G[M][M],dist[M],vis[M];\nint main(){int N,m,u,v,w;scanf("%d%d",&N,&m);memset(G,0x3f,sizeof(G));\nfor(int i=0;i<m;i++){scanf("%d%d%d",&u,&v,&w);if(w<G[u][v])G[u][v]=w;}\nmemset(dist,0x3f,sizeof(dist));memset(vis,0,sizeof(vis));dist[1]=0;\nfor(int t=1;t<=N;t++){int u=-1,md=INF;\nfor(int j=1;j<=N;j++)if(!vis[j]&&dist[j]<md){u=j;md=dist[j];}\nif(u==-1)break;vis[u]=1;\nfor(int v=1;v<=N;v++)if(!vis[v]&&dist[u]+G[u][v]<dist[v])dist[v]=dist[u]+G[u][v];}\nprintf("%d\\n",dist[N]);return 0;}',ex:'5\n',si:'4 5\n1 2 2\n1 3 5\n2 3 1\n2 4 5\n3 4 2',kn:'每次选距离最小未访问节点→标记→更新邻居。O(n²)。不能处理负权边。',et:'408+复旦双重重点'},
+{ph:'图论',tg:'图论',df:'⭐⭐⭐⭐',ti:'最短路径条数 (2024真题5)',de:'在Dijkstra基础上统计最短路径有几种走法。',tp:'#include <stdio.h>\n#include <string.h>\n#define M 100\n#define INF 0x3f3f3f3f\nint G[M][M],dist[M],cnt[M],vis[M];\nint main(){int N,m,u,v,w;scanf("%d%d",&N,&m);memset(G,0x3f,sizeof(G));\nfor(int i=0;i<m;i++){scanf("%d%d%d",&u,&v,&w);G[u][v]=w;}\nmemset(dist,0x3f,sizeof(dist));memset(vis,0,sizeof(vis));dist[1]=0;cnt[1]=1;\nfor(int t=1;t<=N;t++){int u=-1,md=INF;\nfor(int j=1;j<=N;j++)if(!vis[j]&&dist[j]<md){u=j;md=dist[j];}\nif(u==-1)break;vis[u]=1;\nfor(int v=1;v<=N;v++)if(!vis[v]){if(dist[u]+G[u][v]<dist[v]){dist[v]=dist[u]+G[u][v];cnt[v]=cnt[u];}\nelse if(dist[u]+G[u][v]==dist[v])cnt[v]+=cnt[u];}}\nprintf("%d\\n",cnt[N]);return 0;}',ex:'2\n',si:'4 5\n1 2 1\n1 3 1\n2 4 1\n3 4 1\n2 3 1',kn:'Dijkstra+路径计数：找到更短→cnt[v]=cnt[u]；找到相同→cnt[v]+=cnt[u]。',et:'2024复旦真题第5题'},
+{ph:'综合',tg:'综合',df:'⭐⭐⭐',ti:'回文判断',de:'判断字符串是否为回文（正读反读一样）。',tp:'#include <stdio.h>\n#include <string.h>\nint main(){char s[200];scanf("%s",s);int l=strlen(s),ok=1;\nfor(int i=0,j=l-1;i<j;i++,j--)if(s[i]!=s[j]){ok=0;break;}\nprintf(ok?"是回文\\n":"不是回文\\n");return 0;}',ex:'是回文\n',si:'radar',kn:'双指针i在头j在尾，向中间移动。都相等=回文。',et:'机考常见字符串题'},
+{ph:'综合',tg:'综合',df:'⭐⭐⭐',ti:'括号匹配 (栈应用)',de:'判断括号序列是否合法。左括号入栈，右括号匹配出栈。',tp:'#include <stdio.h>\n#include <string.h>\nint main(){char s[200];scanf("%s",s);char stk[200];int top=-1,ok=1;\nfor(int i=0;s[i];i++){if(s[i]==\'(\')stk[++top]=\'(\';\nelse if(s[i]==\')\'){if(top>=0&&stk[top]==\'(\')top--;else{ok=0;break;}}}\nprintf(top==-1&&ok?"合法\\n":"不合法\\n");return 0;}',ex:'合法\n',si:'(())()',kn:'栈经典应用。左括号入栈，右括号→看栈顶是否匹配→匹配则出栈。最后栈空=合法。',et:'栈的经典机考题'},
+{ph:'综合',tg:'综合',df:'⭐⭐⭐',ti:'二叉树子结构 (2023真题)',de:'判断树B是否为树A的子树。',tp:'#include <stdio.h>\n#include <stdlib.h>\ntypedef struct T{int d;struct T*l,*r;}T;\nint same(T*a,T*b){if(!a&&!b)return 1;if(!a||!b)return 0;return a->d==b->d&&same(a->l,b->l)&&same(a->r,b->r);}\nint isSub(T*A,T*B){if(!A)return 0;if(same(A,B))return 1;return isSub(A->l,B)||isSub(A->r,B);}\n// main建树+调用省略',kn:'①same函数判断两树是否完全相同 ②isSub：先看根→same→否则递归去左右子树。',et:'2023复旦真题'},
 ];
 
-// ===================== LEARN ENGINE =====================
-var lvState={c:{cur:0,levels:LV_C,k:K.C},ds:{cur:0,levels:LV_DS,k:K.DS},fd:{cur:0,levels:LV_FD,k:K.FD}};
-
-function buildLvSidebar(mk){
-  var st=lvState[mk];var levels=st.levels;var done=g(st.k);
-  var h='',lastPh='';
+// ========== LEARN ENGINE ==========
+function buildSidebar(mk,levels,kKey){
+  var done=g(kKey);var h='',lp='';
   for(var i=0;i<levels.length;i++){
     var l=levels[i];
-    if(l.ph!==lastPh){h+='<div class="ph">📌 '+l.ph+'</div>';lastPh=l.ph;}
-    h+='<button class="lv'+(i===st.cur?' on':'')+(done[i]?' done':'')+'" onclick="goLevel(\''+mk+'\','+i+')"><span class="n">'+(i+1)+'</span>'+l.ti+'<span class="ck">✓</span></button>';
+    if(l.ph!==lp){h+='<div class="ph">📌 '+l.ph+'</div>';lp=l.ph;}
+    h+='<button class="lv'+(i===cur[mk]?' on':'')+(done[i]?' done':'')+'" onclick="goLv(\''+mk+'\','+i+')"><span class="n">'+(i+1)+'</span>'+l.ti+'<span class="ck">✓</span></button>';
   }
-  var sb=document.getElementById('lvs-'+mk);if(sb)sb.innerHTML=h;
+  document.getElementById('lvs-'+mk).innerHTML=h;
 }
 
-function goLevel(mk,i){
-  var st=lvState[mk];st.cur=i;var l=st.levels[i];var done=g(st.k);
-  var ck='lv_code_'+mk+'_'+i;
-  // update sidebar
+function goLv(mk,i){
+  cur[mk]=i;var levels=LU[mk],l=levels[i];var kKey=K[mk.toUpperCase()];var done=g(kKey);
+  var ck='lv_'+mk+'_'+i;
   var sbs=document.querySelectorAll('#lvs-'+mk+' .lv');
   for(var j=0;j<sbs.length;j++){sbs[j].classList.toggle('on',j===i);sbs[j].classList.toggle('done',!!done[j]);}
-  // update code
-  var ta=document.getElementById('code-'+mk);ta.value=localStorage[ck]||l.tp;
-  updateLn(mk);
-  // update left panel
+  var ta=document.getElementById('code-'+mk);ta.value=localStorage[ck]||l.tp;upLn(mk);
   var left=document.getElementById('lvl-'+mk);
   var kh=l.kn?'<div class="kb"><h4>📖 大白话讲解</h4>'+l.kn+'</div>':'';
   if(l.et)kh+='<div class="exm">🎯 <b>真题链接</b>：'+l.et+'</div>';
@@ -304,116 +310,74 @@ function goLevel(mk,i){
   if(l.si)io+='<div class="il">📥 样例输入</div><pre>'+esc(l.si)+'</pre>';
   io+='<div class="il">📤 期望输出</div><pre>'+esc(l.ex)+'</pre></div>';
   left.innerHTML='<h3 style="font-size:16px;margin-bottom:4px">关卡 '+(i+1)+': '+l.ti+'</h3><div style="font-size:10px;color:var(--m);margin-bottom:10px">'+l.ph+' · '+l.tg+'</div>'+kh+'<p style="font-size:13px;line-height:1.7;margin-bottom:10px">'+l.de+'</p>'+io;
-  // reset output
   var out=document.getElementById('out-'+mk);out.textContent='— 点击运行查看结果 —';out.style.color='var(--m)';
 }
 
-function updateLn(mk){
-  var ta=document.getElementById('code-'+mk);if(!ta)return;
-  var n=ta.value.split('\n').length;var h='';
-  for(var i=1;i<=n;i++)h+='<div>'+i+'</div>';
-  var ln=document.getElementById('ln-'+mk);if(ln)ln.innerHTML=h;
-}
+function upLn(mk){var ta=document.getElementById('code-'+mk);if(!ta)return;var n=ta.value.split('\n').length,h='';for(var i=1;i<=n;i++)h+='<div>'+i+'</div>';document.getElementById('ln-'+mk).innerHTML=h}
+
+var LU={c:LC,ds:LDS,fd:LFD};
+var inited={c:false,ds:false,fd:false};
 
 function initLearn(mk){
-  buildLvSidebar(mk);goLevel(mk,lvState[mk].cur);
+  if(inited[mk]){document.getElementById('lvl-'+mk).style.display='block';return;}
+  inited[mk]=true;var levels=LU[mk],kKey=K[mk.toUpperCase()];
+  buildSidebar(mk,levels,kKey);goLv(mk,cur[mk]);
   var ta=document.getElementById('code-'+mk);
-  ta.oninput=function(){updateLn(mk)};
+  ta.oninput=function(){upLn(mk)};
   ta.onkeydown=function(e){if(e.key==='Tab'){e.preventDefault();var s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'\t'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+1}};
-  ta.onscroll=function(){var ln=document.getElementById('ln-'+mk);if(ln)ln.scrollTop=ta.scrollTop};
+  ta.onscroll=function(){document.getElementById('ln-'+mk).scrollTop=ta.scrollTop};
 }
 
 async function runCode(mk){
-  var st=lvState[mk];var l=st.levels[st.cur];var code=document.getElementById('code-'+mk).value;
-  var ck='lv_code_'+mk+'_'+st.cur;localStorage[ck]=code;
-  var out=document.getElementById('out-'+mk);out.textContent='⏳ 编译运行中...';out.style.color='#d2991d';
+  var levels=LU[mk],l=levels[cur[mk]],kKey=K[mk.toUpperCase()];
+  var code=document.getElementById('code-'+mk).value;localStorage['lv_'+mk+'_'+cur[mk]]=code;
+  var out=document.getElementById('out-'+mk);out.textContent='⏳ 编译中...';out.style.color='#d2991d';
   try{
     var r=await fetch('https://emkc.org/api/v2/piston/execute',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({language:'c',version:'10.2.0',files:[{name:'main.c',content:code}],stdin:l.si||'',run_timeout:5000,compile_timeout:10000})});
     var d=await r.json();out.style.color='#0f0';var re='';
     if(d.compile&&d.compile.stderr)re+='【编译错误】\n'+d.compile.stderr+'\n';
-    if(d.run&&d.run.stderr)re+=(re?'\n':'')+'【运行错误】\n'+d.run.stderr+'\n';
+    if(d.run&&d.run.stderr)re+=(re?'\n':'')+'【运行时错误】\n'+d.run.stderr+'\n';
     if(d.run&&d.run.stdout)re+=d.run.stdout;
     if(!re)re='(无输出)';out.textContent=re;
     if(d.run&&d.run.stdout&&l.ex&&d.run.stdout===l.ex&&(!d.compile||!d.compile.stderr)){
-      var done=g(st.k);done[st.cur]=true;s(st.k,done);
+      var done=g(kKey);done[cur[mk]]=true;s(kKey,done);
       var sbs=document.querySelectorAll('#lvs-'+mk+' .lv');
       for(var j=0;j<sbs.length;j++)sbs[j].classList.toggle('done',!!done[j]);
       var j=g(K.J);if(!j[TODAY])j[TODAY]='';s(K.J,j);toast('✅ 通关！');
     }
-  }catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n\n本地运行: gcc main.c -o main && ./main\n\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}
+  }catch(e){out.style.color='var(--m)';out.textContent='⚠️ 在线编译器不可用(翻墙断了?)\n\n本地: gcc main.c -o main && ./main\n\n'+(l.si?'输入:'+l.si+'\n':'')+'期望输出:'+l.ex;}
 }
 
-function resetCode(mk){var st=lvState[mk];document.getElementById('code-'+mk).value=st.levels[st.cur].tp;updateLn(mk)}
+function resetCode(mk){document.getElementById('code-'+mk).value=LU[mk][cur[mk]].tp;upLn(mk)}
 
-// ===================== C语言百科 =====================
-var CREF_DATA=[
-{ch:'1. 基础语法 — 像搭积木一样',items:[
-{t:'变量 = 贴标签的盒子',b:'<table class="kc-table"><tr><td><code>int</code></td><td>装整数的盒子</td><td>比如年龄、数量</td><td><code>%d</code></td></tr><tr><td><code>float</code></td><td>装小数的盒子</td><td>6-7位精度</td><td><code>%f</code></td></tr><tr><td><code>double</code></td><td>装更准的小数</td><td>15位精度</td><td><code>%lf</code></td></tr><tr><td><code>char</code></td><td>装单个字符</td><td>用单引号\'a\'</td><td><code>%c</code></td></tr></table><br><b>💡 声明+赋值一步到位</b>：<code>int age=20;</code>="拿个int盒子贴标签age，放20进去"。'},
-{t:'printf = 对着屏幕喊话',b:'<code>printf("我叫%s, 今年%d岁", name, age);</code><br>%s、%d是"洞"——按顺序用后面的变量填进去。<br><code>\\n</code> = 换行（不加的话所有内容粘在一行）。<br><code>\\t</code> = 跳格（对齐用）。<br><b>⚠️ 常见错</b>：百分号个数和变量个数对不上→打印乱码。'},
-{t:'scanf = 等用户输入',b:'<code>scanf("%d", &age);</code> = "等着！让用户输入一个整数，存到age的地址里"。<br><b>整数/浮点数加&，字符串不加&</b>——数组名本身就是地址。<br><b>💡 为什么？</b> scanf需要知道"东西放哪"所以要地址。printf只需要"看看东西是什么"所以不用地址。'},
-{t:'= vs == （头号陷阱！）',b:'<code>=</code> = 赋值："把右边放进左边"。<code>if(x=5)</code> 永远为真！<br><code>==</code> = 比较："它们相等吗？"。<code>if(x==5)</code> 才是判断。<br><b>💡 预防法</b>：写 <code>if(5==x)</code> 而不是 <code>if(x==5)</code>——如果写成<code>if(5=x)</code>编译器会报错（因为不能给5赋值）。'},
-]},{ch:'2. 指针 — C语言的灵魂（其实没那么可怕）',items:[
-{t:'指针 = 存门牌号的纸条',b:'<code>int *p;</code> = p是一张纸条，上面可以写一个int房子的门牌号。<br><code>&x</code> = "告诉我x家的门牌号"<br><code>*p</code> = "去纸条p写的那个门牌号，看/改里面的东西"<br><br><b>💡 三个经典场景</b>：<br>① 函数要改调用者的变量→传指针(地址传递)<br>② 动态分配内存→malloc返回指针<br>③ 构建链表/树→每个节点通过指针连下一个'},
-{t:'指针和数组是亲戚',b:'<code>a[i]</code> 就是 <code>*(a+i)</code> 的简写——C编译器内部就是这么翻译的。<br>数组名 = 指向第一个元素的指针（不能改）。<br><pre>int a[]={10,20,30};\nint *p=a;   // p指向a[0]\nprintf("%d",*(p+1)); // 20 = a[1]</pre>'},
-{t:'malloc = 跟操作系统要内存',b:'<code>int *a = (int*)malloc(N * sizeof(int));</code> = "操作系统！给我N个int盒子用用！"<br>用完要还：<code>free(a);</code><br><b>⚠️ 忘记free = 借东西不还 → 内存泄漏 → 程序越跑越慢</b><br><b>⚠️ free后继续用 = 把还回去的东西再拿来用 → 悬垂指针 → 崩溃</b>'},
-]},{ch:'3. 算法常用技巧',items:[
-{t:'双指针技巧',b:'<b>对撞指针</b>：一头一尾向中间走→回文判断、反转数组<br><b>快慢指针</b>：快走2步慢走1步→找链表中点、检测环<br><b>滑动窗口</b>：维护一个窗口[L,R]→最长无重复子串'},
-{t:'递归 = 俄罗斯套娃',b:'三个要素：① 什么时候停 ② 怎么变小 ③ 怎么组合<br><b>什么时候用递归？</b> 树/图遍历、分治（快排/归并排序）。<br><b>什么时候用循环？</b> 简单重复操作。<br><b>⚠️ 递归太深 = 栈溢出</b>'},
-]}];
-
+// ========== C百科 ==========
 function buildCRef(){
-  var h='<h3>📚 C语言百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">融合 K&R + K.N.King + Beej\'s Guide 三家精华 · 点击展开</p>';
-  for(var i=0;i<CREF_DATA.length;i++){
-    var ch=CREF_DATA[i];
-    h+='<div class="ks" id="cref-'+i+'"><div class="kh" onclick="document.getElementById(\'cref-'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';
-    for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>';}
-    h+='</div></div>';
-  }
+  var data=[{ch:'变量与数据类型',items:[
+    {t:'变量=贴标签的盒子',b:'<code>int age=20;</code>="拿个int盒子贴标签age，放20"。<br><table><tr><td><code>int</code></td><td>整数</td><td>%d</td></tr><tr><td><code>float</code></td><td>小数(6位精度)</td><td>%f</td></tr><tr><td><code>double</code></td><td>双精度(15位)</td><td>%lf</td></tr><tr><td><code>char</code></td><td>单字符</td><td>%c</td></tr></table>'},
+    {t:'printf=喊话',b:'<code>printf("我叫%s，%d岁",name,age);</code> %s和%d是洞，用后面变量填。每个%对用一个变量。<span class="tag trap">陷阱</span> %个数和变量个数对不上→乱码。'},
+    {t:'scanf=等待输入',b:'<code>scanf("%d",&x);</code> =等用户输入整数。整数/浮点加&，<b>字符串不加&</b>(数组名就是地址)。<span class="tag trap">陷阱</span> =是赋值，==是比较！if(x=5)永远为真。'},
+  ]},{ch:'指针=存门牌号的纸条',items:[
+    {t:'&和*',b:'<code>&x</code>="x的门牌号"。<code>*p</code>="去门牌号p指的地方"。<br><code>int *p=&x;</code> → p纸条写x地址 →<code>*p=100;</code>→改x。'},
+    {t:'指针与数组',b:'<code>a[i]</code>≡<code>*(a+i)</code>。数组名=指向首元素的指针常量。'},
+    {t:'值vs地址传递',b:'值传递=给复印件(改不了原件)。地址传递=给地址(能改原件)。<code>swap(&x,&y)</code>传门牌号→交换房子里的东西。'},
+  ]},{ch:'结构体与malloc',items:[
+    {t:'struct',b:'<code>struct Student{char name[20];int score;};</code><br>用<code>.</code>访问成员。<code>typedef</code>简化：<code>typedef struct{...}Stu;</code>'},
+    {t:'malloc/free',b:'<code>int*a=(int*)malloc(N*sizeof(int));</code>="跟操作系统借N个int盒子"。用完<code>free(a);</code>="还回去"。<span class="tag trap">陷阱</span> 忘free=内存泄漏。free后用=崩溃。'},
+  ]}];
+  var h='<h3>📚 C语言百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">K&R + K.N.King + Beej 三家精华</p>';
+  for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="cr'+i+'"><div class="kh" onclick="document.getElementById(\'cr'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
   document.getElementById('cref-area').innerHTML=h;
 }
 
-// ===================== 408百科 =====================
-var DSK_DATA=[
-{ch:'第1章 绪论 — 先搞懂"什么是数据结构"',items:[
-{t:'数据结构 = 数据的组织方式',b:'就像整理房间：衣服可以叠起来(栈)、挂起来(树)、放抽屉(数组)、用衣架串起来(链表)。<br><b>三要素</b>：①逻辑结构(谁和谁有关系) ②存储结构(怎么放内存里) ③运算(能做什么操作)<br><span class="tag exam">408考点</span> 同一逻辑结构可用多种存储方式实现。'},
-{t:'时间复杂度 = 算法有多快',b:'O(n) = 数据量翻倍，时间也翻倍。<br>O(n²) = 数据量翻倍，时间变4倍。<br>O(logn) = 数据量翻倍，时间只加一个常数（二分查找）。<br><b>速记口诀：单循环→O(n)，双层嵌套→O(n²)，每次折半→O(logn)</b>'},
-]},{ch:'第2章 线性表 — 排队的数据',items:[
-{t:'顺序表 = 电影院座位',b:'✅ 找第5排3座直接过去→O(1) (随机存取)<br>❌ 中间加一个人→整排往后挪→O(n)<br><b>408公式</b>：第i个位置插入需移动<b>n-i+1</b>个元素。'},
-{t:'链表 = 寻宝游戏',b:'每个宝箱里有一张纸条写着下一个宝箱在哪。找第10个宝箱→必须经过前9个→O(n)。<br>✅ 加/删宝箱很方便→O(1)<br>❌ 找宝箱很慢→O(n)<br><b>头插法</b>=每次把新宝箱放最前面→结果是逆序。<b>尾插法</b>=维护最后一个宝箱的位置→顺序。'},
-{t:'选顺序表还是链表？',b:'题目看到"随机访问""二分查找"→必须顺序表。<br>题目看到"频繁插入删除""长度经常变"→链表。<br><span class="tag trap">陷阱</span> 链表也能二分查找吗？不能——链表不能随机存取！'},
-]},{ch:'第3章 栈和队列 — 生活中的数据结构',items:[
-{t:'栈(Stack) = 一摞盘子',b:'<b>后进先出(LIFO)</b>。最后放上去的盘子，最先拿下来。<br><b>用在哪？</b>浏览器的后退按钮、Ctrl+Z撤销、函数的递归调用。'},
-{t:'队列(Queue) = 排队买奶茶',b:'<b>先进先出(FIFO)</b>。先来的人先买到。<br><b>循环队列核心公式(必背！)</b>：<br>空→front==rear · 满→(rear+1)%MAX==front<br>元素数→(rear-front+MAX)%MAX<br><b>为什么牺牲一个格子？</b> 否则"空"和"满"都满足front==rear，分不清。'},
-]},{ch:'第4章 树 — 像族谱一样的结构',items:[
-{t:'二叉树5条性质',b:'① 第i层最多2<sup>i-1</sup>个节点<br>② k层满树共2<sup>k</sup>-1个节点<br>③ <b>叶节点=度为2节点+1</b>(最重要!)<br>④ n节点深度=⌊log₂n⌋+1<br>⑤ 编号i→左孩子2i,右孩子2i+1,父⌊i/2⌋<br><b>💡 性质③推导</b>：除了根，每个节点有一条边连向父节点。列方程即得。'},
-{t:'三种遍历 = 三条参观路线',b:'<b>前序</b>：进门先看→左边→右边<br><b>中序</b>：左边→进门看→右边 (BST中序=升序!)<br><b>后序</b>：左边→右边→进门看<br><span class="tag trap">⚠️</span> 只有前序+后序无法唯一确定树！必须包含<b>中序</b>。'},
-{t:'哈夫曼树 = 最优压缩',b:'出现频率高的字母用短编码，频率低的用长编码→文件最小。<br>构建：每次选两个最小的合并。<br><b>WPL</b> = 每个叶子(权值×深度)的总和。'},
-]},{ch:'第5章 图 — 2021-2024连续4年考！',items:[
-{t:'图的存储：邻接矩阵 vs 邻接表',b:'<b>邻接矩阵</b>：N×N格子，G[i][j]=1表示i和j之间有线。适合边多的图(稠密)。<br><b>邻接表</b>：每个节点挂一个列表存邻居。适合边少的图(稀疏)。'},
-{t:'DFS/BFS = 两种搜索方式',b:'<b>DFS</b>(深度优先) = 沿一条路走到底，不通了回头。用栈/递归。<br><b>BFS</b>(广度优先) = 一层层往外扩散。用队列。找最短路径用BFS。'},
-{t:'Dijkstra = 导航找最短路径',b:'每次选"离起点最近"的未访问节点→用这个节点去更新它的邻居。<br><b>不能处理负权边！</b><br><span class="tag exam">408+复旦双重重点</span>'},
-]},{ch:'第6章 查找 — 快速找到你要的数据',items:[
-{t:'二分查找 = 猜数字游戏',b:'每次猜中间数→太大→调小→太小→调大。每次都砍掉一半。O(logn)。<br><b>前提：必须有序！必须能随机存取！</b>链表不能二分查找。'},
-{t:'BST二叉搜索树',b:'左小右大。中序遍历=升序。查找、插入都是递归比较然后向左或向右。<br>平均O(logn)，最坏O(n)(退化链表)。<br><b>AVL</b>=平衡的BST（左右子树高度差≤1，通过旋转维持）。'},
-{t:'哈希表 = 快递柜',b:'hash(key)=key%N → 直接知道在哪个柜子。冲突时：①找下一个空柜子(开放定址)或②同一个柜子挂多个(链地址)。'},
-]},{ch:'第7章 排序 — 把数据排整齐',items:[
-{t:'排序对比表 (必默写!)',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>算法</th><th>平均时间</th><th>空间</th><th>稳定?</th></tr><tr><td>插入</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>冒泡</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>选择</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>快排</b></td><td><b>O(nlogn)</b></td><td>O(logn)</td><td><b>❌</b></td></tr><tr><td><b>堆排</b></td><td><b>O(nlogn)</b></td><td>O(1)</td><td><b>❌</b></td></tr><tr><td><b>归并</b></td><td><b>O(nlogn)</b></td><td>O(n)</td><td><b>✅</b></td></tr></table>'},
-{t:'快排为什么快了又可能慢了？',b:'选pivot→小的放左大的放右→递归左右。<br><b>最好</b>O(nlogn)：每次pivot恰好把数组分成两半<br><b>最坏</b>O(n²)：数组已经有序，选第一个为pivot→每次只减少1个元素<br><span class="tag trap">陷阱</span> 快排不稳定！相同元素可能因为pivot而交换位置。'},
-]}];
-
+// ========== 408百科 ==========
 function buildDSKnow(){
-  var h='<h3>📚 408数据结构百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">融合 严蔚敏 + 大话数据结构 + 王道/天勤 · 点击展开</p>';
-  for(var i=0;i<DSK_DATA.length;i++){
-    var ch=DSK_DATA[i];
-    h+='<div class="ks" id="dsk-'+i+'"><div class="kh" onclick="document.getElementById(\'dsk-'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';
-    for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>';}
-    h+='</div></div>';
-  }
+  var data=[{ch:'线性表：排队的数据',items:[{t:'顺序表=电影院座位',b:'✅找座位O(1) ❌中间加人得全挪O(n)。<span class="tag formula">408公式</span> 第i位插入移<b>n-i+1</b>个。'},{t:'链表=寻宝游戏',b:'每个宝箱有纸条指向下一个。✅加删快O(1) ❌找得挨个走O(n)。<b>不能随机存取→不能二分查找</b>。'}]},{ch:'栈/队列：生活中来',items:[{t:'栈=一摞盘子',b:'后进先出LIFO。浏览器后退、Ctrl+Z撤销都是栈。'},{t:'队列=排队买奶茶',b:'先进先出FIFO。<span class="tag formula">必背</span> 循环队列:空→f==r,满→(r+1)%M==f,元素数→(r-f+M)%M。'}]},{ch:'树：族谱结构',items:[{t:'二叉树5性质',b:'①第i层≤2<sup>i-1</sup> ②k层≤2<sup>k</sup>-1 ③<b>n₀=n₂+1</b> ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1。'},{t:'三种遍历',b:'前序=根左右。中序=左根右(BST得升序)。后序=左右根。<span class="tag trap">陷阱</span> 仅前+后无法唯一确定树！必须含中序。'},{t:'哈夫曼树',b:'频率高的字母用短码→文件最小。WPL=Σ(叶权值×深度)。每次选两个最小合并。'}]},{ch:'图：2021-2024连考',items:[{t:'存储',b:'邻接矩阵=二维数组O(n²)适合稠密。邻接表=链表数组O(n+e)适合稀疏。'},{t:'DFS/BFS',b:'DFS=走到底再回头(栈/递归)。BFS=一层层扩散(队列)。BFS找最短路径。'},{t:'Dijkstra',b:'每次选最近未访问节点→更新邻居。O(n²)。<span class="tag trap">⚠不能处理负权</span>。'}]},{ch:'查找与排序',items:[{t:'二分查找',b:'每次砍半O(logn)。<b>前提：有序+能随机存取</b>。链表不行！'},{t:'排序对比',b:'<table><tr><td>快排</td><td>O(nlogn)</td><td>❌不稳定</td></tr><tr><td>堆排</td><td>O(nlogn)</td><td>❌不稳定</td></tr><tr><td>归并</td><td>O(nlogn)</td><td>✅稳定</td><td>O(n)空间</td></tr></table>插入/冒泡O(n²)稳定；选择O(n²)不稳定。'},{t:'哈希',b:'hash(key)=key%p。冲突：链地址(拉链表)/开放定址(找下一个)。装填因子α=n/m。'}]}];
+  var h='<h3>📚 408数据结构百科（大白话版）</h3><p style="font-size:11px;color:var(--m);margin-bottom:12px">严蔚敏+大话数据结构+王道/天勤</p>';
+  for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="ds'+i+'"><div class="kh" onclick="document.getElementById(\'ds'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
   document.getElementById('dsk-area').innerHTML=h;
 }
 
-// ===================== INIT =====================
+// ========== INIT ==========
 buildDash();
 </script>
-</body>
-</html>
+</body></html>
