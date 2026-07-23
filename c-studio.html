@@ -115,13 +115,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <div id="sidebar">
   <div class="logo" onclick="switchTab(0)">🎯 C语言学习平台<span>复旦机考 + 408数据结构</span></div>
-  <button class="nav-btn active" data-tab="0"><span class="ico">📊</span> 学习总览</button>
-  <button class="nav-btn" data-tab="1"><span class="ico">🧱</span> C语言闯关</button>
-  <button class="nav-btn" data-tab="2"><span class="ico">📖</span> 408闯关</button>
-  <button class="nav-btn" data-tab="3"><span class="ico">🖥️</span> 复旦机考</button>
-  <button class="nav-btn" data-tab="4"><span class="ico">📝</span> 学习日志</button>
-  <button class="nav-btn" data-tab="5"><span class="ico">📚</span> C语言参考</button>
-  <button class="nav-btn" data-tab="6"><span class="ico">📚</span> 408知识库</button>
+  <button class="nav-btn active" onclick="switchTab(0)"><span class="ico">📊</span> 学习总览</button>
+  <button class="nav-btn" onclick="switchTab(1)"><span class="ico">🧱</span> C语言闯关</button>
+  <button class="nav-btn" onclick="switchTab(2)"><span class="ico">📖</span> 408闯关</button>
+  <button class="nav-btn" onclick="switchTab(3)"><span class="ico">🖥️</span> 复旦机考</button>
+  <button class="nav-btn" onclick="switchTab(4)"><span class="ico">📝</span> 学习日志</button>
+  <button class="nav-btn" onclick="switchTab(5)"><span class="ico">📚</span> C语言参考</button>
+  <button class="nav-btn" onclick="switchTab(6)"><span class="ico">📚</span> 408知识库</button>
 </div>
 <div id="main"><div id="tab-content"></div></div>
 <div id="toast"></div>
@@ -141,21 +141,19 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 // --- 408 知识库数据 ---
 const DS_KNOWLEDGE=[
 {ch:'第1章 绪论',items:[
-  {t:'数据结构三要素',b:'<b>逻辑结构</b>（数据之间的关系：线性/树形/图形/集合）<br><b>存储结构</b>（在内存中的存放：顺序/链式/索引/散列）<br><b>数据运算</b>（对数据的操作：增删改查排序）<br><span class="tag exam">408考点</span> 逻辑结构独立于存储结构，同一逻辑结构可有多种存储实现。'},
-  {t:'算法五个特性',b:'<b>有穷性</b>：有限步后结束<br><b>确定性</b>：每步含义唯一<br><b>可行性</b>：每步可执行<br><b>输入</b>：零个或多个<br><b>输出</b>：至少一个<br><span class="tag exam">408考点</span> 程序≠算法（程序可以死循环）。'},
-  {t:'时间复杂度分析',b:'只保留<strong>最高阶项</strong>，忽略系数。常见排序：<br>O(1) 常数 → O(logn) 对数 → O(n) 线性 → O(nlogn) 线性对数 → O(n²) 平方 → O(n³) 立方 → O(2ⁿ) 指数<br><pre>for(i=0;i&lt;n;i++)           // O(n)\n  for(j=0;j&lt;n;j++)         // O(n²)\n    sum++;</pre><span class="tag trap">陷阱</span> 嵌套循环不一定是O(n²)——内层循环次数独立于n时可能是O(n)。'},
-  {t:'空间复杂度',b:'算法运行时占用的<strong>额外</strong>存储空间。递归调用会占用<strong>栈空间</strong>。例如递归求阶乘空间复杂度O(n)（n层栈帧）。'},
+  {t:'数据结构三要素',b:'<b>逻辑结构</b>：数据之间是什么关系？（线性/树形/图形/集合）<br><b>存储结构</b>：数据在内存怎么放？（顺序/链式/索引/散列）<br><b>数据运算</b>：对数据做什么操作？（增删改查排序）<br><br><b>大话数据结构的比喻</b>：逻辑结构=你想怎么组织你的书（按字母、按主题、按时间）；存储结构=书实际怎么摆在书架上（横着、竖着、堆着）。同一套逻辑可以用不同存储实现。<br><span class="tag exam">408考点</span> 逻辑结构独立于存储结构，同一逻辑结构可有多种存储实现。选择题高频。'},
+  {t:'算法五个特性',b:'<b>有穷性</b>：执行有限步后结束。<br><b>确定性</b>：每一步含义明确，不存在二义性。<br><b>可行性</b>：每一步都可以用基本操作实现。<br><b>输入</b>：零个或多个输入。<br><b>输出</b>：至少一个输出。<br><br><b>王道咸鱼老师的金句</b>："程序≠算法——程序可以死循环，算法必须有穷。考试最喜欢在这个点上挖坑。"'},
+  {t:'时间复杂度分析 (每年必考!)',b:'只保留<strong>最高阶项</strong>，忽略系数和低阶项。<br>O(1) < O(logn) < O(n) < O(nlogn) < O(n²) < O(n³) < O(2ⁿ)<br><pre>// 单循环 O(n)\nfor(i=0;i&lt;n;i++) sum++;\n\n// 嵌套循环 O(n²)\nfor(i=0;i&lt;n;i++)\n  for(j=0;j&lt;n;j++)\n    sum++;\n\n// 二分 O(logn)\nwhile(low&lt;=high){ mid=(low+high)/2; ... }</pre><b>天勤的速算技巧</b>：① 单层循环→O(n) ② 循环中i每次×2→O(logn) ③ 双层嵌套(每层O(n))→O(n²) ④ 分治(log₂n层,每层O(n))→O(nlogn)<br><span class="tag trap">常见坑</span> 嵌套不一定是O(n²)——如果内层循环次数独立于n，可能是O(n)！'},
 ]},{ch:'第2章 线性表',items:[
-  {t:'顺序表',b:'<strong>连续内存</strong>存储。下标从0开始。<br>✅ 优点：随机存取O(1)、存储密度高<br>❌ 缺点：插入/删除需移动元素O(n)、需要连续大块内存<br><span class="tag formula">公式</span> 第i位(1≤i≤n+1)插入需移动 <b>n-i+1</b> 个元素<br><span class="tag exam">408真题</span> 2010数组移位、2011两序列中位数、2013主元素、2016划分、2018最小未出现正整数、2020三指针'},
-  {t:'单链表',b:'每个<b>节点</b>=数据域+<b>next指针</b>域。头指针head指向第一个节点。<pre>typedef struct LNode{\n    int data;\n    struct LNode *next;\n}LNode;</pre>✅ 插入/删除O(1)、不需要连续空间<br>❌ 查找O(n)、指针占用额外空间<br><b>头插法</b>：新节点插入head之前→逆序<br><b>尾插法</b>：维护tail指针→顺序<br><span class="tag exam">408真题</span> 2009倒数第k节点、2012公共后缀、2015去重、2019链表重排'},
-  {t:'顺序表 vs 链表',b:'<table style="width:100%;font-size:11px;border-collapse:collapse"><tr style="border-bottom:1px solid var(--b)"><th></th><th>顺序表</th><th>链表</th></tr><tr style="border-bottom:1px solid var(--b)"><td>存取</td><td>随机O(1)</td><td>顺序O(n)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>插入删除</td><td>O(n)</td><td>O(1)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>空间</td><td>预分配</td><td>动态</td></tr><tr><td>场景</td><td>频繁查找</td><td>频繁增删</td></tr></table>'},
+  {t:'顺序表（数组）',b:'<strong>连续内存</strong>存储，通过下标直接访问。<br>✅ 优点：随机存取O(1)、存储密度高(只存数据不含指针)<br>❌ 缺点：插入/删除需移动大量元素O(n)、需要预分配连续大块内存<br><span class="tag formula">公式</span> 第i个位置(1≤i≤n+1)插入需移动 <b>n-i+1</b> 个元素<br><b>大话数据结构的比喻</b>：顺序表=电影院座位。找到第5排第3座直接过去→O(1)。但要在第3排插入一个人→整排往后挪→O(n)。<br><span class="tag exam">408真题</span> 2010/2011/2013/2016/2018/2020（6次！顺序表是考得最多的结构）'},
+  {t:'单链表 — 408核心',b:'每个节点 = <b>数据域</b> + <b>指针域</b>（存下一个节点的地址）。<pre>typedef struct LNode{\n    int data;              // 数据\n    struct LNode *next;    // 指向下一个\n}LNode;</pre>✅ 插入/删除O(1)、不需要连续空间、动态扩展<br>❌ 查找O(n)、指针占用额外空间<br><b>头插法</b>：新节点插入在head前面→结果是逆序<br><b>尾插法</b>：维护tail指针→结果是顺序<br><b>大话数据结构的比喻</b>：链表=寻宝游戏。每个宝箱里装着一张纸条写着下一个宝箱的位置。你只能从一个宝箱走到下一个宝箱（不能跳）。要找到第10个宝箱→必须经过前9个→O(n)。<br><span class="tag exam">408真题</span> 2009/2012/2015/2019（4次）'},
+  {t:'顺序表 vs 链表 — 选择题最爱',b:'<table style="width:100%;font-size:10px;border-collapse:collapse"><tr style="border-bottom:1px solid var(--b)"><th></th><th>顺序表</th><th>链表</th></tr><tr style="border-bottom:1px solid var(--b)"><td>存取方式</td><td>随机O(1)</td><td>顺序O(n)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>插入/删除</td><td>O(n)</td><td>O(1)(已知位置)</td></tr><tr style="border-bottom:1px solid var(--b)"><td>空间分配</td><td>预分配(可能浪费)</td><td>按需分配</td></tr><tr><td>适用场景</td><td>频繁查找</td><td>频繁增删</td></tr></table><br><b>王道总结的选择技巧</b>：题目里看到"随机访问""二分查找"→必须顺序表。看到"频繁插入删除""长度变化大"→链表。'},
 ]},{ch:'第3章 栈、队列和数组',items:[
-  {t:'栈 (Stack)',b:'<strong>后进先出LIFO</strong>。只在一端（栈顶）操作。<pre>// 顺序栈\nint stk[MAX], top=-1;  // -1=空\npush: stk[++top]=x;\npop:  x=stk[top--];</pre>应用：括号匹配、表达式求值、递归实现、DFS非递归。<br><span class="tag exam">408考点</span> top初始值决定判空条件(top=-1时空为top==-1)。'},
-  {t:'循环队列 — 408必考',b:'<strong>先进先出FIFO</strong>。头尾指针循环移动。牺牲一个单元区分空/满。<br><span class="tag formula">408必背公式</span><br>· 判空：front == rear<br>· 判满：(rear+1) % MAX == front<br>· 入队：q[rear]=x; rear=(rear+1)%MAX<br>· 出队：x=q[front]; front=(front+1)%MAX<br>· 元素个数：(rear-front+MAX) % MAX<br><span class="tag exam">408真题</span> 几乎每年必考1道选择题/填空题！'},
-  {t:'特殊矩阵压缩存储',b'<b>对称矩阵</b>：只存下三角，a[i][j]映射到B[k]，k=i(i-1)/2+j-1（i≥j）。<br><b>三角矩阵</b>：存三角区+一个常数。<br><b>稀疏矩阵</b>：三元组(行,列,值)只存非零元。<br><span class="tag formula">核心</span> 一维数组下标k与二维(i,j)的映射关系。'},
-]},{ch:'第4章 树与二叉树 ⭐重中之重',items:[
-  {t:'二叉树5条性质（记死）',b:'① 第i层最多 2<sup>i-1</sup> 个节点<br>② 深度为k最多 2<sup>k</sup>-1 个节点<br>③ n₀=n₂+1（叶节点数=度为2的节点数+1）<br>④ n个节点的完全二叉树深度为 ⌊log₂n⌋+1<br>⑤ 完全二叉树：编号为i的节点→左孩子2i，右孩子2i+1，父⌊i/2⌋<br><span class="tag exam">408考点</span> 选择题秒杀题——记住就能拿2分。'},
-  {t:'四种遍历',b:'<b>前序</b>（根→左→右）：适合复制、前缀表达式<br><b>中序</b>（左→根→右）：BST得升序序列<br><b>后序</b>（左→右→根）：适合释放节点、后缀表达式<br><b>层序</b>（BFS）：用队列实现<br><span class="tag exam">408经典题</span> 已知两种遍历序列→构造二叉树→求第三种遍历<br><span class="tag trap">陷阱</span> 必须包含<b>中序</b>才能唯一确定二叉树（仅前+后不行！）'},
+  {t:'栈 (Stack) — LIFO',b:'<strong>后进先出</strong>。像一摞盘子：最后放上去的，最先拿下来。<pre>int stk[MAX], top=-1;       // -1=栈空\npush: stk[++top]=x;         // 先移指针，再放值\npop:  x=stk[top--];         // 先取值，再移指针</pre><b>应用</b>：括号匹配(遇到左括号入栈，右括号出栈匹配)、表达式求值、递归的底层实现、DFS的非递归版本。<br><b>大话数据结构比喻</b>：浏览器后退按钮就是一个栈——你浏览过的网址被依次压入栈中。点"后退"就是从栈顶弹出一个网址。<br><span class="tag exam">408考点</span> top初始值决定判空条件。top=-1时判空为top==-1；top=0时判空为top==0。'},
+  {t:'循环队列 — 每题必考!',b:'<strong>先进先出FIFO</strong>。像排队：先来的先服务。<br>队列用数组实现时，必须做成<strong>循环</strong>的——否则出队后前面的空间就浪费了。<br><span class="tag formula">408必背公式（王道口诀："空满差一格"）</span><br>· 判空：<b>front == rear</b><br>· 判满：<b>(rear+1) % MAX == front</b><br>· 入队：q[rear]=x; rear=<b>(rear+1)%MAX</b><br>· 出队：x=q[front]; front=<b>(front+1)%MAX</b><br>· 元素个数：<b>(rear-front+MAX) % MAX</b><br><br><b>为什么牺牲一个单元？</b> 因为"全是空的"和"全是满的"时front都等于rear。牺牲一个单元后：满时rear差一格追上front（永远追不上=永远不混淆）。<br><span class="tag exam">408真题</span> 几乎每年必考1道选择题——给定front和rear值，判断空/满或计算元素个数。'},
+]},{ch:'第4章 树与二叉树 ⭐重中之重(45分中占10分+)',items:[
+  {t:'二叉树5条性质（记死——选择题秒杀用）',b:'① 第i层最多 <b>2<sup>i-1</sup></b> 个节点<br>② 深度为k最多 <b>2<sup>k</sup>-1</b> 个节点<br>③ <b>n₀ = n₂+1</b> — 叶节点=度为2的节点+1。最重要的公式！<br>④ n个节点完全二叉树深 <b>⌊log₂n⌋+1</b><br>⑤ 编号i节点→左孩子<b>2i</b>、右<b>2i+1</b>、父<b>⌊i/2⌋</b><br><b>大话数据结构记忆法</b>：性质③推导——除根外每个节点有一条边连父节点。总边数=n₀×0+n₁×1+n₂×2=n-1→得n₀=n₂+1。'},
+  {t:'四种遍历（递归+非递归都要会）',b:'<b>前序</b>（根→左→右）：复制树、前缀表达式<br><b>中序</b>（左→根→右）：BST得升序<br><b>后序</b>（左→右→根）：释放节点、后缀表达式<br><b>层序</b>：用队列BFS<br><b>天勤巧记</b>：三种递归遍历代码几乎一模一样——区别只在printf的位置！<br><span class="tag exam">408经典题</span> 已知两种遍历→构造二叉树→求第三种<br><span class="tag trap">陷阱</span> 必须包含<b>中序</b>才能唯一确定！仅前+后不行（根位置确定但左右无法分割）'},
   {t:'哈夫曼树',b:'<b>WPL</b>（带权路径长度）= Σ(叶权值×到根的路径长度)。哈夫曼树是WPL最小的二叉树。<br><b>构建</b>：每次选两个最小权值节点合并为新节点，权值和为新权值。<br><span class="tag exam">408真题</span> 2014年综合题考WPL计算。选择题常考哈夫曼树构造过程。'},
   {t:'堆 (2026考纲新增)',b:'<b>大顶堆</b>：每个节点 ≥ 其孩子（堆顶最大）<br><b>小顶堆</b>：每个节点 ≤ 其孩子（堆顶最小）<br>是<b>完全二叉树</b>，用数组存储。建堆O(n)，调整O(logn)。<br>应用：堆排序、优先队列、TopK问题。'},
 ]},{ch:'第5章 图',items:[
@@ -179,23 +177,25 @@ const DS_KNOWLEDGE=[
   {t:'KMP算法',b:'<b>next数组</b>：失配时模式串回退到的位置。next[j]=最长相等前后缀长度。<br>匹配过程：主串指针不回溯，只移动模式串指针。<br>时间O(n+m)。<br><span class="tag exam">2026考纲新增</span> 重点关注next数组的求法。'},
 ]}];
 
-// --- C语言参考数据 ---
+// --- C语言参考数据 (融合K&R + K.N.King + Beej) ---
 const C_REF=[
-{ch:'基础语法',items:[
-  {t:'数据类型',b:'<table style="width:100%;font-size:11px"><tr><td><code>int</code></td><td>整数 4字节</td><td>-2¹~2¹-1</td></tr><tr><td><code>float</code></td><td>单精度 4字节</td><td>6-7位有效</td></tr><tr><td><code>double</code></td><td>双精度 8字节</td><td>15-16位有效</td></tr><tr><td><code>char</code></td><td>字符 1字节</td><td>ASCII码</td></tr></table>'},
-  {t:'printf/scanf格式',b:'<code>%d</code>整数 <code>%f</code>小数 <code>%c</code>字符 <code>%s</code>字符串 <code>%p</code>指针<br><code>%lf</code>读取double <code>%.2f</code>保留2位小数<br><span class="tag trap">陷阱</span> scanf中int加&，字符串不加&'}
-]},{ch:'指针 (最重要!)',items:[
-  {t:'指针本质',b:'<b>指针</b>=存地址的变量。<code>&x</code>取地址，<code>*p</code>解引用。<br><code>int *p = &x;</code> — p指向x，*p即x的值。<br><span class="tag trap">常见坑</span> 未初始化的指针是野指针，绝对不能解引用！'},
-  {t:'指针与数组',b:'<code>arr[i]</code> ≡ <code>*(arr+i)</code><br>数组名=指向首元素地址的<strong>指针常量</strong>（不能变）。<br><code>int *p = arr;</code> 然后用 <code>*(p++)</code> 遍历。'},
-  {t:'指针参数',b:'<b>值传递</b>：函数内修改不影响原变量。<br><b>地址传递</b>：传&取地址，函数内用*修改，可改变原变量。<br><pre>void swap(int *a,int *b){\n  int t=*a;*a=*b;*b=t;\n}</pre>这是408/机考最基础的指针用法。'},
-]},{ch:'结构体与链表',items:[
-  {t:'struct定义',b:'<pre>struct Student{\n  char name[20];\n  int score;\n}; // 别忘了分号!</pre>访问成员：<code>s.name</code>、<code>s.score</code>。<br>指向结构体的指针：<code>p->name</code>等价于<code>(*p).name</code>。'},
-  {t:'链表节点模板',b:'<pre>typedef struct Node{\n  int data;\n  struct Node *next;\n}Node;\n\n// 创建节点\nNode *p=(Node*)malloc(sizeof(Node));\np->data=x; p->next=NULL;</pre>这是408所有链表题的基础模板。'},
-]},{ch:'动态内存',items:[
-  {t:'malloc/free',b:'<code>void* malloc(size_t size)</code> — 堆上分配<br><code>void free(void* ptr)</code> — 释放<br><pre>int *a=(int*)malloc(N*sizeof(int));\n// 使用a...\nfree(a);  // 用完必须释放!</pre><span class="tag trap">陷阱</span> 忘记free=内存泄漏；free后继续用=悬垂指针。'},
-]},{ch:'常用技巧',items:[
-  {t:'双指针',b:'一头一尾向中间移动：回文判断、反转数组<br>快慢指针：快走2步慢走1步→找中点/环检测/倒数第k个'},
-  {t:'递归模板',b:'<pre>返回类型 func(参数){\n  if(基准条件)return 基础值;\n  // 缩小问题规模\n  return func(更小的参数);\n}</pre>递归本质=系统栈保存状态。太深→栈溢出。'},
+{ch:'基础语法 (K.N.King风格：只讲考试需要的)',items:[
+  {t:'数据类型速查',b:'<table style="width:100%;font-size:11px"><tr style="border-bottom:1px solid var(--b)"><th>类型</th><th>大小</th><th>printf</th><th>scanf</th><th>范围</th></tr><tr><td><code>int</code></td><td>4B</td><td>%d</td><td>%d</td><td>±2×10⁹</td></tr><tr><td><code>long long</code></td><td>8B</td><td>%lld</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>4B</td><td>%f</td><td>%f</td><td>6位精度</td></tr><tr><td><code>double</code></td><td>8B</td><td>%lf</td><td>%lf</td><td>15位精度</td></tr><tr><td><code>char</code></td><td>1B</td><td>%c</td><td>%c</td><td>-128~127</td></tr></table><br><b>K.N.King建议</b>：整数优先用int，不够用long long。浮点优先用double（精度高且现代CPU一样快）。<br><span class="tag trap">陷阱</span> scanf中int加&，字符串(<code>%s</code>)不加&——数组名本身就是地址！'},
+  {t:'printf 格式大全',b:'<code>%d</code> 整数 · <code>%f</code> 小数 · <code>%c</code> 字符 · <code>%s</code> 字符串 · <code>%p</code> 指针地址<br><code>%5d</code> 占5格右对齐 · <code>%-5d</code> 左对齐 · <code>%.2f</code> 保留2位小数<br><code>\\n</code> 换行 · <code>\\t</code> 制表 · <code>\\\\</code> 反斜杠本身<br><b>K&R经典提示</b>：printf不会自动换行，不加<code>\\n</code>会让你的输出粘成一团。'},
+  {t:'运算符优先级 (常考!)',b:'<b>高→低</b>：<code>()</code> > <code>! ~ ++ --</code> > <code>* / %</code> > <code>+ -</code> > <code>&lt; &lt;= &gt; &gt;=</code> > <code>== !=</code> > <code>&&</code> > <code>||</code> > <code>=</code><br><span class="tag trap">头号陷阱</span> <code>=</code>是赋值，<code>==</code>才是比较！<code>if(x=5)</code>永远为真（因为赋值表达式返回5≠0）。<br><span class="tag trap">二号陷阱</span> <code>&</code>（按位与）vs <code>&&</code>（逻辑与）——写错一个符号调试一整天。'},
+]},{ch:'指针 — K.N.King第11章精华 (408/机考最重要的概念)',items:[
+  {t:'什么是指针？（生活化理解）',b:'<b>指针=存门牌号的纸条</b>。变量=房子里的东西，指针=写有房子地址的纸条。<br><code>int x=42;</code> → 门牌号100的房子，里面放了42<br><code>int *p=&x;</code> → 纸条p上写了"100号"<br><code>*p=100;</code> → 按纸条上的地址找到房子，把里面东西换成100<br><br><b>K.N.King说</b>：指针本身并不复杂，它只是"间接访问"的一种方式。C语言故意把&和*设计成互逆操作。<br><span class="tag trap">致命陷阱</span>：野指针！<code>int *p; *p=5;</code> ← p没初始化，指向随机地址，写入=崩溃/数据损坏。'},
+  {t:'&（取地址）和 *（解引用）',b:'<pre>int x=42;\nint *p=&x;   // p = x的地址\n*p = 100;     // "去p指的地方，改成100"\nprintf("%d",x); // 输出100，x被改了</pre><b>互逆性</b>：<code>*&x</code> ≡ <code>x</code>（取地址再解引用=回到原值）<br><b>K&R原话</b>："The unary operator & gives the address of an object. The unary operator * is the indirection or dereferencing operator."'},
+  {t:'指针与数组 — a[i]就是*(a+i)',b:'数组名=指向首元素的<b>指针常量</b>（不能变）。<br><code>a[3]</code> 完全等价于 <code>*(a+3)</code> —— C编译器就是这样翻译的。<br><pre>int a[]={10,20,30,40,50};\nint *p=a;        // p指向a[0]\np++;             // p现在指向a[1]\nprintf("%d",*p); // 20</pre><b>K.N.King的金句</b>："当数组作为函数参数传递时，实际上只传了首元素地址。这就是为什么函数内修改数组会影响调用者。"'},
+  {t:'指针作为函数参数 — 408/机考必考!',b:'<b>值传递 vs 地址传递</b>是C语言最重要的机制之一。<br><pre>// 值传递：改不了原变量\nvoid bad(int a){ a=100; } // 改的是副本\n\n// 地址传递：可以改原变量\nvoid good(int *a){ *a=100; } // 改的是原地址的值</pre><b>K.N.King的Q&A</b>：<br>Q: 为什么scanf要加&？<br>A: 因为scanf需要"把读到的值放到你的变量里"，它需要知道变量的地址。而printf只需要"读取值的副本"显示即可。<br>Q: 为什么%s的字符串参数不加&？<br>A: 因为数组名本身就是地址。'},
+]},{ch:'结构体与链表 (408核心数据结构的基础)',items:[
+  {t:'struct — 自定义复合类型',b:'<pre>struct Student{\n  char name[20]; // 成员1\n  int score;     // 成员2\n}; // ← 分号！忘了=编译错误</pre><b>K.N.King提示</b>：struct像数据库中的一行记录。struct变量之间可以整体赋值（<code>s2=s1</code>），但<strong>不能直接用==比较</strong>。<br>用 <code>typedef</code> 简化：<code>typedef struct{...} Student;</code> 之后就不用每次写struct了。<br>访问：<code>s.name</code> · 指针：<code>p->name</code> ≡ <code>(*p).name</code>'},
+  {t:'链表节点 — 408所有链表题的基础模板',b:'<pre>typedef struct Node{\n  int data;           // 数据域\n  struct Node *next;  // 指针域：指向同类型\n} Node;\n\n// 创建新节点\nNode *p = (Node*)malloc(sizeof(Node));\np->data = x;\np->next = NULL;</pre><b>大话数据结构的比喻</b>：链表像一列火车——每节车厢（节点）装货（data）+挂着下一节车厢的连接器（next指针）。<br><span class="tag trap">坑</span> 删除节点后要free，否则内存泄漏。插入/删除时注意处理头节点的特殊情况。'},
+]},{ch:'动态内存分配 (408综合题必备)',items:[
+  {t:'malloc / free — 堆内存管理',b:'<b>栈</b>（局部变量）：自动分配，函数结束自动释放。大小有限。<br><b>堆</b>（动态分配）：手动malloc，用完必须free。可以按需分配。<br><pre>int *arr=(int*)malloc(N*sizeof(int));\nif(arr==NULL){ /* 分配失败！*/ }\n// 使用 arr[0]...arr[N-1]\nfree(arr);  // 必须释放\narr=NULL;   // 好习惯：避免悬垂指针</pre><b>K.N.King强调的三条铁律</b>：<br>① 每次malloc都要检查返回值是否为NULL<br>② 每次malloc最终都要对应一个free<br>③ free后把指针置为NULL，避免"悬垂指针"'},
+]},{ch:'算法常用技巧 (Beej + K.N.King 精华)',items:[
+  {t:'双指针 / 滑动窗口',b:'<b>对撞指针</b>：一头一尾向中间走 → 回文判断、反转数组、两数之和<br><b>快慢指针</b>：快走2步慢走1步 → 找链表中点、环检测、倒数第k个<br><b>滑动窗口</b>：维护窗口[L,R] → 最长不重复子串、最小覆盖子串'},
+  {t:'递归三要素',b:'① <b>基准条件</b>：最简单的情况，直接返回（<code>if(n<=1)return 1</code>）<br>② <b>缩小问题</b>：每次递归让问题变小（<code>factorial(n-1)</code>）<br>③ <b>组合结果</b>：用子问题的结果构建当前答案<br><b>K.N.King警告</b>：递归太深→栈溢出。C语言栈空间通常只有几MB。<br><b>何时用递归vs循环？</b>递归=树/图遍历、分治（快排/归并）；循环=简单重复。'},
 ]}];
 
 // --- Level data (精简过,核心保留) ---
@@ -403,7 +403,6 @@ function sol(mk){if(confirm('确定查看答案？自己写才算掌握')){const
 function reset(mk){if(confirm('重置为模板？')){const levels=mk==='c'?CL:(mk==='ds'?DSL:FDL);document.getElementById('code-in').value=levels[curLv].tp;updateLn()}}
 
 // ===================== INIT =====================
-document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',function(){switchTab(parseInt(this.dataset.tab))}));
 switchTab(0);
 </script>
 </body>
