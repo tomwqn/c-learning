@@ -1,174 +1,186 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>408数据结构全能知识库</title>
-<style>
-:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7}
+<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:920px;margin:0 auto;padding:24px 16px;line-height:1.8}
-h1{font-size:22px;color:var(--a)}.sub{font-size:15px;color:var(--m);margin-bottom:16px}a.back{font-size:15px;color:var(--a)}
+h1{font-size:22px;color:var(--a)}.sub{font-size:15px;color:var(--m);margin-bottom:20px}a.back{font-size:15px;color:var(--a)}
 .ks{margin-bottom:14px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
 .ks .kh{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}.ks .kh:hover{background:rgba(255,255,255,.03)}
-.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
-.ks .kh .kt{font-size:16px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:14px;color:var(--m)}
+.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:15px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:16px;color:var(--m)}
 .ks .kb{display:none;padding:0 16px 16px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
 .kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:8px}
-.kc h5{font-size:15px;color:var(--a);margin-bottom:6px}.kc p{font-size:15px;line-height:1.85;margin-bottom:6px}
-.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:14px;color:var(--o)}
-.kc pre{background:#0a0e14;padding:10px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:13px;line-height:1.55;margin:6px 0}
-.kc ul,.kc ol{margin:6px 0 6px 20px;font-size:15px;line-height:1.85}
-.kc .tag{display:inline-block;padding:1px 7px;border-radius:8px;font-size:12px;margin-right:3px}
+.kc h5{font-size:16px;color:var(--a);margin-bottom:6px}.kc p{font-size:16px;line-height:1.85;margin-bottom:6px}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:15px;color:var(--o)}
+.kc pre{background:#0a0e14;padding:10px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:14px;line-height:1.55;margin:6px 0}
+.kc ul,.kc ol{margin:6px 0 6px 20px;font-size:16px;line-height:1.85}
+.kc .tag{display:inline-block;padding:1px 7px;border-radius:8px;font-size:15px;margin-right:3px}
 .kc .tag.exam{background:rgba(167,113,247,.25);color:#c9a9ff}.kc .tag.fml{background:rgba(210,153,29,.25);color:var(--o)}.kc .tag.trp{background:rgba(248,81,73,.25);color:var(--r)}
 .qb{background:rgba(167,113,247,.06);border:1px solid rgba(167,113,247,.2);border-radius:6px;padding:10px;margin-top:6px}
-.qb .q{font-size:14px;margin-bottom:4px}.qb .a{font-size:14px;color:var(--g)}.qb .xp{font-size:13px;color:var(--m)}
-.mch{border:1px solid var(--o);border-radius:8px;padding:14px;margin-top:12px;background:rgba(210,153,29,.04)}
-.mch h4{font-size:15px;color:var(--o);margin-bottom:4px}.mch .score{font-size:13px;color:var(--m);margin-bottom:10px}
-.mcq{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:10px;margin-bottom:6px}
-.mcq .q{font-size:14px;line-height:1.7;margin-bottom:6px}
-.mcq .opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
-.mcq .opts button{padding:5px 14px;border:1px solid var(--b);background:var(--s);color:var(--t);border-radius:5px;cursor:pointer;font-size:14px;transition:all .12s;font-family:inherit}
-.mcq .opts button:hover{background:rgba(255,255,255,.06)}
-.mcq .opts button.chosen{background:var(--a);color:#fff;border-color:var(--a)}
-.mcq .opts button.right{background:var(--g);color:#fff;border-color:var(--g)}
-.mcq .opts button.wrong{background:var(--r);color:#fff;border-color:var(--r)}
-.mcq .fb{display:none;font-size:14px;line-height:1.6;margin-top:6px;padding:8px;border-radius:4px}
-.mcq .fb.ok{display:block;background:rgba(63,185,80,.1);color:var(--g)}
-.mcq .fb.bad{display:block;background:rgba(248,81,73,.1);color:var(--r)}
+.qb .q{font-size:15px;margin-bottom:4px}.qb .a{font-size:14px;color:var(--g)}.qb .xp{font-size:16px;color:var(--m)}
 table{width:100%;font-size:14px;border-collapse:collapse;margin:6px 0}td,th{border-bottom:1px solid var(--b);padding:5px 7px;text-align:left}
 </style></head><body><a class="back" href="c-studio.html">← 总览</a>
-<h1>📚 408数据结构全能知识库</h1><p class="sub">王道2026×严蔚敏×大话数据结构×16年真题·200知识点×120道选择题通关 · 点击展开章节</p><div id="c"></div>
+<h1>📚 408数据结构全能知识库</h1><p class="sub">王道2026×严蔚敏×大话数据结构×16年真题 · 200+知识点 · 点击展开章节</p><div id="c"></div>
 <script>
-var QZ=[
-{ch:'第1章 绪论(15道选择)',mc:[
-{q:'【2019-T1】<code>while(n>=(x+1)*(x+1)) x++;</code>的时间复杂度',o:['O(logn)','O(√n)','O(n)','O(n²)'],a:1,e:'n≥(x+1)²→x≤√n-1，执行约√n次'},
-{q:'【2013-T1】长度m和n的升序链表合并为降序，最坏时间复杂度',o:['O(m+n)','O(m×n)','O(min)','O(max)'],a:3,e:'需遍历完较长链表→O(max(m,n))'},
-{q:'【2012-T1】求n!的递归算法时间复杂度',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'n层递归，每层O(1)→O(n)'},
-{q:'【2014-T1】<code>for(k=1;k<=n;k*=2)for(j=1;j<=n;j++)count++</code>',o:['O(n)','O(nlogn)','O(n²)','O(nlog²n)'],a:1,e:'外层logn+内层n=O(nlogn)'},
-{q:'【2020-T1】<code>for(i=0;i*i&lt;n;i++)for(j=0;j&lt;i;j++)sum++</code>',o:['O(n)','O(n√n)','O(n²)','O(nlogn)'],a:0,e:'外层√n,内层0+1+...+√n≈n/2→O(n)'},
-{q:'【2018-T1】<code>for(i=1;i<=n;i++)for(j=1;j<=i;j++)sum++</code>',o:['O(n)','O(nlogn)','O(n²)','O(n³)'],a:2,e:'1+2+...+n=n(n+1)/2→O(n²)'},
-{q:'【2022-T1】时间+空间都最小的O(nlogn)排序',o:['快排','归并','堆排','基数'],a:2,e:'堆排O(nlogn)时间+O(1)空间。快排空间O(logn),归并O(n)'},
-{q:'【2015-T1】时间复杂度为O(logn)的程序段',o:['while(n>1)n=n/2','while(i<=n)i=i+2','for(i=1;i<=n;i++)sum++','for(i=1;i<=n;i*=2)for(j=1;j<=n;j++)sum++'],a:0,e:'n每次除2→O(logn)。B:O(n),C:O(n),D:O(nlogn)'},
-{q:'【2023-T1】算法时间复杂度取决于',o:['问题规模','计算机性能','程序语言','编译器质量'],a:0,e:'时间复杂度是n的函数→只与问题规模有关'},
-{q:'【2010-T1】不属于算法特性的是',o:['有穷性','确定性','可行性','美观性'],a:3,e:'五特性:有穷/确定/可行/输入/输出'},
-{q:'【2016-T1】两有序表归并，最少比较次数',o:['n','2n-1','2n','n-1'],a:0,e:'最好:一个表全部小于另一个→比较n次'},
-{q:'【2024-T1】时间复杂度最高',o:['O(n)','O(nlogn)','O(n²)','O(2ⁿ)'],a:3,e:'指数阶>平方阶>线性对数阶'},
-{q:'【2011-T1】<code>for(i=0;i&lt;n;i++)for(j=0;j&lt;m;j++)a[i][j]=0</code>',o:['O(n)','O(m)','O(n+m)','O(nm)'],a:3,e:'双层嵌套→O(nm)'},
-{q:'【2017-T1】<code>int f(int n){if(n<=1)return 1;return n*f(n-1);}</code>',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'递归n次,每次O(1)→O(n)'},
-{q:'【2025-T1】<code>for(i=1;i*i&lt;n;i++)for(j=1;j&lt;=i;j++)sum++</code>',o:['O(√n)','O(n)','O(n√n)','O(n²)'],a:1,e:'外层√n次,内层0+...+√n≈n/2→O(n)'}]},
-{ch:'第2章 线性表(25道选择)',mc:[
-{q:'【2016-T1】单链表中f插入a和e之间,f的链接地址',o:['1010H(e地址)','1014H(f地址)','1004H','101CH'],a:0,e:'f->next=e的地址=1010H'},
-{q:'【2021-T2】q是p的前驱,在q和p间插入s',o:['q->next=s;s->next=p','p->next=s;s->next=q','s->next=p;q->next=s','p->next=s->next;s->next=q'],a:0,e:'s插q后p前:q->next=s;s->next=p'},
-{q:'【2010-T2】n个元素的线性表删第i个,移动元素数',o:['i','n-i','n-i+1','n-i-1'],a:1,e:'删后第i+1到第n前移→n-i个'},
-{q:'【2015-T2】顺序表插入的平均移动次数',o:['n','n/2','(n-1)/2','(n+1)/2'],a:1,e:'等概率n+1个位置,总移动/n+1≈n/2'},
-{q:'【2012-T2】双链表比单链表的优点',o:['插入删除更方便','可双向遍历','不需要头指针','存储密度更高'],a:1,e:'双链表有prior指针→可向前遍历'},
-{q:'【2020-T2】单链表中查找值为x的平均比较次数',o:['n','n/2','(n+1)/2','(n-1)/2'],a:2,e:'(1+2+...+n)/n=(n+1)/2'},
-{q:'【2017-T2】顺序表访问第i个元素时间复杂度',o:['O(1)','O(n)','O(logn)','O(i)'],a:0,e:'数组下标直接定位→O(1)'},
-{q:'【2022-T2】单链表删p所指结点的后继时间复杂度',o:['O(1)','O(n)','O(logn)','O(n²)'],a:0,e:'已知p→直接访问p->next→O(1)'},
-{q:'【2011-T2】n元素线性表第i位插入,移动元素数',o:['n-i','n-i+1','i','n-i-1'],a:1,e:'原第i到第n后移→n-i+1个'},
-{q:'【2014-T2】顺序表删第i个元素时间复杂度',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'需移动后续元素→O(n)'},
-{q:'【2018-T3】关于静态链表错误的是',o:['用数组实现','需连续空间','可随机存取','指针域存放相对地址'],a:2,e:'静态链表仍是链式→不可随机存取'},
-{q:'【2023-T2】链表结点存储空间',o:['必须连续','可以不连续','部分连续','和顺序表一样'],a:1,e:'链式存储结点可分散→用指针链接'},
-{q:'【2019-T2】单循环链表p->next->next==head',o:['p指向头结点','p指向尾结点','p指向倒数第2个','p指向head'],a:2,e:'p->next=尾,尾->next=head→p是倒数第2'},
-{q:'【2024-T2】顺序表插入时移动元素顺序',o:['从前往后','从后往前','任意','同时移动'],a:1,e:'从后往前→不覆盖未移动元素'},
-{q:'【2013-T2】最常用存取第i个元素及前驱,最佳存储',o:['单链表','双链表','顺序表','循环链表'],a:2,e:'存取第i个→随机存取→顺序表O(1)'},
-{q:'【2009-T1】顺序表第i位插入,向后移动元素数',o:['n-i','n-i+1','i','n-i-1'],a:1,e:'n-i+1'},
-{q:'【2025-T2】关于链表和顺序表正确的是',o:['链表可随机存取','顺序表插删O(1)','链表插删不需移动','顺序表存储密度比链表低'],a:2,e:'链表改指针即可→不需移动元素'},
-{q:'【2016-T3】单链表删值为x的结点,须先找到',o:['x的后继','x的前驱','x本身','尾结点'],a:1,e:'删x需改x前驱的next→必须找前驱'},
-{q:'【2021-T4】带头结点单链表为空的判定',o:['head==NULL','head->next==NULL','head->next==head','head!=NULL'],a:1,e:'头结点存在但无数据节点→next==NULL'},
-{q:'【2012-T3】链表不具有的特点是',o:['插入删除不需要移动','可随机访问任一元素','所需空间与线性表长度成正比','不必事先估计存储空间'],a:1,e:'链表不可随机访问→需顺序遍历'},
-{q:'【2014-T3】以下关于线性表的叙述正确的是',o:['顺序表只能顺序存取','链表只能顺序存取','顺序表和链表都可随机存取','顺序表和链表都只能顺序存取'],a:1,e:'顺序表可随机存取→链表只能顺序存取'},
-{q:'【2019-T1变】带头结点单链表表长为',o:['头结点数','数据结点数','所有结点数','头+数据结点'],a:1,e:'表长=数据元素个数→不含头结点'},
-{q:'【2023-T3】静态链表中结点的指针域存的是',o:['内存地址','数组下标','数据值','NULL'],a:1,e:'静态链表用游标(cur)=数组下标代替指针'},
-{q:'【2018-T6】适合频繁插入删除的线性表存储结构',o:['顺序存储','链式存储','索引存储','散列存储'],a:1,e:'链表插入删除O(1)→适合频繁增删'},
-{q:'【2017-T4变】在n个元素的线性表末尾插入一个元素，采用顺序存储与链式存储的时间复杂度分别为',o:['O(1),O(1)','O(1),O(n)','O(n),O(1)','O(n),O(n)'],a:1,e:'顺序表尾插O(1)(不移动),链表尾插需遍历到末尾O(n)'}]},
-{ch:'第3章 栈、队列和数组(22道选择)',mc:[
-{q:'【2018-T2】入栈1..n,p₂=3时p₃取值个数',o:['2','n-2','n-1','n'],a:2,e:'p₂=3→1,2中已出1个→剩n-1种可能'},
-{q:'【2021-T3】栈和队列的共同点',o:['都是FIFO','都是LIFO','只允许端点操作','没共同点'],a:2,e:'都只能在一端(栈)或两端(队列)操作'},
-{q:'【2019-T3】以下不属于栈应用的是',o:['括号匹配','表达式求值','递归调用','进程调度'],a:3,e:'进程调度用队列(FCFS)'},
-{q:'【2020-T3】循环队列front=0,rear=n(共n+1单元)',o:['0','n-1','n','n+1'],a:2,e:'(n-0+n+1)%(n+1)=n'},
-{q:'【2022-T3】栈可进行的操作',o:['任意位置插入','任意位置删除','仅栈顶插删','栈底删除'],a:2,e:'栈只能在栈顶操作'},
-{q:'【2024-T3】关于循环队列正确的是',o:['空:front==rear','满:front==rear','入队front变','出队rear变'],a:0,e:'循环队空→front==rear'},
-{q:'【2023-T3】入栈1..n,第一个出栈是n,第i个出栈',o:['i','n-i+1','不确定','n-i'],a:1,e:'n最先出→所有已入→出栈n,n-1,...,1'},
-{q:'【2013-T3】入栈1,2,3,4不可能的出栈序列',o:['1,2,3,4','2,1,4,3','4,3,1,2','1,3,2,4'],a:2,e:'4最先出→1,2,3已入栈但顺序是3,2,1'},
-{q:'【2015-T3】循环队列A[0..n-1],front=0,rear=n-1',o:['0','n-1','n','n+1'],a:1,e:'(n-1-0+n)%n=n-1'},
-{q:'【2016-T4】a-f依次入栈再全部出栈入队再出队',o:['a,b,c,d,e,f','f,e,d,c,b,a','a,c,e,b,d,f','不确定'],a:1,e:'入栈→出栈逆序→入队→出队FIFO=逆序'},
-{q:'【2025-T4】对空队列操作,输出1,2的顺序',o:['入1入2→出→出:输出2','入1→出→入2→出:输出1,2','出→入1:错误','入1入2→出:输出2'],a:1,e:'B:入1→出1→入2→出2→输出1,2'},
-{q:'【2017-T3】栈的入栈序列为a,b,c,出栈不可能的',o:['a,b,c','c,b,a','c,a,b','b,a,c'],a:2,e:'c先出→a,b已入→b必须在a前出'},
-{q:'【2014-T4】循环队列队空的条件',o:['front==rear','(rear+1)%M==front','front==0','rear==M-1'],a:0,e:'牺牲一个单元→空为front==rear'},
-{q:'【2011-T3】元素a,b,c,d依次入栈,可能的出栈序列数',o:['12','14','16','24'],a:1,e:'卡特兰数C(4)=C(8,4)/5=14'},
-{q:'【2012-T5】双端队列可进行的操作',o:['仅一端入队','仅一端出队','两端都可入出','不能操作'],a:2,e:'双端队列两端都可入队和出队'},
-{q:'【2019-T4】栈在递归中的作用',o:['保存全局变量','保存返回地址和局部变量','保存代码','无作用'],a:1,e:'系统栈保存返回地址+局部变量+参数'},
-{q:'【2016-T6变】栈和队列都是',o:['顺序存储的线性结构','链式存储的线性结构','限制存取点的线性结构','限制存取点的非线性结构'],a:2,e:'都是操作受限的线性表(只端点操作)'},
-{q:'【2021-T5】稀疏矩阵常用的压缩存储方式',o:['顺序存储','链式存储','三元组或十字链表','散列存储'],a:2,e:'稀疏矩阵→三元组(行,列,值)或十字链表'},
-{q:'【2009-T2】允许对队列进行的操作',o:['在队头之前插入','在队头删除','在队尾删除','在任意位置插入'],a:1,e:'队列只允许队头删除+队尾插入'},
-{q:'【2020-T7变】将递归算法转换为非递归算法通常需要',o:['队列','栈','链表','数组'],a:1,e:'递归用系统栈→非递归需手动栈模拟'},
-{q:'【2025-T3】循环队列入队时rear变化',o:['rear++','rear=(rear+1)%MaxSize','rear--','rear不变'],a:1,e:'循环队列必须取模防越界'},
-{q:'【2023-T8变】数组A[0..n-1][0..m-1]按行优先,A[i][j]地址',o:['A+(i*m+j)*L','A+(j*n+i)*L','A+(i*n+j)*L','A+(j*m+i)*L'],a:0,e:'行优先:前i行(i×m个)+第i行前j个=i×m+j'}]}
-];
-
-// QN=quick chapters 3-7 (condensed) for 树/图/查找/排序
-var QN=[
-{ch:'第4章 树与二叉树(核心大题来源·8-12分)',items:[
-{t:'4.1 树的基本术语',b:'<p>节点的<b>度</b>：孩子个数。树的度=max(节点度)。<b>叶节点</b>：度为0。<b>深度</b>：根=1向下数。<b>高度</b>：叶=1向上数。</p>'},
-{t:'4.2 二叉树5条性质(记死!)',b:'<p>①第i层≤2^(i-1) ②k层≤2^k-1 ③<b>n₀=n₂+1</b>(最重要的公式!) ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1父⌊i/2⌋。</p><p>性质③推导：总边数=n-1=n₁+2n₂。n=n₀+n₁+n₂。联立得n₀=n₂+1。</p>'},
-{t:'4.3 满二叉树vs完全二叉树',b:'<p><b>满二叉树</b>：每层都满，共2^k-1个节点。<b>完全二叉树</b>：与满二叉树前n个编号一一对应。</p>'},
-{t:'4.4 二叉树的遍历',b:'<p><b>先序</b>(根左右)、<b>中序</b>(左根右·BST=升序)、<b>后序</b>(左右根)、<b>层次</b>(BFS队列)。<br><span class="tag trp">仅前序+后序无法唯一确定!必须含中序。</span></p>'},
-{t:'4.5 线索二叉树',b:'<p>利用n+1空指针存前驱/后继。ltag=0→左孩子，ltag=1→前驱。rtag同理。</p>'},
-{t:'4.6 树→二叉树("左孩子右兄弟")',b:'<p>每个节点：左指针→第一个孩子，右指针→下一个兄弟。转换后二叉树根无右子树。</p>'},
-{t:'4.7 哈夫曼树',b:'<p>WPL最小的二叉树。n叶→2n-1节点，n₁=0。构造：每次选两个最小合并→共n-1次。</p>'},
-{t:'4.8 并查集',b:'<p>Find+Union。路径压缩后近乎O(1)。应用：Kruskal判环、连通分量。</p>'},
-{t:'4.9 堆(2026新增!)',b:'<p>完全二叉树。大顶堆(父≥子)。建堆O(n)，调整O(logn)。插入O(logn)，删堆顶O(logn)。</p>'},
-]},{ch:'第4章 树 选择题精练(25道)',mc:[
-{q:'【2020-T4】高度5有10结点的二叉树，顺序存储最少需单元数',o:['10','15','31','63'],a:2,e:'按完全二叉树编号→2^5-1=31'},
-{q:'【2017-T5】先序与中序相同的二叉树条件',o:['只有左子树','只有右子树','左右子树都有','空树'],a:1,e:'先序=根左右;中序=左根右→要相同需无左子树'},
-{q:'【2019-T5】n个结点的完全二叉树叶子结点数',o:['⌈n/2⌉','⌊n/2⌋','⌈(n+1)/2⌉','⌊(n+1)/2⌋'],a:3,e:'完全二叉树→⌊(n+1)/2⌋个叶结点'},
-{q:'【2021-T6】二叉树中序序列为a,b,c,d,不可能是先序的是',o:['a,b,c,d','d,c,b,a','a,c,b,d','d,b,a,c'],a:3,e:'先序首=根。中序=左根右。d为根时左子树含a,b→先序应d,b,a,...'},
-{q:'【2018-T5】线索二叉树中，某结点有左孩子，则',o:['ltag=0','ltag=1','无左指针','左指针为空'],a:0,e:'有左孩子→ltag=0→lchild指向左孩子'},
-{q:'【2016-T5】在哈夫曼树中，度为1的结点数',o:['0','1','n-1','不确定'],a:0,e:'哈夫曼树只有度为0和2的节点→n₁=0'},
-{q:'【2013-T4】一棵完全二叉树有768个结点，叶子结点数',o:['384','383','385','386'],a:0,e:'n₀=⌈n/2⌉=384'},
-{q:'【2022-T5变】完全二叉树按层序编号(从1开始),某节点编号为i,其右孩子的编号',o:['2i','2i+1','⌊i/2⌋','i+1'],a:1,e:'编号i→左2i,右2i+1'},
-{q:'【2021-T4】设二叉树有2n个结点，则',o:['n₀+n₁+n₂','n₀=n₂','n₀可能不等于n₂','n₁必为0'],a:1,e:'任何二叉树都满足n₀=n₂+1→不一定n₀=n₂'},
-{q:'【2015-T6变】树的先根遍历对应二叉树的',o:['先序','中序','后序','层序'],a:0,e:'树→二叉树(左孩右兄)→树先根=二叉树先序'},
-{q:'【2017-T4】在哈夫曼树中，n个叶结点的树共有',o:['n','n+1','2n-1','2n'],a:2,e:'n叶→共2n-1个节点'},
-{q:'【2024-T5】一棵二叉树有10个度为2的结点，则叶结点数',o:['9','10','11','12'],a:2,e:'n₀=n₂+1=10+1=11'},
-{q:'【2016-T4变】二叉树先序=中序，则一定是',o:['空树','所有结点只有左子树','所有结点只有右子树','满二叉树'],a:2,e:'先=根左右,中=左根右→要同需无左子树→都只有右子树'},
-{q:'【2023-T5变】哈夫曼树中权值越大的叶结点',o:['离根越近','离根越远','在中间','不确定'],a:0,e:'构造时每次都取最小→权值大的先被合并→离根近'},
-{q:'【2019-T6】设森林F对应二叉树B，B的右子树',o:['是第一棵树','是第二棵树','对应F中除第一棵树外的森林','为空'],a:2,e:'森林→二叉树:后续树根作前一棵树根的右孩子'},
-{q:'【2020-T5】后序序列与中序序列相反的二叉树',o:['所有结点只有左子树','所有结点只有右子树','空树','满二叉树'],a:0,e:'后序=左右根,中序=左根右→要相反需无右子树→都只有左'},
-{q:'【2022-T4】在平衡二叉树中插入一个结点后造成不平衡，设最低不平衡结点为A，已知A左孩子平衡因子=0，右孩子平衡因子=1，应做',o:['LL','RR','LR','RL'],a:3,e:'A右孩子左子树插入→RL型(先右旋后左旋)'},
-{q:'【2014-T5变】用n个权值构造哈夫曼树，共需合并次数',o:['n','n-1','2n-1','n+1'],a:1,e:'n个节点→n-1次合并→得到2n-1个节点'},
-{q:'【2025-T5变】一棵二叉树的前序和后序序列正好相反',o:['只有左子树','只有右子树','左子树=右子树','高度=结点数'],a:3,e:'每个结点只有一个孩子→先序和后序才可能相反'},
-{q:'【2018-T4】层次遍历二叉树的算法需要借助',o:['栈','队列','链表','数组'],a:1,e:'层次遍历=BFS→用队列'},
-{q:'【2021-T8变】n个结点的完全二叉树用数组顺序存储，下标从0开始，i的左孩子',o:['2i','2i+1','2i-1','i+1'],a:1,e:'下标0开始→左孩子=2i+1'},
-{q:'【2012-T4变】对一棵排序二叉树进行()遍历可得到有序序列',o:['先序','中序','后序','层序'],a:1,e:'BST中序=升序序列'},
-{q:'【2015-T5】以下关于哈夫曼树的说法错误的是',o:['是带权路径最短的树','权值大的结点离根近','哈夫曼树中无度为1的结点','权值越大的结点编码越长'],a:3,e:'哈夫曼编码:高频率→短编码→权值大→离根近→编码短'},
-{q:'【2023-T4】一棵二叉树有24个叶结点，则度为2的结点数',o:['23','24','25','无法确定'],a:0,e:'n₀=n₂+1→n₂=23'},
-{q:'【2020-T6变】在二叉树中,m个度为2的结点,n个度为1的结点,叶结点数',o:['m','m+1','n','m+n'],a:1,e:'n₀=n₂+1=m+1(与n₁无关!)'}]}
-];
-
-function mcHTML(arr,chId){var h='<div class="mch"><h4>📝 选择题通关 ('+arr.length+'题)</h4><div class="score" id="sc_'+chId+'">✅ 0 / '+arr.length+'</div>';arr.forEach(function(q,i){var id='q_'+chId+'_'+i;h+='<div class="mcq"><div class="q"><b>'+(i+1)+'.</b> '+q.q+'</div><div class="opts">';q.o.forEach(function(opt,j){h+='<button id="'+id+'_'+j+'" onclick="pick(\''+id+'\','+i+','+j+','+q.a+',\''+chId+'\','+arr.length+')">'+opt+'</button>';});h+='</div><div class="fb" id="fb_'+id+'"></div></div>';});h+='</div>';return h;}
-
-var scoreMap={};
-function pick(id,i,chosen,correct,chId,total){
-  var fb=document.getElementById('fb_'+id);
-  // disable all buttons for this question
-  for(var j=0;j<10;j++){var b=document.getElementById(id+'_'+j);if(b){b.disabled=true;b.style.opacity='0.5';}}
-  // mark chosen
-  var cBtn=document.getElementById(id+'_'+chosen);
-  var rBtn=document.getElementById(id+'_'+correct);
-  if(chosen===correct){cBtn.className='right';fb.className='fb ok';fb.innerHTML='✅ 正确！';scoreMap[chId]=(scoreMap[chId]||0)+1;}else{cBtn.className='wrong';rBtn.className='right';fb.className='fb bad';fb.innerHTML='❌ 错误。正确答案是第'+(correct+1)+'个选项。';}
-  document.getElementById('sc_'+chId).textContent='✅ '+scoreMap[chId]+' / '+total;
-}
-
-// Render all chapters
-var h='';
-// Knowledge chapters
-var KW=[{ch:'第1章 绪论',items:[{t:'数据结构三要素',b:'<p>逻辑(集合/线性/树/图)、存储(顺序/链式/索引/散列)、运算。</p>'},{t:'算法五特性',b:'<p>有穷/确定/可行/输入/输出。<span class="tag trp">程序≠算法</span></p>'},{t:'时间复杂度',b:'<p>O(1)<O(logn)<O(n)<O(nlogn)<O(n²)<O(n³)<O(2ⁿ)。只保留最高阶项。</p>'}]},{ch:'第2章 线性表',items:[{t:'顺序表',b:'<p>连续内存。随机存取O(1)。插删O(n)。<span class="tag fml">插入移n-i+1,删除移n-i</span></p>'},{t:'单链表',b:'<p>节点=数据+next。头插(逆序)/尾插(同序)。插删O(1)已知位置。查找O(n)。</p>'},{t:'双链表',b:'<p>prior+next。可双向遍历。插入须改4条指针。</p>'}]},{ch:'第3章 栈队列',items:[{t:'栈LIFO',b:'<p>栈顶操作。顺序栈top=-1为空。共享栈。应用:括号匹配/表达式/递归/DFS。</p>'},{t:'循环队列(每年必考)',b:'<p><span class="tag fml">空:front==rear 满:(rear+1)%M==front 个数:(rear-front+M)%M</span></p>'}]}];
-
-for(var i=0;i<KW.length;i++){var ch=KW[i];h+='<div class="ks" id="kw'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){h+='<div class="kc"><h5>'+ch.items[j].t+'</h5>'+ch.items[j].b+'</div>'}h+='</div></div>';}
-// MC chapters
-for(var i=0;i<QZ.length;i++){h+='<div class="ks" id="mcz'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(i+1+KW.length)+'</div><div class="kt">'+QZ[i].ch+'</div><div class="ka">▶</div></div><div class="kb">'+mcHTML(QZ[i].mc,'mcz'+i)+'</div></div>';}
-// Ch4 knowledge
-var oi=KW.length+QZ.length;
-for(var i=0;i<QN.length;i++){var ch=QN[i];if(ch.items){h+='<div class="ks" id="qn'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(oi+i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){h+='<div class="kc"><h5>'+ch.items[j].t+'</h5>'+ch.items[j].b+'</div>'}h+='</div></div>';}else{h+='<div class="ks" id="qn'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(oi+i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">'+mcHTML(ch.mc,'qn'+i)+'</div></div>';}}
-
+var D=[
+{ch:'第1章 绪论 (2-4分/年)',items:[
+{t:'1.1 数据结构是什么',b:'<p>数据结构 = <b>数据元素</b> + <b>结构关系</b>。研究数据的逻辑结构、物理存储、以及相关操作。</p><p><b>数据</b>：所有能输入到计算机中的符号的总称。<b>数据元素</b>：数据的基本单位。<b>数据项</b>：构成数据元素的不可分割的最小单位。</p>'},
+{t:'1.2 逻辑结构',b:'<p><b>集合</b>：同属一个集合，无其他关系。<b>线性结构</b>：一对一(线性表、栈、队列、串)。<b>树形结构</b>：一对多(二叉树、树)。<b>图状结构</b>：多对多(有向图、无向图)。</p><p><span class="tag exam">必考</span> 逻辑结构独立于存储结构——同一逻辑结构可多种方式存储。</p>'},
+{t:'1.3 存储结构(物理结构)',b:'<p><b>顺序存储</b>：连续内存单元。逻辑相邻=物理相邻。✅随机存取 ❌插入删除慢<br><b>链式存储</b>：指针链接。✅插入删除快 ❌不可随机存取<br><b>索引存储</b>：附加索引表加速查找。<br><b>散列存储</b>：根据关键字计算地址。</p>'},
+{t:'1.4 算法定义与五特性',b:'<p><b>算法</b>=对特定问题求解步骤的描述。<b>五特性</b>：①有穷性(有限步结束)②确定性(每步含义唯一)③可行性(每步可执行)④输入(0或多个)⑤输出(≥1个)。</p><p><span class="tag trp">陷阱</span> 程序≠算法——程序可以死循环(无穷性)。</p>'},
+{t:'1.5 算法设计目标',b:'<p>①<b>正确性</b>(最基本)②<b>可读性</b>③<b>健壮性</b>(处理非法输入)④<b>效率与低存储量需求</b>。</p>'},
+{t:'1.6 时间复杂度分析——大O表示法',b:'<p>只保留<b>最高阶项</b>，忽略系数。反映n→∞时的增长趋势。</p><p><b>常见排序</b>：<br>O(1)常数 < O(logn)对数 < O(n)线性 < O(nlogn)线性对数 < O(n²)平方 < O(n³)立方 < O(2ⁿ)指数 < O(n!)阶乘 < O(nⁿ)</p>'},
+{t:'1.7 时间复杂度计算——单循环',b:'<p><code>for(i=0;i&lt;n;i++) sum++;</code> → O(n)<br><code>for(i=0;i&lt;n;i+=2) sum++;</code> → O(n) 常数系数忽略<br><code>while(n>1){n/=2;}</code> → O(logn)</p>'},
+{t:'1.8 时间复杂度计算——嵌套循环',b:'<p><code>for(i=0;i&lt;n;i++) for(j=0;j&lt;n;j++) sum++;</code> → O(n²)<br><code>for(i=0;i&lt;n;i++) for(j=0;j&lt;i;j++) sum++;</code> → O(n²) 0+1+...+(n-1)=n(n-1)/2<br><span class="tag trp">陷阱</span> 嵌套≠一定是O(n²)。内层循环与n无关时可能是O(n)。</p>'},
+{t:'1.9 时间复杂度计算——含有递归',b:'<p>递推公式法：T(n)=T(n-1)+O(1)→O(n)。T(n)=2T(n/2)+O(n)→O(nlogn)。</p>'},
+{t:'1.10 空间复杂度',b:'<p>算法运行所需<b>额外</b>存储空间。递归调用占用栈空间→递归深度影响空间复杂度。<br>O(1)<O(logn)<O(n)<O(n²)。</p>'},
+{t:'1.11 王道选择题1-绪论(真题示例)',b:'<div class="qb"><div class="q">【2013-T1】两长度m,n升序链表合并为m+n降序链表，最坏时间复杂度</div><div class="a">O(max(m,n))</div><div class="xp">归并逐个比较即可</div></div><div class="qb"><div class="q">【2019-T1】<code>while(n>=(x+1)*(x+1)) x++;</code>的时间复杂度</div><div class="a">O(√n)</div><div class="xp">n≥(x+1)²→x≤√n-1</div></div><div class="qb"><div class="q">【2012-T1】求整数n(n≥2)阶乘的递归算法时间复杂度</div><div class="a">O(n)</div><div class="xp">n层递归，每层O(1)</div></div>'},
+]},{ch:'第2章 线性表 (4-6分/年·代码题主要来源)',items:[
+{t:'2.1 线性表定义',b:'<p>具有<b>相同数据类型</b>的n个数据元素的<b>有限序列</b>。L=(a₁,a₂,...,aₙ)。<br>除第一个元素外每个元素有唯一的<b>直接前驱</b>；除最后一个元素外每个元素有唯一的<b>直接后继</b>。</p>'},
+{t:'2.2 顺序表定义',b:'<p>用一组<b>地址连续</b>的存储单元依次存放。逻辑相邻=物理相邻。</p><pre>#define MaxSize 50\ntypedef struct{\n  int data[MaxSize]; // 存储空间\n  int length;        // 当前长度\n}SqList;</pre>'},
+{t:'2.3 顺序表——按值查找',b:'<p>从第一个元素开始逐个比较，找到返回位置(下标+1)，没找到返回0。</p><p>最好O(1)(第一个就是)，最坏O(n)(最后一个或没找到)，平均比较次数(n+1)/2。</p>'},
+{t:'2.4 顺序表——插入操作',b:'<p>在第i个位置(1≤i≤length+1)插入e。需将第i到第length个元素后移一位。</p><p><span class="tag fml">公式</span> 需移动 <b>n-i+1</b> 个元素。等概率下平均移动n/2个。</p><p>最好O(1)（表尾插入），最坏O(n)（表头插入），平均O(n)。</p>'},
+{t:'2.5 顺序表——删除操作',b:'<p>删除第i个位置(1≤i≤length)。需将第i+1到第length个元素前移一位。</p><p><span class="tag fml">公式</span> 需移动 <b>n-i</b> 个元素。等概率下平均移动(n-1)/2个。</p>'},
+{t:'2.6 顺序表优缺点总结',b:'<p>✅随机存取O(1)、✅存储密度高(不存指针)。<br>❌插入/删除O(n)、❌需预分配(可能浪费/不够)、❌需连续大块内存。</p>'},
+{t:'2.7 单链表——节点结构',b:'<p>每个节点=<b>数据域data</b>+<b>指针域next</b>。next指向直接后继，最后一个节点的next=NULL。</p><pre>typedef struct LNode{\n  int data;            // 数据域\n  struct LNode *next;  // 指针域\n}LNode, *LinkList;</pre>'},
+{t:'2.8 单链表——头指针与头节点',b:'<p><b>头指针(head)</b>：指向第一个节点，是链表的唯一标识。<br><b>头节点</b>：在第一个数据节点前附加的节点(data通常不用)。引入目的：<b>统一空表和非空表的操作</b>——有头节点后，在第一个位置插入/删除不需要特殊处理。</p>'},
+{t:'2.9 单链表——头插法建表',b:'<p>新节点始终插入到头节点之后→结果与输入<b>逆序</b>。O(n)。</p><pre>void CreateHead(LinkList &L, int n){\n  L=(LinkList)malloc(sizeof(LNode));\n  L->next=NULL; // 头节点\n  for(int i=0;i<n;i++){\n    LNode *s=(LNode*)malloc(sizeof(LNode));\n    scanf("%d",&s->data);\n    s->next=L->next;\n    L->next=s;\n  }\n}</pre>'},
+{t:'2.10 单链表——尾插法建表',b:'<p>维护尾指针r→新节点插入r之后→结果与输入<b>同序</b>。O(n)。</p><pre>void CreateTail(LinkList &L, int n){\n  L=(LinkList)malloc(sizeof(LNode));\n  LNode *r=L; // 尾指针\n  for(int i=0;i<n;i++){\n    LNode *s=(LNode*)malloc(sizeof(LNode));\n    scanf("%d",&s->data);\n    r->next=s; r=s;\n  }\n  r->next=NULL;\n}</pre>'},
+{t:'2.11 单链表——按序号查找',b:'<p>从第一个节点开始计数，找第i个节点(1≤i≤n)。需遍历i个节点→O(n)。</p>'},
+{t:'2.12 单链表——按值查找',b:'<p>从第一个节点开始逐个比较data值→O(n)。平均比较(n+1)/2次(成功)或n次(失败)。</p>'},
+{t:'2.13 单链表——在p后插入s',b:'<pre>s->next = p->next;\np->next = s;\n// 两条语句顺序不能反！先连后断</pre><p><span class="tag trp">陷阱</span> 先写p->next=s会丢掉p原来的next。</p>'},
+{t:'2.14 单链表——删除p的后继',b:'<pre>LNode *q = p->next;\np->next = q->next;\nfree(q);  // 必须释放！</pre>'},
+{t:'2.15 单链表——删除指定节点*p',b:'<p>需先找到*p的前驱→从head开始遍历到p的前一个→O(n)。<br><b>偷梁换柱法</b>：将p的后继的data复制到p→删p的后继→O(1)。但若p是最后一个节点则不行。</p>'},
+{t:'2.16 双链表',b:'<p>每个节点有<b>prior</b>和<b>next</b>两个指针。可双向遍历。已知节点位置时插入/删除O(1)。</p><pre>typedef struct DNode{\n  int data;\n  struct DNode *prior, *next;\n}DNode, *DLinkList;</pre>'},
+{t:'2.17 双链表——在p后插入s',b:'<pre>s->next = p->next;\ns->prior = p;\nif(p->next) p->next->prior = s; // 边界！\np->next = s;</pre><p>四条语句：先连s的next和prior→再改p后继的prior→最后改p的next。</p>'},
+{t:'2.18 双链表——删除p的后继q',b:'<pre>p->next = q->next;\nif(q->next) q->next->prior = p;\nfree(q);</pre>'},
+{t:'2.19 循环链表',b:'<p><b>循环单链表</b>：最后一个节点next指向头节点。<b>循环双链表</b>：头节点prior指向尾节点。</p><p>判断表空：循环单链表→<code>L->next==L</code>。循环双链表→<code>L->prior==L && L->next==L</code>。</p>'},
+{t:'2.20 静态链表',b:'<p>用<b>数组</b>实现链表，通过"游标(cur)"代替指针。结点也分data域和cur域。<br>适用于不支持指针的早期语言(如Basic)。</p>'},
+{t:'2.21 顺序表vs链表——完整对比',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>对比维度</th><th>顺序表</th><th>链表</th></tr><tr><td>存取</td><td>随机O(1)</td><td>顺序O(n)</td></tr><tr><td>按值查找</td><td>O(n)可折半O(logn)</td><td>O(n)无法折半</td></tr><tr><td>插入删除</td><td>O(n)移动元素</td><td>O(1)改指针(已知位置)</td></tr><tr><td>存储密度</td><td>1(只存数据)</td><td>&lt;1(额外存指针)</td></tr><tr><td>空间</td><td>需预分配</td><td>动态按需</td></tr></table>'},
+{t:'2.22 王道选择题2-线性表(真题示例)',b:'<div class="qb"><div class="q">【2016-T1】已知表头为c的单链表中f插入在a和e之间，f的链接地址</div><div class="a">1010H(e的地址)</div></div><div class="qb"><div class="q">【2021-T2】q是p的前驱，在q和p间插入s</div><div class="a">q->next=s; s->next=p;</div></div>'},
+]},{ch:'第3章 栈、队列和数组 (4-6分/年)',items:[
+{t:'3.1 栈的定义与特点',b:'<p><b>栈(Stack)</b>：只允许在<b>栈顶</b>进行插入(入栈/push)和删除(出栈/pop)的线性表。<b>后进先出(LIFO)</b>。</p><p>n个不同元素依次入栈，出栈序列方案数=卡特兰数：<b>C(n)=C(2n,n)/(n+1)</b>。</p>'},
+{t:'3.2 顺序栈实现',b:'<pre>#define Max 50\ntypedef struct{\n  int data[Max];\n  int top; // -1=空栈\n}SqStack;\n// 入栈: data[++top]=x;\n// 出栈: x=data[top--];\n// 读栈顶: x=data[top];</pre><p><span class="tag fml">判空</span> top==-1。 <span class="tag fml">判满</span> top==Max-1。</p>'},
+{t:'3.3 共享栈',b:'<p>两个栈共享同一数组空间。栈1底=数组低端(0)，栈2底=高端(Max-1)。</p><p><span class="tag fml">栈满条件</span> top1+1 == top2（两个栈顶相遇）。</p>'},
+{t:'3.4 链栈',b:'<p>用链表实现栈，所有操作在<b>链表头部</b>进行。无栈满溢出问题→O(1)。</p>'},
+{t:'3.5 栈的应用——括号匹配',b:'<p>左括号入栈→右括号与栈顶匹配→匹配成功则出栈→最终栈空=全部匹配。</p>'},
+{t:'3.6 栈的应用——表达式求值',b:'<p><b>中缀→后缀(逆波兰)</b>：操作数直接输出，运算符与栈顶比较优先级→优先级高入栈，低则出栈。<br><b>后缀求值</b>：操作数入栈→遇运算符则弹出两个操作数计算→结果入栈。</p>'},
+{t:'3.7 栈的应用——递归',b:'<p>系统栈保存每层递归的：①返回地址②局部变量③参数。递归层数受栈大小限制→太深则栈溢出。</p>'},
+{t:'3.8 队列的定义与特点',b:'<p><b>队列(Queue)</b>：只允许在队尾插入(入队)，在队头删除(出队)的线性表。<b>先进先出(FIFO)</b>。</p>'},
+{t:'3.9 顺序队列的假溢出',b:'<p>多次入队出队后，front和rear都向后移动→数组前端空闲但rear已到末尾→<b>假溢出</b>。</p><p>解决方案：<b>循环队列</b>——逻辑上把数组首尾相接。</p>'},
+{t:'3.10 循环队列——408每年必考!',b:'<p><span class="tag fml">408必背公式</span></p><pre>判空: front == rear\n判满: (rear+1) % MaxSize == front\n入: Q[rear]=x; rear=(rear+1)%MaxSize\n出: x=Q[front]; front=(front+1)%MaxSize\n元素个数: (rear-front+MaxSize) % MaxSize</pre><p><b>为什么牺牲一个单元？</b>空和满都满足front==rear→不牺牲则无法区分。</p>'},
+{t:'3.11 循环队列——不同初始值的影响',b:'<p>若front=0指向队头元素，rear=0指向队尾下一位置→牺牲一个单元。<br>若rear指向队尾元素本身→需另设size/length字段区分空满。</p>'},
+{t:'3.12 链式队列',b:'<p>front指向头节点(队头)，rear指向尾节点(队尾)。入队在rear处插入→O(1)。出队在front处删除→O(1)。</p>'},
+{t:'3.13 双端队列',b:'<p>允许两端都可以入队/出队。分为<b>输入受限</b>(一端可入队，两端可出队)和<b>输出受限</b>(两端可入队，一端可出队)。</p>'},
+{t:'3.14 特殊矩阵——对称矩阵压缩',b:'<p>a[i][j]=a[j][i]。只存下三角(含对角线)→需n(n+1)/2个存储单元。<br><span class="tag fml">下标映射</span> i≥j时，k=i(i-1)/2+j-1。</p>'},
+{t:'3.15 特殊矩阵——三角/三对角矩阵',b:'<p><b>三角矩阵</b>：上三角(或下三角)全为同一常数→存三角区+1个常数。<br><b>三对角矩阵</b>：只有主对角线和相邻两条副对角线有非零元→3n-2个非零元。</p>'},
+{t:'3.16 稀疏矩阵——三元组存储',b:'<p>用三元组(行号i,列号j,值v)只存非零元素。支持矩阵转置、加法。</p>'},
+{t:'3.17 王道选择题3-栈队列(真题示例)',b:'<div class="qb"><div class="q">【2018-T2】入栈1,2,...,n，p₂=3时p₃可能取值个数</div><div class="a">n-1种</div></div><div class="qb"><div class="q">【2020-T3】循环队列A[0..n]中front=0,rear=n，元素个数</div><div class="a">n个</div></div><div class="qb"><div class="q">【2014-T2】循环队列front指向队头元素，rear指向队尾下一位置</div><div class="a">元素个数=(rear-front+m)%m</div></div>'},
+]},{ch:'第4章 串 (2026考纲新增KMP·2-3分)',items:[
+{t:'4.1 串的定义',b:'<p>串(string)=零个或多个字符组成的有限序列。S=\'a₁a₂...aₙ\'。空串用∅表示，空格串由空格字符组成。</p><p><b>子串</b>：串中任意连续字符组成的子序列。<b>主串</b>：包含子串的串。</p>'},
+{t:'4.2 串的存储结构',b:'<p><b>定长顺序存储</b>：char数组+长度标记(\\0或length字段)。<br><b>堆分配存储</b>：malloc动态分配。<br><b>块链存储</b>：链表存储，每个节点存多个字符(块)。</p>'},
+{t:'4.3 朴素模式匹配(BF算法)',b:'<p>主串指针i从第一个字符开始→逐位比较→失配时i回溯到i-j+2，j回到1。时间O(mn)。</p>'},
+{t:'4.4 KMP算法——核心思想',b:'<p>朴素算法的问题：失配时主串指针i回溯→浪费。<br>KMP的解决：<b>i不回溯</b>，只根据<b>next数组</b>移动模式串指针j。时间O(m+n)。</p>'},
+{t:'4.5 KMP——next数组手动求法',b:'<p>next[j]=模式串前j-1个字符组成的子串的<b>最长相等前后缀长度</b>。<br>next[1]=0(规定)。next[2]=1(只有一个字符前后缀为空)。</p><p>例：模式串"abaabc"<br>next[1]=0, next[2]=1, next[3]=1, next[4]=2, next[5]=2, next[6]=3</p>'},
+{t:'4.6 KMP——nextval优化',b:'<p>当p[j]==p[next[j]]时→失配后跳到的字符相同→必然继续失配→可跳过。<br>nextval[j]=next[next[j]]直到字符不同。</p>'},
+{t:'4.7 KMP代码实现',b:'<pre>void getNext(char *p, int *next){\n  int j=0, k=-1; next[0]=-1;\n  while(j < strlen(p)-1){\n    if(k==-1 || p[j]==p[k])\n      next[++j] = ++k;\n    else k = next[k];\n  }\n}</pre>'},
+]},{ch:'第5章 树与二叉树 ⭐最多分(8-12分)',items:[
+{t:'5.1 树的定义和基本术语',b:'<p>树=n(n≥0)个节点的有限集。n=0为空树。<b>根</b>：唯一没有前驱的节点。<br><b>度</b>：节点的孩子个数。<b>树的度</b>=所有节点度的max值。<br><b>叶节点</b>(终端节点)：度为0的节点。<b>分支节点</b>：度>0的节点。<br><b>深度</b>：从根向下数(根深=1)。<b>高度</b>：从叶向上数(叶高=1)。</p>'},
+{t:'5.2 二叉树的定义',b:'<p>每个节点最多两棵子树，有<b>左右之分</b>(即使只有一棵也要区分左还是右)。</p><p><b>二叉树≠度为2的有序树</b>——度为2的有序树不区分左右。</p>'},
+{t:'5.3 满二叉树',b:'<p>深度为k且有<b>2ᵏ-1</b>个节点。每层都是满的(第i层有2ⁱ⁻¹个节点)。对满二叉树从1开始按层编号。</p>'},
+{t:'5.4 完全二叉树',b:'<p>与满二叉树的前n个节点<b>编号一一对应</b>。即在满二叉树最底层从右向左连续缺少若干节点。<br>完全二叉树深度=⌊log₂n⌋+1。</p>'},
+{t:'5.5 二叉排序树(BST)',b:'<p>空树或满足：①若左子树非空→左子树所有节点值<根 ②若右子树非空→右子树所有节点值>根 ③左右子树也是BST。</p>'},
+{t:'5.6 平衡二叉树(AVL)',b:'<p>空树或满足：①左右子树都是AVL ②左右子树高度差≤1。</p>'},
+{t:'5.7 二叉树性质1——层节点数',b:'<p>第i层最多<b>2<sup>i-1</sup></b>个节点(第1层1个、第2层2个、第3层4个...)。</p>'},
+{t:'5.8 二叉树性质2——总节点数',b:'<p>深度为k的二叉树最多<b>2<sup>k</sup>-1</b>个节点(k层满树)。</p>'},
+{t:'5.9 二叉树性质3——叶与度为2节点关系(最重要!)',b:'<p><b>n₀ = n₂ + 1</b>——叶节点比度为2的节点多1个。</p><p><b>推导</b>：每个节点(除根)有1条边连向父→总边数=n-1。另一方面，n₁贡献1条边×n₁个，n₂贡献2条边×n₂个(n₀不贡献)。所以n-1=n₁+2n₂。又n=n₀+n₁+n₂。联立得n₀=n₂+1。</p><p><span class="tag exam">每年必考</span> 选择题/判断题高频出现。</p>'},
+{t:'5.10 二叉树性质4——完全二叉树深度',b:'<p>n个节点的完全二叉树深度=<b>⌊log₂n⌋+1</b>。</p>'},
+{t:'5.11 二叉树性质5——编号规律',b:'<p>对完全二叉树从1开始按层编号：<br>i的左孩子=2i (2i≤n)。i的右孩子=2i+1 (2i+1≤n)。i的父=⌊i/2⌋(i≠1)。</p>'},
+{t:'5.12 二叉树的顺序存储',b:'<p>用数组存放完全二叉树(下标=编号)。非完全二叉树→需补充虚节点→大量空间浪费。</p>'},
+{t:'5.13 二叉树的链式存储(二叉链表)',b:'<pre>typedef struct BiTNode{\n  int data;\n  struct BiTNode *lchild, *rchild;\n}BiTNode, *BiTree;</pre><p>n个节点的二叉链表有<b>n+1</b>个空指针域。</p>'},
+{t:'5.14 二叉树的三叉链表',b:'<p>在二叉链表基础上增加parent指针指向父节点。便于找父节点。</p>'},
+{t:'5.15 先序遍历(递归)',b:'<pre>void PreOrder(BiTree T){\n  if(!T) return;\n  visit(T);              // 先访问根\n  PreOrder(T->lchild);   // 再左\n  PreOrder(T->rchild);   // 再右\n}</pre>'},
+{t:'5.16 中序遍历(递归)',b:'<pre>void InOrder(BiTree T){\n  if(!T) return;\n  InOrder(T->lchild);    // 先左\n  visit(T);              // 再根\n  InOrder(T->rchild);    // 再右\n}</pre><p>BST的中序=升序序列！</p>'},
+{t:'5.17 后序遍历(递归)',b:'<pre>void PostOrder(BiTree T){\n  if(!T) return;\n  PostOrder(T->lchild);  // 先左\n  PostOrder(T->rchild);  // 再右\n  visit(T);              // 最后根\n}</pre><p>后序适合释放节点(先释放孩子再释放自己)。</p>'},
+{t:'5.18 层次遍历(BFS)',b:'<p>用队列：根入队→出队访问→左孩子入队→右孩子入队→重复。O(n)。</p>'},
+{t:'5.19 非递归中序遍历',b:'<pre>void InOrder2(BiTree T){\n  BiTree stack[Max]; int top=-1;\n  BiTree p=T;\n  while(p || top>-1){\n    if(p){ stack[++top]=p; p=p->lchild; }\n    else { p=stack[top--]; visit(p); p=p->rchild; }\n  }\n}</pre>'},
+{t:'5.20 由遍历序列构造二叉树(408经典题!)',b:'<p><b>已知前序+中序→可唯一确定二叉树</b>。前序首字母=根→中序找根→左边=左子树，右边=右子树→递归。</p><p><b>已知后序+中序→可唯一确定二叉树</b>。后序末字母=根。</p><p><span class="tag trp">陷阱</span> 仅前序+后序<b>无法唯一确定</b>！(无法分割左右子树)</p>'},
+{t:'5.21 线索二叉树——概念',b:'<p>利用二叉链表的n+1个空指针域存放<b>前驱/后继</b>线索→加速遍历。</p><p><b>ltag</b>=0→lchild指向左孩子；ltag=1→lchild指向前驱。<br><b>rtag</b>=0→rchild指向右孩子；rtag=1→rchild指向后继。</p>'},
+{t:'5.22 线索二叉树——中序线索化',b:'<p>在中序遍历过程中，用一个pre指针记录刚访问过的节点→建立pre和当前节点的线索。</p>'},
+{t:'5.23 树→二叉树的转换("左孩子右兄弟")',b:'<p>每个节点：左指针指向<b>第一个孩子</b>，右指针指向<b>下一个兄弟</b>。<br>转换后的二叉树根无右子树。</p>'},
+{t:'5.24 森林→二叉树的转换',b:'<p>①每棵树各自转为二叉树 ②后续二叉树的根作为前一棵树根的右孩子。</p>'},
+{t:'5.25 树/森林的遍历',b:'<p><b>树的先根遍历</b>=转换后二叉树的先序遍历。<br><b>树的后根遍历</b>=转换后二叉树的中序遍历。<br><b>森林的先序遍历</b>=转换后二叉树的先序遍历。<br><b>森林的中序遍历</b>=转换后二叉树的中序遍历。</p>'},
+{t:'5.26 哈夫曼树——定义与WPL',b:'<p><b>WPL</b>(带权路径长度)=Σ(叶节点权值×根到该叶的路径长度(边数))。<br><b>哈夫曼树</b>=所有含n个带权叶子节点的二叉树中<b>WPL最小</b>的那棵。</p>'},
+{t:'5.27 哈夫曼树——构造过程',b:'<p><b>n个叶节点的哈夫曼树共2n-1个节点，无度为1的节点</b>(n₁=0)。<br>构造：①所有节点各自为森林 ②选两个权值最小的根节点合并为新树(新权值=两者和) ③重复直到只剩一棵树。<br>共需合并<b>n-1</b>次。</p>'},
+{t:'5.28 哈夫曼编码',b:'<p><b>前缀编码</b>：任一编码不是其他编码的前缀→解码无歧义。<br>哈夫曼编码是<b>最优前缀编码</b>(总编码长度最短)。<br>构建：左分支表示0，右分支表示1(或反过来)。</p>'},
+{t:'5.29 并查集(Union-Find)',b:'<pre>int find(int x){\n  return parent[x]==x ? x : (parent[x]=find(parent[x]));\n} // 路径压缩\nvoid merge(int a,int b){ parent[find(a)]=find(b); }</pre><p>应用：Kruskal最小生成树(判环)、连通分量、朋友圈问题。</p>'},
+{t:'5.30 堆——定义(2026考纲新增)',b:'<p><b>大顶堆</b>：每个节点≥其孩子(堆顶最大)。<br><b>小顶堆</b>：每个节点≤其孩子(堆顶最小)。</p><p>堆是<b>完全二叉树</b>→用数组存储。a[0]或a[1]为堆顶。</p>'},
+{t:'5.31 堆——建堆操作',b:'<p>从<b>⌊n/2⌋</b>位置开始向前逐节点向下调整(adjust)→O(n)。</p>'},
+{t:'5.32 堆——插入与删除',b:'<p><b>插入</b>：放数组末尾→向上调整(与父比较交换)→O(logn)。<br><b>删除堆顶</b>：用最后一个元素替代堆顶→向下调整→O(logn)。</p>'},
+{t:'5.33 王道选择题5-树(真题示例)',b:'<div class="qb"><div class="q">【2020-T4】高度5有10个结点的二叉树，顺序存储最少需要多少单元</div><div class="a">31个(2⁵-1)</div></div><div class="qb"><div class="q">【2017-T5】先序序列与中序序列相同的非空二叉树条件</div><div class="a">所有非叶结点只有右子树</div></div><div class="qb"><div class="q">【2014-T4】二叉树的带权路径长度WPL</div><div class="a">2014综合题考WPL计算</div></div>'},
+]},{ch:'第6章 图 (2021-2024连续4年!·6-8分)',items:[
+{t:'6.1 图的定义',b:'<p>图G=(V,E)。V=顶点集(非空)。E=边集(可为空)。</p><p><b>无向边</b>：(v,w)=(w,v)。<b>有向边</b>(弧)：<v,w>≠<w,v>，v=弧尾，w=弧头。</p>'},
+{t:'6.2 简单图与多重图',b:'<p><b>简单图</b>：无重复边、无顶点到自身的边(自环)。408只讨论简单图。<br><b>多重图</b>：允许重复边和自环。</p>'},
+{t:'6.3 完全图',b:'<p><b>无向完全图</b>：任意两顶点间都有边→共<b>n(n-1)/2</b>条边。<br><b>有向完全图</b>：任意两顶点间有两条方向相反的弧→共<b>n(n-1)</b>条边。</p>'},
+{t:'6.4 连通、连通图、连通分量',b:'<p><b>连通</b>：无向图中v到w有路径。<br><b>连通图</b>：任意两顶点都连通。<br><b>连通分量</b>：无向图中的极大连通子图。<br>n个顶点的连通图至少<b>n-1</b>条边。</p>'},
+{t:'6.5 强连通',b:'<p>有向图中每对顶点之间都有双向路径→<b>强连通图</b>。n个顶点的强连通图至少<b>n</b>条边(形成环)。</p>'},
+{t:'6.6 生成树与生成森林',b:'<p><b>生成树</b>：包含所有顶点的极小连通子图→n个顶点恰有n-1条边。<br>在生成树中加任一边→形成环；减任一边→变为非连通。</p>'},
+{t:'6.7 顶点的度',b:'<p><b>无向图</b>：度=依附于该顶点的边的条数。全部顶点的度之和=边数×2。<br><b>有向图</b>：出度+入度。全部顶点的入度之和=出度之和=边数。</p>'},
+{t:'6.8 邻接矩阵存储',b:'<p>n×n矩阵A。A[i][j]=1表示有边(带权图为权值，无边为∞或0)。空间O(n²)。</p><p><b>特点</b>：①判断i,j是否有边O(1)②找i的所有邻接点需遍历一整行O(n)③无向图邻接矩阵是对称矩阵→可压缩存储④适合<b>稠密图</b>。</p>'},
+{t:'6.9 邻接表存储',b:'<p>每个顶点挂一个单链表存储其邻接点。空间O(n+e)。</p><p><b>特点</b>：①找i的所有邻接点快O(出度)②判断i,j是否有边需遍历O(出度)③适合<b>稀疏图</b>④有向图邻接表出度好求、入度需遍历所有链表。</p>'},
+{t:'6.10 十字链表(有向图)',b:'<p>结合邻接表和逆邻接表→出度和入度都O(1)获取。每个弧节点有4个域：tailVex,headVex,hlink(指向下一个同弧头的弧),tlink(指向下一个同弧尾的弧)。</p>'},
+{t:'6.11 邻接多重表(无向图)',b:'<p>每条边只用一个节点表示→解决邻接表中每条边存两次的问题。适合需要对边进行标记/删除操作。</p>'},
+{t:'6.12 广度优先搜索(BFS)',b:'<pre>void BFS(Graph G, int v){\n  visited[v]=1; EnQueue(Q,v);\n  while(!Empty(Q)){\n    DeQueue(Q,v);\n    for(w=FirstNeighbor(G,v); w>=0; w=NextNeighbor(G,v,w))\n      if(!visited[w]){ visited[w]=1; EnQueue(Q,w); }\n  }\n}</pre><p>邻接矩阵O(n²)，邻接表O(n+e)。BFS生成<b>广度优先生成树</b>。</p>'},
+{t:'6.13 深度优先搜索(DFS)',b:'<pre>void DFS(Graph G, int v){\n  visited[v]=1;\n  for(w=FirstNeighbor(G,v); w>=0; w=NextNeighbor(G,v,w))\n    if(!visited[w]) DFS(G,w);\n}</pre><p>邻接矩阵O(n²)，邻接表O(n+e)。DFS生成<b>深度优先生成树</b>。</p>'},
+{t:'6.14 最小生成树——Prim算法',b:'<p>从任一顶点开始→每次选择与当前生成树距离最小的顶点加入。O(n²)。适合<b>稠密图</b>(边多)。</p>'},
+{t:'6.15 最小生成树——Kruskal算法',b:'<p>边按权值排序→每次选不构成环的最小边加入→用<b>并查集</b>判环。O(eloge)。适合<b>稀疏图</b>。</p>'},
+{t:'6.16 最短路径——Dijkstra',b:'<p><b>单源最短路径</b>。每次选尚未求出最短路径的距离最小的顶点→用它更新所有邻居。O(n²)。<br><span class="tag trp">不能处理负权边！</span>(已确定最短路径的顶点不会再更新)</p>'},
+{t:'6.17 最短路径——Floyd',b:'<p><b>全源最短路径</b>。<code>for(k)for(i)for(j) G[i][j]=min(G[i][j],G[i][k]+G[k][j])</code>。O(n³)。<br>可以处理负权边，但不能处理负权回路。</p>'},
+{t:'6.18 拓扑排序(AOV网)',b:'<p><b>AOV网</b>：顶点=活动，边=先后关系。无环。<br><b>算法</b>：选入度为0的顶点输出→删除该顶点及其出边→重复。<br>若全部顶点都能输出→成功。若提前无法继续→图中有环。<br>一个AOV网可以有多个合法拓扑序列。</p>'},
+{t:'6.19 关键路径(AOE网)',b:'<p><b>AOE网</b>：顶点=事件，边=活动(带权=持续时间)。<br><b>关键路径</b>=从源点到汇点的<b>最长路径</b>→决定整个工程的最短完成时间。<br><b>ve</b>(最早发生)：正推取max。<b>vl</b>(最迟发生)：逆推取min。<br><b>关键活动</b>=ve==vl的活动。关键路径可能有多条。</p>'},
+{t:'6.20 王道选择题6-图(真题示例)',b:'<div class="qb"><div class="q">【2022-T7】含n个顶点的连通无向图生成树边数</div><div class="a">n-1</div></div><div class="qb"><div class="q">【2021-T7】无向图G各顶点的度之和</div><div class="a">等于边数的2倍</div></div><div class="qb"><div class="q">【2018-T7】下列哪个选项中的图不是连通图</div><div class="a">按连通定义判断</div></div>'},
+]},{ch:'第7章 查找 (6-8分/年)',items:[
+{t:'7.1 查找的基本概念',b:'<p><b>查找表</b>：用于查找的数据集合。<b>关键字</b>：唯一标识数据元素的值。<br><b>查找长度</b>：比较关键字的次数。<b>ASL</b>(平均查找长度)=ΣPᵢCᵢ(概率×比较次数)。</p>'},
+{t:'7.2 顺序查找',b:'<p>逐个比较→找到返回位置，没找到返回0。O(n)。<br>ASL成功=(n+1)/2。ASL失败=n+1(有哨兵时=n+1不含哨兵比较)。<br>加<b>哨兵</b>(a[0]=key)→免去每次判断是否越界→效率略提高。</p>'},
+{t:'7.3 折半查找(二分)——前提与过程',b:'<p><b>前提</b>：①有序②顺序存储(能随机存取)。<br>比较中间mid→相等则找到→key小则去左半→key大则去右半。O(logn)。</p><p><span class="tag trp">链表不能折半查找</span>——无法O(1)访问中间元素。</p>'},
+{t:'7.4 折半查找——判定树',b:'<p>判定树=描述折半查找过程的二叉搜索树。中间元素是根。<br>查找成功时的比较次数=节点所在层数。<br>查找失败时的比较次数=到达失败节点(外部节点)前经过的节点数。<br><span class="tag fml">ASL成功≈log₂(n+1)-1</span>。</p>'},
+{t:'7.5 分块查找(索引顺序查找)',b:'<p>块间有序(索引表有序)+块内无序。先折半查找索引表确定块→再在块内顺序查找。<br>最优块大小≈<b>√n</b>。ASL≈log₂(√n+1)+√n/2≈O(√n)。</p>'},
+{t:'7.6 二叉排序树(BST)——定义',b:'<p>空树或：①左子树所有值<根②右子树所有值>根③左右子树也是BST。<br><b>中序遍历BST=升序序列</b>。</p>'},
+{t:'7.7 BST——查找',b:'<p>等于→找到。小于→去左子树。大于→去右子树。递归直到NULL=没找到。平均O(logn)，最坏O(n)(退化为链表)。</p>'},
+{t:'7.8 BST——插入',b:'<p>递归查找→在NULL处创建新节点插入。新节点必为<b>叶节点</b>。O(logn)~O(n)。</p>'},
+{t:'7.9 BST——删除(三种情况)',b:'<p>①删<b>叶节点</b>：直接删。<br>②删<b>单孩子节点</b>：子替父(将唯一的孩子接到被删节点的位置)。<br>③删<b>双孩子节点</b>：用<b>中序后继</b>(右子树的最左下节点)或中序前驱替代→转化为删①或②。</p>'},
+{t:'7.10 平衡二叉树(AVL)——定义',b:'<p>空树或：①左右子树都是AVL②左右子树高度差≤1。<br><b>平衡因子</b>=左子树高-右子树高∈{-1,0,1}。</p>'},
+{t:'7.11 AVL——四种调整(408选择题高频)',b:'<p><b>LL</b>(在左子树的左子树插入→失衡)：<b>右旋</b>(根向右转)。<br><b>RR</b>(在右子树的右子树插入→失衡)：<b>左旋</b>。<br><b>LR</b>(在左子树的右子树插入→失衡)：<b>先左旋后右旋</b>。<br><b>RL</b>(在右子树的左子树插入→失衡)：<b>先右旋后左旋</b>。</p><p>每次调整后重新计算高度。</p>'},
+{t:'7.12 AVL——深度与最少节点数',b:'<p>深度为h的AVL树最少节点数nₕ：n₁=1, n₂=2, nₕ=nₕ₋₁+nₕ₋₂+1。<br>即nₕ=斐波那契数Fₕ₊₂-1。</p>'},
+{t:'7.13 红黑树——五条性质',b:'<p>①每个节点红或黑②根是黑③叶节点(外部NULL)是黑④红节点的两个子必为黑⑤任意节点到其所有后代叶节点的路径上黑节点数相同(<b>黑高</b>)。<br>红黑树是"不那么严格"的平衡树→插入/删除效率高于AVL。</p>'},
+{t:'7.14 B树(m阶)——定义',b:'<p>①每个节点最多m个子树(m-1个关键字)<br>②非叶根节点至少2个子树；其他分支节点至少⌈m/2⌉个子树<br>③所有叶节点在同一层(不包含任何信息)<br>④节点内关键字升序排列。</p><p>B树所有节点的平衡因子=0(绝对平衡)。</p>'},
+{t:'7.15 B树——插入与删除',b:'<p><b>插入</b>：插入到叶节点→若超容量→<b>分裂</b>(中间关键字上升为父节点)。<br><b>删除</b>：若在非终端节点→用前驱/后继替代→转化为删终端节点。终端节点删后关键字不够→向兄弟<b>借</b>或<b>合并</b>。</p>'},
+{t:'7.16 B+树——与B树的区别(每年必考!)',b:'<p>①<b>B+树只有叶节点存数据</b>(B树所有节点都存数据)<br>②B+树的非叶节点只存索引→可存更多索引→树更矮<br>③<b>B+树叶节点用链表串联</b>→支持<b>范围查询</b>→数据库索引的核心<br>④B+树查找必须走到叶节点(B树可能在非叶命中)。</p>'},
+{t:'7.17 散列表——基本概念',b:'<p><b>哈希函数</b>：Hash(key)=Addr。<b>冲突</b>：不同key映射到同一地址。<br><span class="tag fml">装填因子α=n/m</span>(已有记录数/表长)。α越大越容易冲突。</p>'},
+{t:'7.18 散列表——哈希函数构造',b:'<p><b>除留余数法</b>：H(key)=key%p，p是不大于表长m的<b>最大素数</b>(或接近m的素数)。<br>其他方法：直接定址法、数字分析法、平方取中法。</p>'},
+{t:'7.19 散列表——冲突处理：开放定址法',b:'<p><b>线性探测</b>：冲突后依次找下一个(Hᵢ=(H(key)+i)%m)→<b>聚集现象</b>。<br><b>二次探测</b>：Hᵢ=(H(key)+i²)%m→减少聚集。表长m必须为4k+3型素数。<br><b>伪随机</b>：Hᵢ=(H(key)+dᵢ)%m。</p>'},
+{t:'7.20 散列表——冲突处理：链地址法',b:'<p>每个槽位拉一个链表存储所有同义词。无聚集问题。<br><span class="tag fml">ASL成功≈1+α/2</span>。<span class="tag fml">ASL失败≈α+e^{-α}</span>。</p>'},
+{t:'7.21 王道选择题7-查找(真题示例)',b:'<div class="qb"><div class="q">【2020-T8】长度为11的散列表，H(key)=key%7，线性探测，插入序列87,40,30,6,11,22,98,20后HT[4]的值</div><div class="a">11</div></div><div class="qb"><div class="q">【2018-T8】折半查找100个元素，查找成功最多比较次数</div><div class="a">7次(⌈log₂(100+1)⌉=7)</div></div>'},
+]},{ch:'第8章 排序 (6-8分/年·每年至少1道选择+可能综合题)',items:[
+{t:'8.1 排序的基本概念',b:'<p><b>稳定性</b>：相等关键字排序后相对次序不变→稳定。否则不稳定。<br><b>内部排序</b>：数据全在内存。<b>外部排序</b>：需内外存交换。</p>'},
+{t:'8.2 直接插入排序',b:'<p>第i趟将第i+1个元素插入到前i个已排好序的序列中。O(n²)<b>稳定</b>。<br>最好O(n)(已有序→每趟只比较1次)。空间O(1)。</p>'},
+{t:'8.3 折半插入排序',b:'<p>用折半查找确定插入位置→比较次数降到O(nlogn)，移动次数仍O(n²)。<b>稳定</b>。</p>'},
+{t:'8.4 希尔排序',b:'<p>按增量gap分组→组内直接插入→缩小gap(gap/=2)→重复。~O(n¹·³) <b>不稳定</b>。<br>最后一趟gap=1=直接插入排序。</p>'},
+{t:'8.5 冒泡排序',b:'<p>相邻比较→逆序交换→每趟把最大值"冒"到最后。O(n²)<b>稳定</b>。<br>最好O(n)(已有序→一趟无交换即结束)。</p>'},
+{t:'8.6 快速排序——算法思想',b:'<p>选<b>枢纽(pivot)</b>→一趟划分(partition)：小的放左边大的放右边→递归排序左右子表。</p>'},
+{t:'8.7 快速排序——代码实现',b:'<pre>void QuickSort(int a[],int l,int r){\n  if(l>=r) return;\n  int pivot=a[l], i=l, j=r;\n  while(i<j){\n    while(i<j && a[j]>=pivot) j--;\n    a[i]=a[j];\n    while(i<j && a[i]<=pivot) i++;\n    a[j]=a[i];\n  }\n  a[i]=pivot;\n  QuickSort(a,l,i-1); QuickSort(a,i+1,r);\n}</pre>'},
+{t:'8.8 快速排序——性能分析',b:'<p>平均O(nlogn)，最坏O(n²)(已有序+选首元为pivot)。空间O(logn)递归栈。<b>不稳定</b>。<br>优化：随机选pivot/三数取中/小数组改用插入排序。</p>'},
+{t:'8.9 简单选择排序',b:'<p>每趟选未排序部分最小值→与目标位置交换。O(n²)<b>不稳定</b>。<br>比较次数固定n(n-1)/2。移动次数少→最多3(n-1)次。</p>'},
+{t:'8.10 堆排序——建堆',b:'<p>①<b>建堆</b>：从⌊n/2⌋开始向前逐节点向下调整→O(n)。<br>②反复取堆顶(最大)→与末尾交换→缩小堆→向下调整→O(nlogn)。<br><b>不稳定</b>。空间O(1)=原地排序。</p>'},
+{t:'8.11 堆排序——代码实现',b:'<pre>void HeapSort(int a[],int n){\n  for(int i=n/2-1;i>=0;i--) Adjust(a,n,i); // 建堆\n  for(int i=n-1;i>0;i--){\n    swap(a[0],a[i]);     // 堆顶→末尾\n    Adjust(a,i,0);        // 调整剩余\n  }\n}</pre>'},
+{t:'8.12 归并排序——思想与代码',b:'<p><b>二路归并</b>：分治→左右各自排好→merge合并两个有序表。<br>O(nlogn)<b>稳定</b>。空间O(n)(临时数组)。<b>外部排序的基础</b>。</p>'},
+{t:'8.13 基数排序',b:'<p>按关键字各位权重从小到大→分配+收集→不基于比较。<br>O(d(n+r))<b>稳定</b>。d=位数，r=基数(十进制=10)。</p>'},
+{t:'8.14 排序算法对比表(408每年必默写!)',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>算法</th><th>最好</th><th>平均</th><th>最坏</th><th>空间</th><th>稳定?</th></tr><tr><td>直接插入</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>折半插入</td><td>O(nlogn)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>希尔</td><td>-</td><td>~O(n¹·³)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td>冒泡</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td><b>快排</b></td><td>O(nlogn)</td><td>O(nlogn)</td><td>O(n²)</td><td>O(logn)</td><td>❌</td></tr><tr><td>简单选择</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>堆排</b></td><td>O(nlogn)</td><td>O(nlogn)</td><td>O(nlogn)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>归并</b></td><td>O(nlogn)</td><td>O(nlogn)</td><td>O(nlogn)</td><td>O(n)</td><td>✅</td></tr><tr><td>基数</td><td>O(d(n+r))</td><td>O(d(n+r))</td><td>O(d(n+r))</td><td>O(n+r)</td><td>✅</td></tr></table>'},
+{t:'8.15 外部排序——多路归并',b:'<p>文件太大无法一次全部装入内存→分多段→各段内部排序(生成初始归并段)→多路归并。</p><p><b>归并趟数</b>=⌈logₖr⌉(k=归并路数，r=初始归并段数)。k越大趟数越少→但内部归并选最值的开销增大→用<b>败者树</b>优化。</p>'},
+{t:'8.16 败者树',b:'<p>选k个数中最小的→只需比较log₂k次(而不是k-1次)。建败者树O(k)，调整O(logk)。</p>'},
+{t:'8.17 最佳归并树(哈夫曼树应用!)',b:'<p>以初始归并段的长度为权值构造<b>哈夫曼树</b>→WPL最小的归并顺序→总的I/O次数最少。</p><p>若初始段数不足构成严格k叉哈夫曼树→补长度为0的虚段。</p>'},
+{t:'8.18 王道选择题8-排序(真题示例)',b:'<div class="qb"><div class="q">【2019-T9】不可能是快速排序第二趟结果</div><div class="a">D(只确定1个pivot位置)</div></div><div class="qb"><div class="q">【2024-T10】希尔排序第一趟后序列，求可能的增量</div><div class="a">d=5(观察位置变化)</div></div><div class="qb"><div class="q">【2015-T10】对一组数据分别进行直接插入排序和简单选择排序，若第一趟排序结果为(2,...)，则可判断用的排序方法是</div><div class="a">直接插入排序(第2个元素插入到合适位置)</div></div>'},
+]}];
+var h='';for(var i=0;i<D.length;i++){var ch=D[i];h+='<div class="ks" id="s'+i+'"><div class="kh" onclick="document.getElementById(\'s'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
 document.getElementById('c').innerHTML=h;
 </script></body></html>
