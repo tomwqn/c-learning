@@ -77,6 +77,7 @@ function g(k){try{return JSON.parse(localStorage[k]||'{}')}catch(e){return{}}}
 function s(k,v){localStorage[k]=JSON.stringify(v)}
 function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
+function makeBlank(tp){var lines=tp.split('\n');var out=[],blanked=0;for(var i=0;i<lines.length;i++){var L=lines[i].trim();var isFuncDef=((L.indexOf('void ')==0||L.indexOf('int ')==0||L.indexOf('float ')==0||L.indexOf('double ')==0||L.indexOf('char ')==0)&&L.indexOf('){')>-1&&L.indexOf('main')==-1)||((L.indexOf('struct ')==0||L.indexOf('typedef ')==0)&&L.indexOf('{')>-1);var isLogic=(L.indexOf('printf(')>-1&&L.indexOf('"')>-1)||L.indexOf('if(')>-1||L.indexOf('if (')>-1||L.indexOf('else ')===0||L.indexOf('else{')>-1||L.indexOf('for(')>-1||L.indexOf('for (')>-1||L.indexOf('while(')>-1||L.indexOf('while (')>-1||(L.indexOf('return ')>-1&&L.indexOf('return 0')==-1&&L.indexOf('return;')==-1&&L.indexOf('return -1')==-1);var isKey=isFuncDef||isLogic;if(isKey&&blanked===0){out.push('  // === 在这里写你的代码 ===');blanked=1;}if(!isKey)out.push(lines[i]);}if(blanked===0){out.splice(Math.floor(out.length/2),0,'  // === 在这里写你的代码 ===');}return out.join('\n');}
 function buildSidebar(){var done=g(K),h='',lp='';LC.forEach(function(l,i){if(l.ph!==lp){h+='<div class="ph">📌 '+l.ph+'</div>';lp=l.ph;}h+='<button class="lv'+(i===cur?' on':'')+(done[i]?' done':'')+'" onclick="go('+i+')"><span class="n">'+(i+1)+'</span>'+l.ti+'<span class="ck">✓</span></button>';});document.getElementById('sidebar-list').innerHTML=h;}
 function go(i){cur=i;var l=LC[i];var ck='lv_c_'+i;var done=g(K);
 document.querySelectorAll('#sb button.lv').forEach(function(b,j){b.classList.toggle('on',j===i);b.classList.toggle('done',!!done[j]);});
@@ -96,5 +97,5 @@ if(d.program_output&&l.ex&&d.program_output===l.ex&&!d.compiler_error){var done=
 document.getElementById('code').addEventListener('input',upLn);
 document.getElementById('code').addEventListener('keydown',function(e){if(e.key==='Tab'){e.preventDefault();var ta=e.target;var s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'\t'+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+1}});
 document.getElementById('code').addEventListener('scroll',function(){document.getElementById('ln').scrollTop=document.getElementById('code').scrollTop});
-buildSidebar();go(cur||0);
+for(var i=0;i<LC.length;i++){if(!LC[i].so&&LC[i].tp.indexOf('// ===')===-1){LC[i].so=LC[i].tp;LC[i].tp=makeBlank(LC[i].tp);}}buildSidebar();go(cur||0);
 </script></body></html>
