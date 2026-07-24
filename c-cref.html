@@ -1,70 +1,84 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>C语言百科</title>
-<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
+<title>C语言教程 — Beej's Guide精华</title>
+<style>
+:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--cb:#0d1117}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:800px;margin:0 auto;padding:24px 16px;line-height:1.7}
-h1{font-size:20px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:850px;margin:0 auto;padding:24px 16px;line-height:1.8}
+h1{font-size:22px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
 a.back{font-size:12px;color:var(--a)}
-.ks{margin-bottom:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
-.ks .kh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
+.ks{margin-bottom:14px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.ks .kh{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
 .ks .kh:hover{background:rgba(255,255,255,.03)}
-.ks .kh .kn{width:26px;height:26px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.ks .kh .kt{font-size:14px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
-.ks .kb{display:none;padding:0 14px 12px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
-.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
-.kc h5{font-size:12px;color:var(--a);margin-bottom:6px}
-.kc p,.kc li{font-size:12px;line-height:1.75}
-.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--o)}
-.kc pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:6px 0}
-.kc .tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;margin-right:4px}
-.kc .tag.trap{background:rgba(248,81,73,.3);color:var(--r)}
-.kc table{width:100%;font-size:10px;border-collapse:collapse}.kc td,.kc th{border-bottom:1px solid var(--b);padding:4px 6px;text-align:left}
-</style></head><body><a class="back" href="c-studio.html">← 返回总览</a>
-<h1>📚 C语言百科</h1><p class="sub">K&R + K.N.King + Beej's Guide 三源精华 · 点击展开</p>
+.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:15px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
+.ks .kb{display:none;padding:0 16px 16px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
+.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:14px;margin-top:10px}
+.kc h5{font-size:13px;color:var(--a);margin-bottom:8px}
+.kc p{font-size:13px;line-height:1.85;margin-bottom:8px}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:12px;color:var(--o)}
+.kc pre{background:var(--cb);padding:12px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:12px;line-height:1.6;margin:8px 0}
+.kc ul{margin:8px 0 8px 20px;font-size:13px;line-height:1.8}
+.kc .tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:9px;margin-right:4px}
+.kc .tag.tip{background:rgba(63,185,80,.2);color:var(--g)}
+.kc .tag.warn{background:rgba(248,81,73,.2);color:var(--r)}
+.kc .tag.exam{background:rgba(167,113,247,.25);color:#c9a9ff}
+table{width:100%;font-size:12px;border-collapse:collapse;margin:8px 0}
+td,th{border-bottom:1px solid var(--b);padding:6px 8px;text-align:left}
+</style></head><body>
+<a class="back" href="c-studio.html">← 返回总览</a>
+<h1>📚 C语言完整教程</h1>
+<p class="sub">按 Beej's Guide 章节结构 · 从零开始 · 大白话讲解 · 408/机考标注</p>
 <div id="content"></div>
 <script>
-var data=[{ch:'1. 变量与数据类型 — Beej第3章精华',items:[
-{t:'C的数据类型速查',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>类型</th><th>字节</th><th>printf</th><th>scanf</th><th>范围</th></tr><tr><td><code>char</code></td><td>1</td><td>%c</td><td>%c</td><td>-128~127</td></tr><tr><td><code>int</code></td><td>4</td><td>%d</td><td>%d</td><td>±21亿</td></tr><tr><td><code>long long</code></td><td>8</td><td>%lld</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>4</td><td>%f</td><td>%f</td><td>6位精度</td></tr><tr><td><code>double</code></td><td>8</td><td>%lf</td><td>%lf</td><td>15位精度</td></tr></table><br><b>Beej说</b>：C是低层语言——这些类型直接对应内存中的字节排列。int在32位系统是4字节。'},
-{t:'变量声明与初始化',b:'<b>声明</b>="拿一个盒子，贴标签，指定类型"。<code>int age;</code>(未初始化，值是垃圾)。<br><b>初始化</b>="放初始值"：<code>int age=20;</code>。<br><b>Beej强调</b>：C不会自动初始化局部变量！未初始化的变量是<b>随机的垃圾值</b>。全局变量和static变量会被自动清零。<br><code>const int X=100;</code>="这个盒子里的东西不能改"。'},
-{t:'printf = 对着屏幕格式化输出',b:'<pre>printf("我叫%s, %d岁, 身高%.1f", name, age, height);</pre>%s、%d、%f是"占位符洞"——按顺序用后面的变量填。<br><b>常用</b>：<code>\\n</code>换行 <code>\\t</code>制表 <code>\\\\</code>反斜杠 <code>%%</code>百分号<br><b>格式控制</b>：<code>%5d</code>(占5格右对齐) <code>%-5d</code>(左对齐) <code>%.2f</code>(2位小数)<br><span class="tag trap">陷阱</span> %个数和变量个数/类型对不上→乱码或崩溃。'},
-{t:'scanf = 等待用户输入',b:'<code>scanf("%d", &age);</code> — 程序卡住等用户输入。<br><b>关键规则</b>：整数/浮点数必须加<b>&</b>(取地址)；字符串<b>不加&</b>(数组名即地址)。<br><b>Beej的解释</b>：scanf需要知道"把读到的值存到哪个内存地址"→所以要传地址。printf只需要"看看值"→不用地址。<br><b>scanf的局限</b>：遇空格/换行停止。读带空格的字符串用<code>fgets()</code>。'},
-{t:'运算符与表达式',b:'<b>算术</b>：<code>+ - * / %</code>。整数除法<b>截断</b>（5/2=2）。<code>%</code>只能整数。<br><b>比较</b>：<code>== != > < >= <=</code><br><b>逻辑</b>：<code>&&(与) ||(或) !(非)</code><br><span class="tag trap">头号陷阱</span> <code>=</code>赋值 vs <code>==</code>比较！<code>if(x=5)</code>永远为真——它把5赋给x后返回5(非0=真)。<br><b>防坑技巧</b>：写<code>if(5==x)</code>而不是<code>if(x==5)</code>——写错成<code>if(5=x)</code>会编译报错。'},
-]},{ch:'2. 控制流 — Beej第4章：if/switch/循环',items:[
-{t:'if-else = 做选择题',b:'<pre>if(条件1){做A}\nelse if(条件2){做B}\nelse{做C}</pre>从上到下检查，第一个满足就执行，后面跳过。<br><b>⚠️顺序很重要！</b>必须从最严格写到最宽松。<br>错误：<code>if(s>=60)...else if(s>=80)</code>→≥80的永远被≥60拦截了。<br><b>三元运算符</b>：<code>x=(a>b)?a:b;</code> = "a大于b吗？是→取a，否→取b"。'},
-{t:'switch = 多项选择',b:'<pre>switch(变量){\n  case 值1: 做A; break;\n  case 值2: 做B; break;\n  default: 做C;\n}</pre><b>必须有break！</b>否则会"穿透"到下一个case继续执行。<br><b>case后面必须是常量</b>(不能是变量)。default=所有case都不匹配时执行。'},
-{t:'for循环 = 让电脑当苦力',b:'<pre>for(初始化; 条件; 更新){循环体}</pre><code>for(int i=0;i<N;i++)</code>="i从0出发，每次+1，i&lt;N时一直做"。<br><b>变体</b>：<code>i+=2</code>(每次跳2) <code>i--</code>(倒着走)。<br><b>嵌套循环</b>：外层="行"，内层="列"。<br><b>Beej的建议</b>：知道循环次数→用for；不知道→用while。'},
-{t:'while / do-while',b:'<b>while</b>："条件成立时一直做"——可能一次都不做。<br><b>do-while</b>："先做一次，然后条件成立时继续"——至少做一次。<br><span class="tag trap">坑</span> while里忘写更新条件→死循环！<br><b>break</b>=跳出整个循环。<b>continue</b>=跳过本次循环剩余部分，进入下一次。'},
-]},{ch:'3. 函数 — Beej第5章：传值与原型',items:[
-{t:'函数格式',b:'<pre>返回类型 函数名(参数列表){\n  函数体;\n  return 返回值;\n}</pre><b>函数原型</b>：在文件开头声明函数签名——告诉编译器"有这个函数，后面会定义"。<br><b>Beej说</b>：把重复代码打包成函数，取个好名字→代码可读性提升10倍。'},
-{t:'值传递 — C的核心机制',b:'C<b>永远按值传递</b>——函数收到的是参数的<b>复印件</b>。改复印件不影响原件。<br><pre>void foo(int x){x=100;}  // 改的是复印件\nint a=10; foo(a);  // a还是10</pre><b>要改原件？</b>→传地址（指针）→见下一章。<br><b>Beej的比喻</b>：我把菜单拍照发给你，你在照片上P图加菜——我手里的菜单没变。'},
-{t:'作用域与生命周期',b:'<b>局部变量</b>(在{}内声明)：只在这个{}内有效，出了{}就销毁。<br><b>全局变量</b>(在函数外声明)：整个文件都能用。整个程序运行期间一直存在。<br><b>static局部变量</b>：只初始化一次，值在函数调用之间保持不变。<br><b>Beej警告</b>：能用局部变量就别用全局变量——全局变量让代码难理清、难调试。'},
-]},{ch:'4. 指针 — Beej第7章："Cower In Fear!"(先别怕)',items:[
-{t:'指针 = 存门牌号的纸条',b:'<b>指针变量</b>=存地址的变量。就像一张纸条上写着别人的门牌号。<br><pre>int x=42;      // 门牌100号里放了42\nint *p=&x;     // p纸条写"100号"\n*p=100;        // 按纸条找到100号，改成100\n// x现在是100</pre><code>&</code>="你家门牌号多少"。<code>*</code>="去这个门牌号看/改"。<br><b>互逆性</b>：<code>*&x</code>≡<code>x</code>(取地址再解引用=回到原值)。<br><b>Beej的金句</b>："指针是C语言里唯一真正让人头疼的东西。但一旦搞懂了，你会觉得它们其实很简单。"'},
-{t:'为什么需要指针？（Beej的经典解释）',b:'① <b>让函数能修改外部变量</b>：C传值→只能传地址才能改原件。<br>② <b>动态内存分配</b>：malloc返回指针→指向堆上的一块内存。<br>③ <b>高效传递大数据</b>：传struct的指针(8字节)比传整个struct(可能几百字节)快得多。<br>④ <b>构建数据结构</b>：链表、树、图——所有节点都通过指针连接。<br><br><b>⚠️野指针=未初始化的指针</b>：<code>int *p; *p=5;</code>←p里是随机垃圾地址→写到随机位置→程序崩溃或数据损坏。'},
-{t:'指针算术 — a[i]就是*(a+i)',b:'<code>int *p=a;</code>(p指向a[0])。<br><code>p++</code>→p指向a[1](地址+sizeof(int)=+4字节)。<br><code>a[i]</code>≡<code>*(a+i)</code> — <b>C编译器内部就这么翻译的</b>。<br><b>数组名</b>=指向首元素的<b>指针常量</b>(不能a++)。p可以p++。<br><b>Beej的揭秘</b>：数组下标操作符[]本质上是指针运算的语法糖。'},
-{t:'指针与函数参数 — 408必考！',b:'<pre>void swap(int *a,int *b){  // a和b是纸条\n  int t=*a;   // 去a的地址取值\n  *a=*b;      // 把b地址里的值复制到a地址\n  *b=t;       // 把暂存的值写回b地址\n}\n// 调用：swap(&x,&y); — 传x和y的门牌号</pre><b>408选择题</b>：分析"输出什么"→看函数参数有没有<b>*</b>、调用时有没有<b>&</b>。<br>有&→传地址→能改原变量。没&→传值→改不了。'},
-{t:'空指针NULL',b:'<b>NULL</b>=空地址(值为0)。用NULL标记指针"不指向任何东西"。<br>解引用NULL指针→程序崩溃(Segmentation Fault)。<br><b>好习惯</b>：声明指针时初始化为NULL，free后置为NULL。'},
-]},{ch:'5. 数组 — Beej第9章：连续的内存块',items:[
-{t:'声明和使用',b:'<code>int a[5]={10,20,30,40,50};</code>=5个int盒子连一排。<br><b>下标从0开始</b>：a[0]第1个，a[N-1]最后。<br><b>Beej强调</b>：<b>C不检查数组越界！</b>a[100]不会报错→读到/覆盖别人的内存→最难调试的bug。<br>数组作为函数参数传递时<b>自动变成指针</b>→被调函数内修改数组会影响调用者。'},
-{t:'多维数组',b:'<code>int m[3][4];</code>=3行4列表格。<b>行优先存储</b>(m[0][0]→m[0][1]→...→m[1][0])。<br>遍历：<b>按行遍历比按列遍历快</b>——因为缓存友好(连续地址)。<br>作为参数传递：必须指定除第一维外的所有维度大小，如<code>void f(int a[][4],int rows)</code>。'},
-]},{ch:'6. 字符串 — Beej第10章：\\0结尾的字符数组',items:[
-{t:'字符串的本质',b:'C里没有"字符串类型"。字符串就是<b>以\\0结尾的char数组</b>。<br><code>char s[]="hello";</code>→实际存了6个字符：h,e,l,l,o,\\0。<br><code>\\0</code>(ASCII码0)是"字符串终止符"——所有字符串函数都靠它判断终点。<br><b>Beej的忠告</b>：永远留一个位置给\\0！char s[5]只能存4个有效字符。'},
-{t:'字符串操作',b:'<code>strlen(s)</code>=长度(不含\\0)。<code>strcpy(dst,src)</code>=复制。<code>strcmp(a,b)</code>=比较(0=相等)。<br><span class="tag trap">危险</span>strcpy不检查目标空间够不够→缓冲区溢出！用<code>strncpy</code>。<br><b>字符串字面量</b>如<code>"hello"</code>存储在<b>只读内存区</b>→不能修改。<br><code>sprintf(buf,"%s:%d",name,age)</code>→格式化输出到字符串。'},
-]},{ch:'7. 结构体 — Beej第8章：Bento Box',items:[
-{t:'struct：自定义复合类型',b:'<pre>struct Student{\n  char name[20];\n  int score;\n};  // ←分号！忘了=编译错误</pre>用<code>.</code>访问：<code>s.name</code>。<br>用指针访问：<code>p->name</code>≡<code>(*p).name</code>(箭头操作符)。<br><code>typedef struct{...}Student;</code>之后直接用Student。<br><b>Beej的比喻</b>：struct像日式便当盒(Bento Box)——每个格子里放不同的菜。'},
-{t:'自引用结构体 — 链表的基础',b:'<pre>typedef struct Node{\n  int data;           // 数据\n  struct Node *next;  // 指向同类型的指针\n} Node;</pre>这是<b>链表、树、图</b>所有节点的基础模板。<br>每个节点通过next指针串起来→形成链式结构。<br><span class="tag trap">陷阱</span> 创建新节点必须用<code>malloc</code>——不能在函数内声明局部Node然后返回其地址(函数结束就销毁了)。'},
-{t:'传递struct给函数',b:'<b>传值</b>：复制整个struct(可能很大→慢)。<br><b>传指针</b>：只传8字节(指针)→快。且函数内修改会反映到原struct。<br><b>Beej的建议</b>：除非struct很小(如只有1-2个int)，否则<b>总是传指针</b>。'},
-]},{ch:'8. 动态内存 — Beej第11章：malloc/free',items:[
-{t:'栈 vs 堆',b:'<b>栈(Stack)</b>：局部变量。自动分配和释放。大小有限(几MB)。函数返回即销毁。<br><b>堆(Heap)</b>：手动管理的自由内存区。malloc申请，free归还。大小灵活。<br><b>Beej的金句</b>："栈快但小，堆慢但大。不知道要多大时用堆。"'},
-{t:'malloc / calloc / realloc',b:'<pre>int *a=(int*)malloc(N*sizeof(int));  // 分配(未初始化)\nint *b=(int*)calloc(N,sizeof(int)); // 分配+清零\nint *c=(int*)realloc(a,2*N*sizeof(int)); // 扩容</pre><b>Beej的三条铁律</b>：<br>① 每次malloc都要检查返回值是否为NULL(分配失败)<br>② 每次malloc最终都要对应一个free<br>③ free后把指针置为NULL——避免悬垂指针<br><span class="tag trap">头号陷阱</span> 忘记free=内存泄漏。free后继续用=未定义行为→随机崩溃。'},
-{t:'常见内存错误',b:'<b>内存泄漏</b>：malloc了但忘了free→内存被"借走"回不来→程序越跑内存越大。<br><b>悬垂指针</b>：free后指针还指向已释放的内存→继续访问→崩溃。<br><b>二次释放</b>：对同一指针free两次→未定义行为。<br><b>越界写入</b>：malloc(10)却写入a[10]→覆盖堆管理数据结构→free时崩溃。<br><b>预防工具</b>：Valgrind(Linux)可以检测这些错误。'},
-]},{ch:'9. 文件I/O — Beej第14章',items:[
-{t:'文件的打开/读写/关闭',b:'<pre>FILE *f=fopen("data.txt","r");  // r=读 w=写(覆盖) a=追加\nif(!f){printf("打开失败\\n");return 1;}\nfprintf(f,"写入一行\\n");\nfscanf(f,"%d",&x);\nfclose(f);  // 用完必须关！</pre><b>Beej强调</b>：<code>fopen</code>可能返回NULL(文件不存在/权限不够)→必须检查。<br><code>fclose</code>会刷新缓冲区——不关可能导致数据丢失。'},
-{t:'标准流',b:'<b>stdin</b>(标准输入)=键盘 <b>stdout</b>(标准输出)=屏幕 <b>stderr</b>(标准错误)=屏幕。<br>可以用<code>fprintf(stderr,"错误!\\n");</code>单独输出错误信息。<br><b>freopen</b>可以重定向标准流到文件——复旦机考有时要求。'},
-]},{ch:'10. 常用技巧与陷阱总结',items:[
-{t:'双指针技巧',b:'<b>对撞指针</b>：一头一尾向中间走→回文、反转数组。<br><b>快慢指针</b>：快走2步慢走1步→链表中点、环检测、倒数第k个。<br><b>滑动窗口</b>：维护[L,R]区间→最长无重复子串等。'},
-{t:'递归模板',b:'<pre>返回类型 func(参数){\n  if(基准条件) return 基础值;  // ①何时停\n  // ②缩小问题+③组合结果\n  return 组合( func(更小参数) );\n}</pre><b>何时用递归？</b>树/图遍历、分治(快排/归并)。<b>何时用循环？</b>简单重复。<br><b>⚠️递归太深→栈溢出</b>(C栈通常几MB)。尾递归可被编译器优化(转循环)。'},
-{t:'C语言十大常见陷阱',b:'1. <code>=</code>和<code>==</code>混淆<br>2. 数组越界(编译器不检查)<br>3. 忘记给scanf加&<br>4. 野指针(未初始化指针就解引用)<br>5. malloc忘记free→内存泄漏<br>6. free后继续使用→悬垂指针<br>7. 字符串忘记\\0→越界读取<br>8. 整数除法截断(5/2=2不是2.5)<br>9. 函数声明缺失→隐式声明(返回int)<br>10. printf格式串与参数不匹配'},
+var data=[
+{ch:'第1章 什么是C语言？你的第一个程序',items:[
+{t:'C语言是什么？',b:'<p>C是一门<b>低级语言</b>——意味着它离计算机的"思维方式"很近。你写的每一行C代码，几乎都能直接对应到计算机内存的操作。</p><p><b>Beej说</b>：C让你直接跟内存打交道。这也是为什么408考数据结构时用C——指针让你能精确控制链表节点、树节点在内存中的位置。</p><p><b>C用在哪？</b>操作系统(Linux)、嵌入式设备、数据库(MySQL)、游戏引擎——所有需要"快"和"控制内存"的地方。</p>'},
+{t:'你的第一个C程序',b:'<pre>#include &lt;stdio.h&gt;\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}</pre><p><b>逐行解释</b>：</p><p><code>#include &lt;stdio.h&gt;</code>——"去工具箱里把输入输出的工具拿出来"。stdio = <b>St</b>an<b>d</b>ard <b>I</b>nput <b>O</b>utput。</p><p><code>int main() { }</code>——<b>程序的入口</b>。电脑从这里开始执行你的指令。花括号{ }包住所有的指令。</p><p><code>printf("Hello, World!\\n");</code>——在屏幕上打印。"\\n"是换行符，像打字机打完一行后"叮"的一声换到下一行。</p><p><code>return 0;</code>——"我干完了，一切正常"。把0汇报给操作系统。</p>'},
+{t:'如何运行C程序？',b:'<p><b>1. 写代码</b>：把上面的代码存为 <code>hello.c</code></p><p><b>2. 编译</b>：打开终端,输入 <code>gcc hello.c -o hello</code></p><p>- gcc = C编译器，把人类能读的代码翻译成机器能执行的程序</p><p>- -o hello = 给生成的可执行文件取名叫hello</p><p><b>3. 运行</b>：输入 <code>./hello</code> (Mac/Linux) 或 <code>hello.exe</code> (Windows)</p><p>💡 在这个学习平台上，你只需要点"▶ 运行"——我们用Wandbox在线编译器帮你做了编译+运行。</p>'},
+]},{ch:'第2章 变量——存数据的盒子',items:[
+{t:'变量是什么？',b:'<p><b>变量 = 一个有名字的小盒子，用来装数据。</b></p><p><code>int age = 20;</code>——这句话的意思是："拿一个只能装整数的盒子，贴个标签叫age，里面放20"。</p><p>C语言的变量有<b>类型</b>——决定了盒子能装什么、占多大空间：</p><table><tr style="border-bottom:1px solid var(--b)"><th>类型</th><th>装什么</th><th>大小</th><th>例子</th></tr><tr><td><code>int</code></td><td>整数</td><td>4字节</td><td><code>int age=20;</code></td></tr><tr><td><code>float</code></td><td>小数(6位精度)</td><td>4字节</td><td><code>float pi=3.14;</code></td></tr><tr><td><code>double</code></td><td>小数(15位精度)</td><td>8字节</td><td><code>double e=2.71828;</code></td></tr><tr><td><code>char</code></td><td>单个字符</td><td>1字节</td><td><code>char grade=\'A\';</code></td></tr></table>'},
+{t:'printf：在屏幕上显示变量',b:'<pre>int age = 20;\nfloat height = 1.75;\n\nprintf("我今年%d岁，身高%.2f米\\n", age, height);\n// 输出：我今年20岁，身高1.75米</pre><p>printf的第一个参数是<b>格式字符串</b>——里面的<code>%d</code>、<code>%f</code>是"洞"，按顺序用后面的变量填进去。</p><p><b>常用占位符</b>：<br><code>%d</code> → 整数(int)<br><code>%f</code> → 小数(float) <code>%.2f</code> = 保留2位<br><code>%c</code> → 单个字符(char)<br><code>%s</code> → 字符串</p><p><span class="tag warn">陷阱</span> %的个数和后面变量的个数/类型必须对得上！对不上→打印乱码。</p>'},
+{t:'scanf：等用户输入',b:'<pre>int age;\nprintf("请输入年龄：");\nscanf("%d", &age);          // ← 注意 & 符号！\nprintf("你%d岁\\n", age);</pre><p><code>scanf("%d", &age)</code>——程序停下来，等用户在键盘输入一个整数，存到age变量的地址里。</p><p><b>为什么整数要加&？</b> scanf需要知道"这个数据存到哪里去"→需要<b>地址</b>。printf只需要"看看数据长什么样"→不需要地址。</p><p><b>字符串不需要&！</b> <code>scanf("%s", name);</code>——数组名本身就是地址。</p><p><span class="tag exam">408考点</span> 理解&取地址是理解指针的第一步。</p>'},
+]},{ch:'第3章 条件判断——让程序做选择题',items:[
+{t:'if-else：最基本的选择',b:'<pre>int score = 85;\n\nif (score >= 60) {\n    printf("及格了！\\n");\n} else {\n    printf("不及格\\n");\n}</pre><p><b>大白话</b>：如果(score≥60){打印及格}否则{打印不及格}。</p><p>C语言用<code>==</code>表示"等于吗？"，<code>=</code>表示"把右边放进左边"。</p><p><span class="tag warn">头号陷阱！</span> <code>if (x = 5)</code> 不会报错！它的意思是：①把5放进x ②检查放进去的值(5)是不是0→5不是0→条件永远为真！<br><b>正确写法</b>：<code>if (x == 5)</code>——两个等号才是比较。</p>'},
+{t:'if-else if-else：多分支',b:'<pre>if (score >= 90)      printf("A\\n");\nelse if (score >= 80) printf("B\\n");\nelse if (score >= 70) printf("C\\n");\nelse if (score >= 60) printf("D\\n");\nelse                  printf("F\\n");</pre><p><b>关键</b>：从上到下依次检查，第一个满足的就执行，后面全部跳过。</p><p><span class="tag warn">陷阱</span> 顺序不能乱！必须从最高分写到最低分。如果写成<code>if(s>=60)...else if(s>=80)</code>→≥80的分永远被≥60拦截了，到不了。</p>'},
+{t:'逻辑运算符',b:'<p><code>&&</code> = 并且（两边都真才真）</p><p><code>||</code> = 或者（任一边真就真）</p><p><code>!</code> = 取反（真变假，假变真）</p><pre>if (age >= 18 && age <= 60)  // 18到60岁\nif (x == 0 || y == 0)        // x或y为0\nif (!done)                    // done为假时</pre>'},
+]},{ch:'第4章 循环——让电脑当苦力',items:[
+{t:'for循环',b:'<pre>for (int i = 0; i < 5; i++) {\n    printf("这是第%d次\\n", i+1);\n}</pre><p><b>拆解</b>：<code>for(出发; 终点; 步长) { 重复做的事 }</code></p><p>① <code>int i=0</code>——从i=0出发<br>② <code>i<5</code>——只要i还小于5，就继续<br>③ <code>i++</code>——每做完一轮，i增加1</p><p><b>大白话</b>：i从0走到4，每走一步就打印一次。走了5步(0,1,2,3,4)→循环5次。</p><p><code>sum += i;</code> 等价于 <code>sum = sum + i;</code></p>'},
+{t:'while循环',b:'<pre>int i = 0;\nwhile (i < 5) {\n    printf("%d ", i);\n    i++;\n}</pre><p><b>大白话</b>：当(i<5)条件成立时，一直做循环体里的代码。</p><p><b>for vs while</b>：知道要循环多少次→用for。不知道要循环多少次（比如"读到文件末尾为止"）→用while。</p><p><span class="tag warn">陷阱</span> while里<b>必须</b>有改变条件的代码(如i++)！否则→死循环→程序卡死。</p>'},
+{t:'嵌套循环',b:'<pre>// 打印4行，每行3个星号\nfor (int i = 0; i < 4; i++) {       // 外层：控制行\n    for (int j = 0; j < 3; j++) {   // 内层：控制列\n        printf("*");\n    }\n    printf("\\n");  // 每行结束换行\n}</pre><p><b>技巧</b>：先想清楚"一行"怎么写，再想"这一行"怎么重复N次。</p>'},
+]},{ch:'第5章 数组——一排连续的盒子',items:[
+{t:'数组基础',b:'<pre>int scores[5] = {85, 92, 78, 95, 88};\n//  scores[0]=85, scores[1]=92, ... scores[4]=88</pre><p><b>数组 = 一排连续的、相同类型的盒子。</b></p><p><b>下标从0开始！</b> scores[0]是第1个，scores[4]是第5个。这是几乎所有初学者的第一个坑。</p><p><b>Beej的忠告</b>：C<b>不检查数组越界</b>。访问scores[100]不会报错——它会读到/覆盖别人内存里的数据→最隐蔽的bug。</p>'},
+{t:'遍历数组',b:'<pre>int N = 5;\nint a[N];\n// 读入\nfor (int i = 0; i < N; i++) {\n    scanf("%d", &a[i]);\n}\n// 求和\nint sum = 0;\nfor (int i = 0; i < N; i++) {\n    sum += a[i];\n}\nprintf("总和: %d\\n", sum);</pre><p>遍历数组用for循环，i从0到N-1。</p><p><span class="tag exam">408考点</span> 数组就是<b>顺序表</b>——这是408数据结构最基础的概念。支持随机存取O(1)。</p>'},
+{t:'二维数组',b:'<pre>int matrix[3][4];  // 3行4列的表格\n\n// 遍历\nfor (int i = 0; i < 3; i++) {\n    for (int j = 0; j < 4; j++) {\n        printf("%d ", matrix[i][j]);\n    }\n    printf("\\n");\n}</pre><p>内存中是<b>行优先存储</b>：matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3], matrix[1][0]... 按行连续存放。</p>'},
+]},{ch:'第6章 函数——给代码块取名字',items:[
+{t:'函数基础',b:'<pre>// 定义函数\nint add(int a, int b) {\n    return a + b;\n}\n\n// 调用函数\nint result = add(3, 5);  // result = 8</pre><p><b>函数格式</b>：<code>返回类型 函数名(参数列表) { 函数体; return 返回值; }</code></p><p><b>为什么用函数？</b>① 避免复制粘贴同样的代码 ② 给代码块取个有意义的名字→别人能看懂 ③ 方便修改——只改一处就行。</p><p><b>函数定义要写在调用之前</b>（或先在前面声明原型）。</p>'},
+{t:'值传递——C的核心机制',b:'<pre>void change(int x) {\n    x = 100;  // 只改了复印件\n}\n\nint main() {\n    int a = 10;\n    change(a);\n    printf("%d\\n", a);  // 还是10！\n}</pre><p><b>C永远按值传递</b>——函数收到的是参数的<b>复印件</b>。你在复印件上写字，原件不变。</p><p><b>Beej的比喻</b>：我把菜单拍照发给你(复印件)，你在照片上P图加了个菜——我手里的菜单没变。</p><p><b>要真正改main里的变量？</b>→传地址(指针)→见下一章。</p><p><span class="tag exam">408考点</span> 理解值传递和地址传递的区别是408选择题高频考点。</p>'},
+]},{ch:'第7章 指针——C语言的灵魂(别怕，往下看)',items:[
+{t:'什么是指针？（用生活理解）',b:'<p><b>指针 = 一张写着门牌号的小纸条。</b></p><p>想象一下：变量<code>x</code>是门牌号100的房子里放的东西。指针<code>p</code>是一张纸条，上面写着"100号"。</p><pre>int x = 42;        // 门牌100号，里面放了42\nint *p = &x;       // 纸条p上写"100号"\n*p = 100;          //"按纸条上的地址，去100号，把42扔掉，放100进去"\nprintf("%d", x);   // 输出100——x被改了！</pre><p><code>&x</code> = "x家的门牌号是多少？"</p><p><code>*p</code> = "按纸条p上的地址，去那个房子看/改东西"</p><p><b>K.N.King说</b>：指针并不复杂，它只是"间接访问"——不直接拿东西，而是通过纸条告诉你东西在哪。</p>'},
+{t:'为什么需要指针？',b:'<p>① <b>让函数能修改外部变量</b>：C传值→只有传地址才能改原件(swap函数)。</p><p>② <b>动态内存分配</b>：malloc返回指针→指向堆上新分配的内存。</p><p>③ <b>高效传递大数据</b>：传struct的指针(8字节)比传整个struct(几百字节)快。</p><p>④ <b>构建数据结构</b>：链表、树、图——所有节点通过指针串联。</p><p><span class="tag warn">致命错误</span> 野指针！<code>int *p; *p = 5;</code>——p没初始化就是随机垃圾地址→写到随机位置→程序崩溃。</p>'},
+{t:'指针与数组',b:'<p><code>a[i]</code> 和 <code>*(a + i)</code> 完全等价——C编译器内部就是这么翻译的。</p><pre>int a[] = {10, 20, 30, 40, 50};\nint *p = a;        // p指向a[0]\n\nprintf("%d", *(p+2));  // 30 = a[2]\np++;                    // p现在指向a[1]\nprintf("%d", *p);       // 20</pre><p>数组名a = 指向第一个元素的<b>指针常量</b>(不能a++)。p是指针变量(可以p++)。</p>'},
+{t:'swap函数：地址传递实操',b:'<pre>void swap(int *a, int *b) {  // a和b是纸条\n    int t = *a;    // 去a的地址，把里面的值抄到t\n    *a = *b;       // 去b的地址，把值复制到a的地址\n    *b = t;        // 把暂存的值写回b的地址\n}\n\nint main() {\n    int x = 3, y = 5;\n    swap(&x, &y);   // 传x和y的门牌号\n    printf("%d %d\\n", x, y);  // 5 3\n}</pre><p><span class="tag exam">408必考</span> 选择题让你分析"输出什么"——看函数参数有没有<b>*</b>、调用时有没有<b>&</b>。</p>'},
+]},{ch:'第8章 字符串——\\0结尾的字符数组',items:[
+{t:'C的字符串是什么？',b:'<p><b>C没有"字符串类型"。</b>字符串就是<code>char</code>类型的数组，以<code>\\0</code>（ASCII码0）结尾。</p><pre>char s[] = "hello";\n// 实际存储: h e l l o \\0\n//           6个字符！(多一个\\0)</pre><p><b>\\0是"终止符"</b>——所有字符串函数(strlen, strcpy, printf的%s)都靠它判断字符串在哪里结束。</p><p><span class="tag warn">陷阱</span> 声明char数组时<b>必须多留一个位置给\\0</b>。char s[5]只能存4个有效字符(最后一个位置留给\\0)。</p>'},
+{t:'字符串操作',b:'<p><code>strlen(s)</code>——返回长度(不含\\0)</p><p><code>strcpy(dst, src)</code>——复制字符串<br><span class="tag warn">危险</span>strcpy不检查目标空间够不够→缓冲区溢出！用<code>strncpy</code>。</p><p><code>strcmp(a, b)</code>——比较两个字符串，返回0表示相等。</p><p><code>sprintf(buf, "%s: %d", name, age)</code>——格式化输出到字符串(而不是屏幕)。</p>'},
+]},{ch:'第9章 结构体——自定义数据类型',items:[
+{t:'struct基础',b:'<pre>struct Student {\n    char name[20];\n    int score;\n};  // ← 分号！忘了=编译错误\n\nstruct Student s = {"Tom", 95};\nprintf("%s: %d\\n", s.name, s.score);  // Tom: 95</pre><p><b>struct = 把多个不同类型打包成一个新类型。</b>Beej比喻：日式便当盒——每个格子里放不同的菜。</p><p>用<code>.</code>访问成员：<code>s.name</code>。</p><p>用指针访问：<code>p->name</code>（等价于<code>(*p).name</code>）。<code>-></code>是专门为结构体指针设计的简写。</p>'},
+{t:'typedef简化',b:'<pre>typedef struct {\n    char name[20];\n    int score;\n} Student;  // 给这个struct类型取了别名"Student"\n\nStudent s = {"Tom", 95};  // 不用写struct关键字了</pre>'},
+{t:'自引用结构体——链表基础',b:'<pre>typedef struct Node {\n    int data;             // 数据域\n    struct Node *next;    // 指针域——指向同类型的下一个节点\n} Node;</pre><p><b>这是408链表、树、图所有节点的模板！</b></p><p>每个节点里有一个指针指向下一个节点→串成链→形成链表。</p><p><span class="tag warn">陷阱</span> 创建新节点必须用<code>malloc</code>分配内存。不能在函数内声明局部Node变量然后返回其地址(函数结束就销毁了)。</p>'},
+]},{ch:'第10章 动态内存——malloc/free',items:[
+{t:'栈 vs 堆',b:'<p><b>栈(Stack)</b>：放局部变量的地方。自动分配和释放。大小有限(几MB)。函数返回→局部变量自动销毁。</p><p><b>堆(Heap)</b>：手动管理的自由内存区。你想借多大就借多大(只要系统有)。malloc借，free还。</p><p><b>Beej的金句</b>："栈快但小，堆大但慢。不知道数据有多大时用堆。"</p>'},
+{t:'malloc / free',b:'<pre>#include &lt;stdlib.h&gt;\n\nint N = 10;\nint *arr = (int*)malloc(N * sizeof(int));\n// malloc(N*4) = "借N个int的空间" = N×4字节\n\nif (arr == NULL) {\n    printf("分配失败！\\n");\n    return 1;\n}\n\n// 使用 arr[0] ... arr[N-1]\n\nfree(arr);   // 还回去！\narr = NULL;  // 好习惯：避免悬垂指针</pre><p><span class="tag exam">408考点</span> 链表、树、图的新节点全部用malloc创建。409代码题中忘写free会扣分。</p><p><span class="tag warn">三大错误</span><br>① 忘free→内存泄漏(借东西不还)→程序越跑内存越大<br>② free后继续用→悬垂指针→随机崩溃<br>③ 对同一指针free两次→未定义行为</p>'},
+]},{ch:'第11章 递归——函数调用自己',items:[
+{t:'递归是什么？',b:'<p><b>递归 = 函数自己调用自己。像俄罗斯套娃——每层套一个更小的自己。</b></p><pre>int factorial(int n) {\n    if (n <= 1) return 1;          // ①基准条件：何时停止\n    return n * factorial(n - 1);   // ②递归体：缩小问题\n}</pre><p><b>执行过程</b>：factorial(5)→5×factorial(4)→4×factorial(3)→...→到达factorial(1)返回1→逐层返回。</p><p><b>两个必备要素</b>：<br>① <b>基准条件</b>：最简单的情况，直接返回答案（防止无限递归）<br>② <b>递归体</b>：把大问题拆成更小的同类问题</p><p><b>何时用递归？</b>树的遍历、图的DFS、分治算法(快排/归并排序)。<br><b>何时用循环？</b>简单的重复操作。</p><p><span class="tag warn">陷阱</span> 递归太深→栈溢出(stack overflow)。C的栈通常只有几MB。</p>'},
+]},{ch:'第12章 文件操作',items:[
+{t:'读写文件',b:'<pre>// 写文件\nFILE *f = fopen("data.txt", "w");  // w=覆盖写 a=追加 r=读\nif (f == NULL) { printf("打开失败\\n"); return 1; }\nfprintf(f, "写入一行数据\\n");\nfclose(f);  // 必须关！否则数据可能丢失\n\n// 读文件\nf = fopen("data.txt", "r");\nint x;\nwhile (fscanf(f, "%d", &x) != EOF) {  // EOF=文件末尾\n    printf("%d\\n", x);\n}\nfclose(f);</pre><p><b>三个标准流</b>：<br><code>stdin</code>——标准输入(键盘)<br><code>stdout</code>——标准输出(屏幕)<br><code>stderr</code>——标准错误(屏幕，用于错误信息)</p>'},
+]},{ch:'附录：Beej的十大C语言陷阱',items:[
+{t:'新手最容易踩的10个坑',b:'<ol style="margin-left:20px;line-height:2.2;font-size:13px"><li><code>=</code>(赋值)和<code>==</code>(比较)混淆——<code>if(x=5)</code>永远为真</li><li>数组越界——C不检查！a[100]不会报错但会损坏数据</li><li>scanf整数忘记写<code>&</code>——&是取地址符</li><li>野指针——<code>int *p; *p=5;</code>——p指向随机地址→崩溃</li><li>忘free——malloc借的内存不还→内存泄漏</li><li>悬垂指针——free后继续用→随机崩溃</li><li>字符串忘留\\0的位置——char s[5]只能存4个有效字符</li><li>整数除法截断——5/2=2不是2.5。用5.0/2得2.5</li><li>函数未声明就调用——旧标准默认为返回int</li><li>printf格式串和参数不匹配——%d对应float→输出奇怪数字</li></ol>'},
+]},{ch:'附录：408考试C语言高频用法',items:[
+{t:'链表节点模板(必背)',b:'<pre>typedef struct Node {\n    int data;\n    struct Node *next;\n} Node;\n\nNode *p = (Node*)malloc(sizeof(Node));\np->data = x;\np->next = NULL;</pre>'},
+{t:'循环队列公式(必背)',b:'<pre>// 空: front == rear\n// 满: (rear+1) % MAX == front\n// 入: q[rear]=x; rear=(rear+1)%MAX\n// 出: x=q[front]; front=(front+1)%MAX\n// 个数: (rear-front+MAX) % MAX</pre>'},
+{t:'排序复杂度表(必默写)',b:'<table><tr><td>插入</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>冒泡</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>选择</td><td>O(n²)</td><td>O(1)</td><td>不稳</td></tr><tr><td>快排</td><td>O(nlogn)</td><td>O(logn)</td><td>不稳</td></tr><tr><td>堆排</td><td>O(nlogn)</td><td>O(1)</td><td>不稳</td></tr><tr><td>归并</td><td>O(nlogn)</td><td>O(n)</td><td>稳定</td></tr></table>'},
 ]}];
 var h='';for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="cr'+i+'"><div class="kh" onclick="document.getElementById(\'cr'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
 document.getElementById('content').innerHTML=h;
