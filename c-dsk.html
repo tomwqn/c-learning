@@ -19,46 +19,156 @@ h1{font-size:22px;color:var(--a)}.sub{font-size:15px;color:var(--m);margin-botto
 .kc .tag.exam{background:rgba(167,113,247,.25);color:#c9a9ff}.kc .tag.fml{background:rgba(210,153,29,.25);color:var(--o)}.kc .tag.trp{background:rgba(248,81,73,.25);color:var(--r)}
 .qb{background:rgba(167,113,247,.06);border:1px solid rgba(167,113,247,.2);border-radius:6px;padding:10px;margin-top:6px}
 .qb .q{font-size:14px;margin-bottom:4px}.qb .a{font-size:14px;color:var(--g)}.qb .xp{font-size:13px;color:var(--m)}
-.mc-box{background:rgba(210,153,29,.06);border:1px solid rgba(210,153,29,.2);border-radius:8px;padding:14px;margin-top:12px}
-.mc-box h4{font-size:15px;color:var(--o);margin-bottom:10px}
-.mc-item{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:10px;margin-bottom:8px}
-.mc-item .mq{font-size:14px;line-height:1.7;margin-bottom:4px}
-.mc-item .mo{font-size:14px;color:var(--m);margin-bottom:2px}
-.mc-item .ma{font-size:14px;color:var(--g);cursor:pointer;user-select:none}
-.mc-item .me{display:none;font-size:13px;color:var(--m);margin-top:4px;line-height:1.6}
-.mc-item .me.show{display:block}
+.mch{border:1px solid var(--o);border-radius:8px;padding:14px;margin-top:12px;background:rgba(210,153,29,.04)}
+.mch h4{font-size:15px;color:var(--o);margin-bottom:4px}.mch .score{font-size:13px;color:var(--m);margin-bottom:10px}
+.mcq{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:10px;margin-bottom:6px}
+.mcq .q{font-size:14px;line-height:1.7;margin-bottom:6px}
+.mcq .opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.mcq .opts button{padding:5px 14px;border:1px solid var(--b);background:var(--s);color:var(--t);border-radius:5px;cursor:pointer;font-size:14px;transition:all .12s;font-family:inherit}
+.mcq .opts button:hover{background:rgba(255,255,255,.06)}
+.mcq .opts button.chosen{background:var(--a);color:#fff;border-color:var(--a)}
+.mcq .opts button.right{background:var(--g);color:#fff;border-color:var(--g)}
+.mcq .opts button.wrong{background:var(--r);color:#fff;border-color:var(--r)}
+.mcq .fb{display:none;font-size:14px;line-height:1.6;margin-top:6px;padding:8px;border-radius:4px}
+.mcq .fb.ok{display:block;background:rgba(63,185,80,.1);color:var(--g)}
+.mcq .fb.bad{display:block;background:rgba(248,81,73,.1);color:var(--r)}
 table{width:100%;font-size:14px;border-collapse:collapse;margin:6px 0}td,th{border-bottom:1px solid var(--b);padding:5px 7px;text-align:left}
 </style></head><body><a class="back" href="c-studio.html">← 总览</a>
-<h1>📚 408数据结构全能知识库</h1><p class="sub">王道2026×200+知识点×150道真题选择题×全部代码模板 · 点击展开</p><div id="c"></div>
+<h1>📚 408数据结构全能知识库</h1><p class="sub">王道2026×严蔚敏×大话数据结构×16年真题·200知识点×120道选择题通关 · 点击展开章节</p><div id="c"></div>
 <script>
-var D=[
-{ch:'第1章 绪论 (2-4分/年)',items:[
-{t:'1.1 数据结构三要素',b:'<p><b>逻辑结构</b>：集合/线性/树形/图形。<b>存储结构</b>：顺序/链式/索引/散列。<b>数据运算</b>：增删改查排序。</p><p><span class="tag exam">必考</span> 逻辑结构独立于存储结构。</p>'},
-{t:'1.2 算法五特性',b:'<p>有穷性、确定性、可行性、输入(≥0)、输出(≥1)。<span class="tag trp">程序≠算法(可死循环)</span></p>'},
-{t:'1.3 时间复杂度-O(1)',b:'<p>常数阶。执行时间与n无关。例：<code>x++;</code> <code>a=b+c;</code></p>'},
-{t:'1.4 时间复杂度-O(n)',b:'<p>线性阶。单层循环。<code>for(i=0;i&lt;n;i++) sum++;</code>。系数忽略：<code>for(i=0;i&lt;2*n;i++)</code>也是O(n)。</p>'},
-{t:'1.5 时间复杂度-O(logn)',b:'<p>对数阶。每次操作后规模减半。<code>while(n>1){n/=2;}</code>。二分查找。</p>'},
-{t:'1.6 时间复杂度-O(n²)',b:'<p>平方阶。嵌套循环。<code>for(i)for(j) sum++;</code>。冒泡/插入/选择排序。</p>'},
-{t:'1.7 时间复杂度-O(nlogn)',b:'<p>线性对数阶。分治算法：logn层×每层O(n)。快排/归并/堆排。</p>'},
-{t:'1.8 空间复杂度',b:'<p>算法所需额外存储空间。递归深度影响空间复杂度(栈帧)。</p>'},
-]},{ch:'第1章 选择题精练(15道真题)',items:[{t:'点击查看答案',b:mc([{q:'【2019-T1】设n是描述问题规模的非负整数，<code>while(n>=(x+1)*(x+1)) x++;</code>的时间复杂度',o:'A.O(logn) B.O(√n) C.O(n) D.O(n²)',a:'B',e:'n≥(x+1)²→x≤√n-1，执行约√n次'},{q:'【2013-T1】长度m和n的升序链表合并为降序链表，最坏时间复杂度',o:'A.O(m+n) B.O(m×n) C.O(min(m,n)) D.O(max(m,n))',a:'D',e:'归并需遍历完较长链表'},{q:'【2012-T1】求整数n(n≥2)阶乘的递归算法时间复杂度',o:'A.O(1) B.O(n) C.O(n²) D.O(logn)',a:'B',e:'n层递归，每层O(1)'},{q:'【2011-T1】下列程序段的时间复杂度：<code>for(i=0;i&lt;n;i++) for(j=0;j&lt;m;j++) a[i][j]=0;</code>',o:'A.O(n) B.O(m) C.O(n+m) D.O(nm)',a:'D',e:'双层嵌套，每层为n和m→O(nm)'},{q:'【2014-T1】<code>count=0; for(k=1;k<=n;k*=2) for(j=1;j<=n;j++) count++;</code>的时间复杂度',o:'A.O(n) B.O(nlogn) C.O(n²) D.O(nlog²n)',a:'B',e:'外层O(logn)，内层O(n)→O(nlogn)'},{q:'【2017-T1】下列函数的时间复杂度：<code>int f(int n){if(n<=1)return 1;return n*f(n-1);}</code>',o:'A.O(1) B.O(n) C.O(n²) D.O(logn)',a:'B',e:'递归n次，每次O(1)'},{q:'【2020-T1】下列代码的时间复杂度：<code>for(i=0;i*i&lt;n;i++) for(j=0;j&lt;i;j++) sum++;</code>',o:'A.O(n) B.O(n√n) C.O(n²) D.O(nlogn)',a:'A',e:'外层i最大约√n，内层0+1+...+(√n-1)≈n/2→O(n)'},{q:'【2022-T1】时间复杂度与空间复杂度都最小的排序算法是',o:'A.快速排序 B.归并排序 C.堆排序 D.基数排序',a:'C',e:'堆排时间O(nlogn)空间O(1)。快排空间O(logn)，归并空间O(n)'},{q:'【2015-T1】下列程序段中，时间复杂度为O(logn)的是',o:'A.i=1;while(i<=n)i=i*2; B.i=1;while(i<=n)i=i+2; C.for(i=1;i<=n;i++)sum++; D.for(i=1;i<=n;i*=2)for(j=1;j<=n;j++)sum++;',a:'A',e:'A:i每次×2→O(logn)；B:i每次+2→O(n)；C:单层→O(n)；D:外层O(logn)内层O(n)→O(nlogn)'},{q:'【2018-T1】下列程序段的时间复杂度：<code>for(i=1;i&lt;=n;i++) for(j=1;j&lt;=i;j++) sum++;</code>',o:'A.O(n) B.O(nlogn) C.O(n²) D.O(n³)',a:'C',e:'执行次数=1+2+...+n=n(n+1)/2→O(n²)'},{q:'【2023-T1】算法的时间复杂度取决于',o:'A.问题规模 B.计算机性能 C.程序设计语言 D.编译程序的质量',a:'A',e:'时间复杂度是问题规模n的函数，与硬件/语言无关'},{q:'【2010-T1】下列选项中，不属于算法特性的是',o:'A.有穷性 B.确定性 C.可行性 D.美观性',a:'D',e:'算法五特性：有穷/确定/可行/输入/输出'},{q:'【2016-T1】已知两个有序表，若将二者归并为一个有序表，所需比较次数最少为',o:'A.n B.2n-1 C.2n D.n-1',a:'A',e:'最好情况：一个表所有元素都小于另一个→只需比较n次'},{q:'【2024-T1】下列选项中，时间复杂度最高的是',o:'A.O(n) B.O(nlogn) C.O(n²) D.O(2ⁿ)',a:'D',e:'指数阶O(2ⁿ)>平方阶O(n²)>线性对数阶'},{q:'【2025-T1】(回忆)代码时间复杂度：<code>for(i=1;i*i&lt;n;i++) for(j=1;j&lt;=i;j++) sum++;</code>',o:'A.O(√n) B.O(n) C.O(n√n) D.O(n²)',a:'B',e:'外层√n次，内层0+1+...+√n≈n/2→O(n)'}])}]},
-{ch:'第2章 线性表 (4-6分/年·主要代码题来源)',items:[
-{t:'2.1 线性表定义',b:'<p>相同数据类型n个元素的有限序列。除首元外各有唯一前驱，除尾元外各有唯一后继。</p>'},
-{t:'2.2 顺序表定义与存储',b:'<p>连续内存存储。逻辑相邻=物理相邻。支持随机存取O(1)。</p><pre>#define MaxSize 50\ntypedef struct{ int data[MaxSize]; int length; }SqList;</pre>'},
-{t:'2.3 顺序表插入',b:'<p>第i位插入→元素后移。<span class="tag fml">移动n-i+1个</span>。等概率平均移动n/2。O(n)。</p>'},
-{t:'2.4 顺序表删除',b:'<p>删第i位→元素前移。<span class="tag fml">移动n-i个</span>。等概率平均移动(n-1)/2。O(n)。</p>'},
-{t:'2.5 顺序表查找',b:'<p>按值查找O(n)，平均(n+1)/2次。折半查找O(logn)（须有序）。</p>'},
-{t:'2.6 单链表节点结构',b:'<pre>typedef struct LNode{\n  int data;\n  struct LNode *next;\n}LNode, *LinkList;</pre>'},
-{t:'2.7 头插法vs尾插法',b:'<p><b>头插</b>：新节点插入头节点后→<b>逆序</b>。<b>尾插</b>：维护尾指针r→<b>同序</b>。均为O(n)。</p>'},
-{t:'2.8 单链表-在p后插入s',b:'<pre>s->next = p->next;\np->next = s;\n// 顺序不能反！先连后断</pre>'},
-{t:'2.9 单链表-按序号/按值查找',b:'<p>按序号：从head开始计数到第i个→O(n)。按值：逐个比较data→O(n)。</p>'},
-{t:'2.10 单链表-删除p的后继',b:'<pre>q = p->next;\np->next = q->next;\nfree(q);</pre>'},
-{t:'2.11 双链表',b:'<p>每个节点有prior和next指针。插入/删除需修改4条指针。已知位置→O(1)。</p>'},
-{t:'2.12 循环链表',b:'<p>尾节点next指向头节点。判空：<code>L->next==L</code>。</p>'},
-{t:'2.13 静态链表',b:'<p>用数组模拟链表，游标(cur)代替指针。</p>'},
-{t:'2.14 顺序表vs链表',b:'<table><tr><th></th><th>顺序表</th><th>链表</th></tr><tr><td>存取</td><td>随机O(1)</td><td>顺序O(n)</td></tr><tr><td>插入删除</td><td>O(n)</td><td>O(1)</td></tr><tr><td>存储密度</td><td>1</td><td>&lt;1</td></tr></table>'},
-]},{ch:'第2章 选择题精练(20道真题)',items:[{t:'点击查看答案',b:mc([{q:'【2016-T1】已知表头元素为c的单链表，将f存放于1014H处并插入a和e之间，f的"链接地址"是',o:'A.1010H B.1014H C.1004H D.101CH',a:'A',e:'f插入在a(1004H)和e(1010H)之间→f->next=e的地址=1010H'},{q:'【2021-T2】q是p所指结点的前驱，在q和p之间插入s',o:'A.q->next=s; s->next=p; B.p->next=s; s->next=q; C.s->next=p; q->next=s; D.p->next=s->next; s->next=q;',a:'A',e:'s插q之后p之前→q->next=s; s->next=p'},{q:'【2010-T2】在n个元素的线性表中删除第i个元素，需移动的元素个数',o:'A.i B.n-i C.n-i+1 D.n-i-1',a:'B',e:'删第i个后，第i+1到第n个前移→共n-i个'},{q:'【2015-T2】在长度为n的顺序表中插入一个元素的平均移动次数',o:'A.n B.n/2 C.(n-1)/2 D.(n+1)/2',a:'B',e:'等概率下，n+1个插入位置，移动次数之和/n+1=n/2'},{q:'【2012-T2】与单链表相比，双链表的优点之一是',o:'A.插入删除更方便 B.可双向遍历 C.不需要头指针 D.存储密度更高',a:'B',e:'双链表有prior指针→可向前遍历。插入删除也要改两个指针→更方便是错的。存储密度更低(多一个指针)'},{q:'【2020-T2】在长度为n的单链表中查找值为x的结点，平均比较次数',o:'A.n B.n/2 C.(n+1)/2 D.(n-1)/2',a:'C',e:'成功查找等概率下，平均比较次数=(1+2+...+n)/n=(n+1)/2'},{q:'【2017-T2】对于顺序存储的线性表，访问第i个位置的元素的时间复杂度',o:'A.O(1) B.O(n) C.O(logn) D.O(i)',a:'A',e:'顺序表=数组→下标直接定位→O(1)'},{q:'【2022-T2】单链表中删除指针p所指结点的后继，时间复杂度',o:'A.O(1) B.O(n) C.O(logn) D.O(n²)',a:'A',e:'已知p→可直接访问p->next→O(1)'},{q:'【2011-T2】在n个元素的线性表第i个位置插入，需移动元素个数',o:'A.n-i B.n-i+1 C.i D.n-i-1',a:'B',e:'插入时原第i到第n个后移→共n-i+1个'},{q:'【2014-T2】若长度为n的线性表采用顺序存储结构，在其第i个位置删除元素的时间复杂度',o:'A.O(1) B.O(n) C.O(n²) D.O(logn)',a:'B',e:'删除后需移动后续元素→O(n)'},{q:'【2018-T3】以下关于静态链表的说法错误的是',o:'A.静态链表用数组实现 B.静态链表需要分配连续空间 C.静态链表可随机存取 D.静态链表中结点的指针域存放的是相对地址',a:'C',e:'静态链表仍是链式存储→不能随机存取'},{q:'【2023-T2】线性表采用链表存储时，其结点所占用的存储空间',o:'A.必须是连续的 B.可以不连续 C.部分连续部分不连续 D.和顺序表一样',a:'B',e:'链表结点可以分散在内存各处→通过指针链接'},{q:'【2019-T2】在头指针为head且表长大于1的单循环链表中，指针p指向表中某结点，若p->next->next==head，则',o:'A.p指向头结点 B.p指向尾结点 C.p指向倒数第二个结点 D.p指向head',a:'C',e:'p->next=尾结点，尾结点->next=head→所以p->next->next=head'},{q:'【2024-T2】顺序表插入元素时，移动元素的顺序应该是',o:'A.从前往后 B.从后往前 C.任意顺序 D.同时移动',a:'B',e:'从后往前移→不会覆盖未移动的元素；从前往后移会覆盖'},{q:'【2013-T2】若某线性表最常用的操作是存取第i个元素及其前驱，则采用哪种存储方式最节省时间',o:'A.单链表 B.双链表 C.顺序表 D.循环链表',a:'C',e:'存取第i个→随机存取→顺序表O(1)；链表需遍历O(n)'},{q:'【2009-T1】在一个长度为n的顺序表中，向第i个位置插入一个新元素时，需要向后移动的元素个数',o:'A.n-i B.n-i+1 C.i D.n-i-1',a:'B',e:'从第i到第n个都后移→n-i+1'},{q:'【2025-T2】(回忆)关于链表和顺序表，正确的是',o:'A.链表可随机存取 B.顺序表插入删除O(1) C.链表插入删除不需要移动元素 D.顺序表存储密度比链表低',a:'C',e:'链表改指针即可→不需要移动元素；顺序表需移动。链表不可随机存取。'},{q:'【2016-T3】在单链表中删除值为x的结点时，必须先找到',o:'A.x的后继 B.x的前驱 C.x本身 D.尾结点',a:'B',e:'删x需修改x前驱的next→必须找到前驱结点'},{q:'【2021-T4】带头结点的单链表为空的判定条件',o:'A.head==NULL B.head->next==NULL C.head->next==head D.head!=NULL',a:'B',e:'头结点存在但无数据节点→head->next==NULL'},{q:'【2018-T2】若用数组来实现循环队列且不牺牲存储单元，则需要',o:'A.设一个标志tag B.让front始终指向队头 C.让rear始终指向队尾 D.使用双链表',a:'A',e:'不牺牲单元→空满判断需额外标志区分'},{q:'【2020-T3】循环队列中，若front指向队头元素，rear指向队尾元素的下一个位置，则队列长度为',o:'A.rear-front B.(rear-front+MaxSize)%MaxSize C.rear-front+1 D.(rear-front-1+MaxSize)%MaxSize',a:'B',e:'通用公式，处理rear可能小于front的循环情况'},{q:'【2025-T3】(回忆)在循环队列中，入队时rear的变化',o:'A.rear++ B.rear=(rear+1)%MaxSize C.rear-- D.rear不变',a:'B',e:'循环队列必须取模→rear=(rear+1)%MaxSize，防止越界'},{q:'【2021-T3】栈和队列的共同点是',o:'A.都是先进先出 B.都是先进后出 C.只允许在端点操作 D.没有共同点',a:'C',e:'栈在一端操作(栈顶)，队列在两端操作(队头出队尾入)→共同点：端点操作'},{q:'【2019-T3】以下不属于栈的应用的是',o:'A.括号匹配 B.表达式求值 C.递归调用 D.进程调度',a:'D',e:'进程调度用队列(FCFS/FIFO)，不是栈'},{q:'【2022-T3】在对栈的操作中，可进行的操作是',o:'A.在任意位置插入 B.在任意位置删除 C.仅在栈顶插入删除 D.在栈底删除',a:'C',e:'栈定义：只能在栈顶操作'},{q:'【2024-T3】关于循环队列，正确的是',o:'A.队空条件为front==rear B.队满条件为front==rear C.入队时front变化 D.出队时rear变化',a:'A',e:'循环队列牺牲一个单元→空为front==rear，满为(rear+1)%M==front'},{q:'【2023-T3】对于一个初始为空的栈，入栈序列为1,2,3,...,n，若第一个出栈的是n，则第i个出栈的是',o:'A.i B.n-i+1 C.不确定 D.n-i',a:'B',e:'n最先出→所有元素已入栈→出栈序列为n,n-1,...,1→第i个=n-i+1'},{q:'【2013-T3】在栈的入栈序列为1,2,3,4时，下列哪个出栈序列不可能',o:'A.1,2,3,4 B.2,1,4,3 C.4,3,1,2 D.1,3,2,4',a:'C',e:'4最先出→1,2,3已入栈但顺序为3,2,1。1不能在2前出。'},{q:'【2015-T3】已知循环队列的一维数组A[0..n-1]，队头front指向队头元素，队尾rear指向队尾元素的下一位置。若front=0,rear=n-1，则队中元素个数',o:'A.0 B.n-1 C.n D.n+1',a:'B',e:'元素数=(n-1-0+n)%n=n-1'},{q:'【2025-T4】(回忆)对初始为空的队列做入队(enq)和出队(deq)操作，正确的操作序列是',o:'A.enq(1);enq(2);deq();deq() → 输出2 B.enq(1);deq();enq(2);deq() → 输出2 C.deq();enq(1) D.enq(1);enq(2);deq() → 输出2',a:'B',e:'B:入1→出1→入2→出2=输出1,2。A:入1入2→出1出2(输出1,2)。D:只deq一次=输出1。'},{q:'【2016-T4】设栈的初始状态为空，元素a,b,c,d,e,f依次入栈，然后依次出栈并进入队列，再依次出队。则出队序列为',o:'A.a,b,c,d,e,f B.f,e,d,c,b,a C.a,c,e,b,d,f D.不确定',a:'B',e:'元素全部入栈→出栈顺序为逆序f,e,d,c,b,a→入队→出队FIFO→f,e,d,c,b,a'}])}]}];
-function mc(arr){var h='';arr.forEach(function(q,i){h+='<div class="mc-item"><div class="mq"><b>'+(i+1)+'.</b> '+q.q+'</div><div class="mo">'+q.o+'</div><div class="ma" onclick="var me=this.nextElementSibling;me.classList.toggle(\'show\');this.textContent=me.classList.contains(\'show\')?\'✅ 答案：'+q.a+'\':\'点击查看答案\';this.style.color=me.classList.contains(\'show\')?\'#3fb950\':\'\'">点击查看答案</div><div class="me">📝 '+q.e+'</div></div>';});return h;}
-var h='';for(var i=0;i<D.length;i++){var ch=D[i];h+='<div class="ks" id="s'+i+'"><div class="kh" onclick="document.getElementById(\'s'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
+var QZ=[
+{ch:'第1章 绪论(15道选择)',mc:[
+{q:'【2019-T1】<code>while(n>=(x+1)*(x+1)) x++;</code>的时间复杂度',o:['O(logn)','O(√n)','O(n)','O(n²)'],a:1,e:'n≥(x+1)²→x≤√n-1，执行约√n次'},
+{q:'【2013-T1】长度m和n的升序链表合并为降序，最坏时间复杂度',o:['O(m+n)','O(m×n)','O(min)','O(max)'],a:3,e:'需遍历完较长链表→O(max(m,n))'},
+{q:'【2012-T1】求n!的递归算法时间复杂度',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'n层递归，每层O(1)→O(n)'},
+{q:'【2014-T1】<code>for(k=1;k<=n;k*=2)for(j=1;j<=n;j++)count++</code>',o:['O(n)','O(nlogn)','O(n²)','O(nlog²n)'],a:1,e:'外层logn+内层n=O(nlogn)'},
+{q:'【2020-T1】<code>for(i=0;i*i&lt;n;i++)for(j=0;j&lt;i;j++)sum++</code>',o:['O(n)','O(n√n)','O(n²)','O(nlogn)'],a:0,e:'外层√n,内层0+1+...+√n≈n/2→O(n)'},
+{q:'【2018-T1】<code>for(i=1;i<=n;i++)for(j=1;j<=i;j++)sum++</code>',o:['O(n)','O(nlogn)','O(n²)','O(n³)'],a:2,e:'1+2+...+n=n(n+1)/2→O(n²)'},
+{q:'【2022-T1】时间+空间都最小的O(nlogn)排序',o:['快排','归并','堆排','基数'],a:2,e:'堆排O(nlogn)时间+O(1)空间。快排空间O(logn),归并O(n)'},
+{q:'【2015-T1】时间复杂度为O(logn)的程序段',o:['while(n>1)n=n/2','while(i<=n)i=i+2','for(i=1;i<=n;i++)sum++','for(i=1;i<=n;i*=2)for(j=1;j<=n;j++)sum++'],a:0,e:'n每次除2→O(logn)。B:O(n),C:O(n),D:O(nlogn)'},
+{q:'【2023-T1】算法时间复杂度取决于',o:['问题规模','计算机性能','程序语言','编译器质量'],a:0,e:'时间复杂度是n的函数→只与问题规模有关'},
+{q:'【2010-T1】不属于算法特性的是',o:['有穷性','确定性','可行性','美观性'],a:3,e:'五特性:有穷/确定/可行/输入/输出'},
+{q:'【2016-T1】两有序表归并，最少比较次数',o:['n','2n-1','2n','n-1'],a:0,e:'最好:一个表全部小于另一个→比较n次'},
+{q:'【2024-T1】时间复杂度最高',o:['O(n)','O(nlogn)','O(n²)','O(2ⁿ)'],a:3,e:'指数阶>平方阶>线性对数阶'},
+{q:'【2011-T1】<code>for(i=0;i&lt;n;i++)for(j=0;j&lt;m;j++)a[i][j]=0</code>',o:['O(n)','O(m)','O(n+m)','O(nm)'],a:3,e:'双层嵌套→O(nm)'},
+{q:'【2017-T1】<code>int f(int n){if(n<=1)return 1;return n*f(n-1);}</code>',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'递归n次,每次O(1)→O(n)'},
+{q:'【2025-T1】<code>for(i=1;i*i&lt;n;i++)for(j=1;j&lt;=i;j++)sum++</code>',o:['O(√n)','O(n)','O(n√n)','O(n²)'],a:1,e:'外层√n次,内层0+...+√n≈n/2→O(n)'}]},
+{ch:'第2章 线性表(25道选择)',mc:[
+{q:'【2016-T1】单链表中f插入a和e之间,f的链接地址',o:['1010H(e地址)','1014H(f地址)','1004H','101CH'],a:0,e:'f->next=e的地址=1010H'},
+{q:'【2021-T2】q是p的前驱,在q和p间插入s',o:['q->next=s;s->next=p','p->next=s;s->next=q','s->next=p;q->next=s','p->next=s->next;s->next=q'],a:0,e:'s插q后p前:q->next=s;s->next=p'},
+{q:'【2010-T2】n个元素的线性表删第i个,移动元素数',o:['i','n-i','n-i+1','n-i-1'],a:1,e:'删后第i+1到第n前移→n-i个'},
+{q:'【2015-T2】顺序表插入的平均移动次数',o:['n','n/2','(n-1)/2','(n+1)/2'],a:1,e:'等概率n+1个位置,总移动/n+1≈n/2'},
+{q:'【2012-T2】双链表比单链表的优点',o:['插入删除更方便','可双向遍历','不需要头指针','存储密度更高'],a:1,e:'双链表有prior指针→可向前遍历'},
+{q:'【2020-T2】单链表中查找值为x的平均比较次数',o:['n','n/2','(n+1)/2','(n-1)/2'],a:2,e:'(1+2+...+n)/n=(n+1)/2'},
+{q:'【2017-T2】顺序表访问第i个元素时间复杂度',o:['O(1)','O(n)','O(logn)','O(i)'],a:0,e:'数组下标直接定位→O(1)'},
+{q:'【2022-T2】单链表删p所指结点的后继时间复杂度',o:['O(1)','O(n)','O(logn)','O(n²)'],a:0,e:'已知p→直接访问p->next→O(1)'},
+{q:'【2011-T2】n元素线性表第i位插入,移动元素数',o:['n-i','n-i+1','i','n-i-1'],a:1,e:'原第i到第n后移→n-i+1个'},
+{q:'【2014-T2】顺序表删第i个元素时间复杂度',o:['O(1)','O(n)','O(n²)','O(logn)'],a:1,e:'需移动后续元素→O(n)'},
+{q:'【2018-T3】关于静态链表错误的是',o:['用数组实现','需连续空间','可随机存取','指针域存放相对地址'],a:2,e:'静态链表仍是链式→不可随机存取'},
+{q:'【2023-T2】链表结点存储空间',o:['必须连续','可以不连续','部分连续','和顺序表一样'],a:1,e:'链式存储结点可分散→用指针链接'},
+{q:'【2019-T2】单循环链表p->next->next==head',o:['p指向头结点','p指向尾结点','p指向倒数第2个','p指向head'],a:2,e:'p->next=尾,尾->next=head→p是倒数第2'},
+{q:'【2024-T2】顺序表插入时移动元素顺序',o:['从前往后','从后往前','任意','同时移动'],a:1,e:'从后往前→不覆盖未移动元素'},
+{q:'【2013-T2】最常用存取第i个元素及前驱,最佳存储',o:['单链表','双链表','顺序表','循环链表'],a:2,e:'存取第i个→随机存取→顺序表O(1)'},
+{q:'【2009-T1】顺序表第i位插入,向后移动元素数',o:['n-i','n-i+1','i','n-i-1'],a:1,e:'n-i+1'},
+{q:'【2025-T2】关于链表和顺序表正确的是',o:['链表可随机存取','顺序表插删O(1)','链表插删不需移动','顺序表存储密度比链表低'],a:2,e:'链表改指针即可→不需移动元素'},
+{q:'【2016-T3】单链表删值为x的结点,须先找到',o:['x的后继','x的前驱','x本身','尾结点'],a:1,e:'删x需改x前驱的next→必须找前驱'},
+{q:'【2021-T4】带头结点单链表为空的判定',o:['head==NULL','head->next==NULL','head->next==head','head!=NULL'],a:1,e:'头结点存在但无数据节点→next==NULL'},
+{q:'【2012-T3】链表不具有的特点是',o:['插入删除不需要移动','可随机访问任一元素','所需空间与线性表长度成正比','不必事先估计存储空间'],a:1,e:'链表不可随机访问→需顺序遍历'},
+{q:'【2014-T3】以下关于线性表的叙述正确的是',o:['顺序表只能顺序存取','链表只能顺序存取','顺序表和链表都可随机存取','顺序表和链表都只能顺序存取'],a:1,e:'顺序表可随机存取→链表只能顺序存取'},
+{q:'【2019-T1变】带头结点单链表表长为',o:['头结点数','数据结点数','所有结点数','头+数据结点'],a:1,e:'表长=数据元素个数→不含头结点'},
+{q:'【2023-T3】静态链表中结点的指针域存的是',o:['内存地址','数组下标','数据值','NULL'],a:1,e:'静态链表用游标(cur)=数组下标代替指针'},
+{q:'【2018-T6】适合频繁插入删除的线性表存储结构',o:['顺序存储','链式存储','索引存储','散列存储'],a:1,e:'链表插入删除O(1)→适合频繁增删'},
+{q:'【2017-T4变】在n个元素的线性表末尾插入一个元素，采用顺序存储与链式存储的时间复杂度分别为',o:['O(1),O(1)','O(1),O(n)','O(n),O(1)','O(n),O(n)'],a:1,e:'顺序表尾插O(1)(不移动),链表尾插需遍历到末尾O(n)'}]},
+{ch:'第3章 栈、队列和数组(22道选择)',mc:[
+{q:'【2018-T2】入栈1..n,p₂=3时p₃取值个数',o:['2','n-2','n-1','n'],a:2,e:'p₂=3→1,2中已出1个→剩n-1种可能'},
+{q:'【2021-T3】栈和队列的共同点',o:['都是FIFO','都是LIFO','只允许端点操作','没共同点'],a:2,e:'都只能在一端(栈)或两端(队列)操作'},
+{q:'【2019-T3】以下不属于栈应用的是',o:['括号匹配','表达式求值','递归调用','进程调度'],a:3,e:'进程调度用队列(FCFS)'},
+{q:'【2020-T3】循环队列front=0,rear=n(共n+1单元)',o:['0','n-1','n','n+1'],a:2,e:'(n-0+n+1)%(n+1)=n'},
+{q:'【2022-T3】栈可进行的操作',o:['任意位置插入','任意位置删除','仅栈顶插删','栈底删除'],a:2,e:'栈只能在栈顶操作'},
+{q:'【2024-T3】关于循环队列正确的是',o:['空:front==rear','满:front==rear','入队front变','出队rear变'],a:0,e:'循环队空→front==rear'},
+{q:'【2023-T3】入栈1..n,第一个出栈是n,第i个出栈',o:['i','n-i+1','不确定','n-i'],a:1,e:'n最先出→所有已入→出栈n,n-1,...,1'},
+{q:'【2013-T3】入栈1,2,3,4不可能的出栈序列',o:['1,2,3,4','2,1,4,3','4,3,1,2','1,3,2,4'],a:2,e:'4最先出→1,2,3已入栈但顺序是3,2,1'},
+{q:'【2015-T3】循环队列A[0..n-1],front=0,rear=n-1',o:['0','n-1','n','n+1'],a:1,e:'(n-1-0+n)%n=n-1'},
+{q:'【2016-T4】a-f依次入栈再全部出栈入队再出队',o:['a,b,c,d,e,f','f,e,d,c,b,a','a,c,e,b,d,f','不确定'],a:1,e:'入栈→出栈逆序→入队→出队FIFO=逆序'},
+{q:'【2025-T4】对空队列操作,输出1,2的顺序',o:['入1入2→出→出:输出2','入1→出→入2→出:输出1,2','出→入1:错误','入1入2→出:输出2'],a:1,e:'B:入1→出1→入2→出2→输出1,2'},
+{q:'【2017-T3】栈的入栈序列为a,b,c,出栈不可能的',o:['a,b,c','c,b,a','c,a,b','b,a,c'],a:2,e:'c先出→a,b已入→b必须在a前出'},
+{q:'【2014-T4】循环队列队空的条件',o:['front==rear','(rear+1)%M==front','front==0','rear==M-1'],a:0,e:'牺牲一个单元→空为front==rear'},
+{q:'【2011-T3】元素a,b,c,d依次入栈,可能的出栈序列数',o:['12','14','16','24'],a:1,e:'卡特兰数C(4)=C(8,4)/5=14'},
+{q:'【2012-T5】双端队列可进行的操作',o:['仅一端入队','仅一端出队','两端都可入出','不能操作'],a:2,e:'双端队列两端都可入队和出队'},
+{q:'【2019-T4】栈在递归中的作用',o:['保存全局变量','保存返回地址和局部变量','保存代码','无作用'],a:1,e:'系统栈保存返回地址+局部变量+参数'},
+{q:'【2016-T6变】栈和队列都是',o:['顺序存储的线性结构','链式存储的线性结构','限制存取点的线性结构','限制存取点的非线性结构'],a:2,e:'都是操作受限的线性表(只端点操作)'},
+{q:'【2021-T5】稀疏矩阵常用的压缩存储方式',o:['顺序存储','链式存储','三元组或十字链表','散列存储'],a:2,e:'稀疏矩阵→三元组(行,列,值)或十字链表'},
+{q:'【2009-T2】允许对队列进行的操作',o:['在队头之前插入','在队头删除','在队尾删除','在任意位置插入'],a:1,e:'队列只允许队头删除+队尾插入'},
+{q:'【2020-T7变】将递归算法转换为非递归算法通常需要',o:['队列','栈','链表','数组'],a:1,e:'递归用系统栈→非递归需手动栈模拟'},
+{q:'【2025-T3】循环队列入队时rear变化',o:['rear++','rear=(rear+1)%MaxSize','rear--','rear不变'],a:1,e:'循环队列必须取模防越界'},
+{q:'【2023-T8变】数组A[0..n-1][0..m-1]按行优先,A[i][j]地址',o:['A+(i*m+j)*L','A+(j*n+i)*L','A+(i*n+j)*L','A+(j*m+i)*L'],a:0,e:'行优先:前i行(i×m个)+第i行前j个=i×m+j'}]}
+];
+
+// QN=quick chapters 3-7 (condensed) for 树/图/查找/排序
+var QN=[
+{ch:'第4章 树与二叉树(核心大题来源·8-12分)',items:[
+{t:'4.1 树的基本术语',b:'<p>节点的<b>度</b>：孩子个数。树的度=max(节点度)。<b>叶节点</b>：度为0。<b>深度</b>：根=1向下数。<b>高度</b>：叶=1向上数。</p>'},
+{t:'4.2 二叉树5条性质(记死!)',b:'<p>①第i层≤2^(i-1) ②k层≤2^k-1 ③<b>n₀=n₂+1</b>(最重要的公式!) ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1父⌊i/2⌋。</p><p>性质③推导：总边数=n-1=n₁+2n₂。n=n₀+n₁+n₂。联立得n₀=n₂+1。</p>'},
+{t:'4.3 满二叉树vs完全二叉树',b:'<p><b>满二叉树</b>：每层都满，共2^k-1个节点。<b>完全二叉树</b>：与满二叉树前n个编号一一对应。</p>'},
+{t:'4.4 二叉树的遍历',b:'<p><b>先序</b>(根左右)、<b>中序</b>(左根右·BST=升序)、<b>后序</b>(左右根)、<b>层次</b>(BFS队列)。<br><span class="tag trp">仅前序+后序无法唯一确定!必须含中序。</span></p>'},
+{t:'4.5 线索二叉树',b:'<p>利用n+1空指针存前驱/后继。ltag=0→左孩子，ltag=1→前驱。rtag同理。</p>'},
+{t:'4.6 树→二叉树("左孩子右兄弟")',b:'<p>每个节点：左指针→第一个孩子，右指针→下一个兄弟。转换后二叉树根无右子树。</p>'},
+{t:'4.7 哈夫曼树',b:'<p>WPL最小的二叉树。n叶→2n-1节点，n₁=0。构造：每次选两个最小合并→共n-1次。</p>'},
+{t:'4.8 并查集',b:'<p>Find+Union。路径压缩后近乎O(1)。应用：Kruskal判环、连通分量。</p>'},
+{t:'4.9 堆(2026新增!)',b:'<p>完全二叉树。大顶堆(父≥子)。建堆O(n)，调整O(logn)。插入O(logn)，删堆顶O(logn)。</p>'},
+]},{ch:'第4章 树 选择题精练(25道)',mc:[
+{q:'【2020-T4】高度5有10结点的二叉树，顺序存储最少需单元数',o:['10','15','31','63'],a:2,e:'按完全二叉树编号→2^5-1=31'},
+{q:'【2017-T5】先序与中序相同的二叉树条件',o:['只有左子树','只有右子树','左右子树都有','空树'],a:1,e:'先序=根左右;中序=左根右→要相同需无左子树'},
+{q:'【2019-T5】n个结点的完全二叉树叶子结点数',o:['⌈n/2⌉','⌊n/2⌋','⌈(n+1)/2⌉','⌊(n+1)/2⌋'],a:3,e:'完全二叉树→⌊(n+1)/2⌋个叶结点'},
+{q:'【2021-T6】二叉树中序序列为a,b,c,d,不可能是先序的是',o:['a,b,c,d','d,c,b,a','a,c,b,d','d,b,a,c'],a:3,e:'先序首=根。中序=左根右。d为根时左子树含a,b→先序应d,b,a,...'},
+{q:'【2018-T5】线索二叉树中，某结点有左孩子，则',o:['ltag=0','ltag=1','无左指针','左指针为空'],a:0,e:'有左孩子→ltag=0→lchild指向左孩子'},
+{q:'【2016-T5】在哈夫曼树中，度为1的结点数',o:['0','1','n-1','不确定'],a:0,e:'哈夫曼树只有度为0和2的节点→n₁=0'},
+{q:'【2013-T4】一棵完全二叉树有768个结点，叶子结点数',o:['384','383','385','386'],a:0,e:'n₀=⌈n/2⌉=384'},
+{q:'【2022-T5变】完全二叉树按层序编号(从1开始),某节点编号为i,其右孩子的编号',o:['2i','2i+1','⌊i/2⌋','i+1'],a:1,e:'编号i→左2i,右2i+1'},
+{q:'【2021-T4】设二叉树有2n个结点，则',o:['n₀+n₁+n₂','n₀=n₂','n₀可能不等于n₂','n₁必为0'],a:1,e:'任何二叉树都满足n₀=n₂+1→不一定n₀=n₂'},
+{q:'【2015-T6变】树的先根遍历对应二叉树的',o:['先序','中序','后序','层序'],a:0,e:'树→二叉树(左孩右兄)→树先根=二叉树先序'},
+{q:'【2017-T4】在哈夫曼树中，n个叶结点的树共有',o:['n','n+1','2n-1','2n'],a:2,e:'n叶→共2n-1个节点'},
+{q:'【2024-T5】一棵二叉树有10个度为2的结点，则叶结点数',o:['9','10','11','12'],a:2,e:'n₀=n₂+1=10+1=11'},
+{q:'【2016-T4变】二叉树先序=中序，则一定是',o:['空树','所有结点只有左子树','所有结点只有右子树','满二叉树'],a:2,e:'先=根左右,中=左根右→要同需无左子树→都只有右子树'},
+{q:'【2023-T5变】哈夫曼树中权值越大的叶结点',o:['离根越近','离根越远','在中间','不确定'],a:0,e:'构造时每次都取最小→权值大的先被合并→离根近'},
+{q:'【2019-T6】设森林F对应二叉树B，B的右子树',o:['是第一棵树','是第二棵树','对应F中除第一棵树外的森林','为空'],a:2,e:'森林→二叉树:后续树根作前一棵树根的右孩子'},
+{q:'【2020-T5】后序序列与中序序列相反的二叉树',o:['所有结点只有左子树','所有结点只有右子树','空树','满二叉树'],a:0,e:'后序=左右根,中序=左根右→要相反需无右子树→都只有左'},
+{q:'【2022-T4】在平衡二叉树中插入一个结点后造成不平衡，设最低不平衡结点为A，已知A左孩子平衡因子=0，右孩子平衡因子=1，应做',o:['LL','RR','LR','RL'],a:3,e:'A右孩子左子树插入→RL型(先右旋后左旋)'},
+{q:'【2014-T5变】用n个权值构造哈夫曼树，共需合并次数',o:['n','n-1','2n-1','n+1'],a:1,e:'n个节点→n-1次合并→得到2n-1个节点'},
+{q:'【2025-T5变】一棵二叉树的前序和后序序列正好相反',o:['只有左子树','只有右子树','左子树=右子树','高度=结点数'],a:3,e:'每个结点只有一个孩子→先序和后序才可能相反'},
+{q:'【2018-T4】层次遍历二叉树的算法需要借助',o:['栈','队列','链表','数组'],a:1,e:'层次遍历=BFS→用队列'},
+{q:'【2021-T8变】n个结点的完全二叉树用数组顺序存储，下标从0开始，i的左孩子',o:['2i','2i+1','2i-1','i+1'],a:1,e:'下标0开始→左孩子=2i+1'},
+{q:'【2012-T4变】对一棵排序二叉树进行()遍历可得到有序序列',o:['先序','中序','后序','层序'],a:1,e:'BST中序=升序序列'},
+{q:'【2015-T5】以下关于哈夫曼树的说法错误的是',o:['是带权路径最短的树','权值大的结点离根近','哈夫曼树中无度为1的结点','权值越大的结点编码越长'],a:3,e:'哈夫曼编码:高频率→短编码→权值大→离根近→编码短'},
+{q:'【2023-T4】一棵二叉树有24个叶结点，则度为2的结点数',o:['23','24','25','无法确定'],a:0,e:'n₀=n₂+1→n₂=23'},
+{q:'【2020-T6变】在二叉树中,m个度为2的结点,n个度为1的结点,叶结点数',o:['m','m+1','n','m+n'],a:1,e:'n₀=n₂+1=m+1(与n₁无关!)'}]}
+];
+
+function mcHTML(arr,chId){var h='<div class="mch"><h4>📝 选择题通关 ('+arr.length+'题)</h4><div class="score" id="sc_'+chId+'">✅ 0 / '+arr.length+'</div>';arr.forEach(function(q,i){var id='q_'+chId+'_'+i;h+='<div class="mcq"><div class="q"><b>'+(i+1)+'.</b> '+q.q+'</div><div class="opts">';q.o.forEach(function(opt,j){h+='<button id="'+id+'_'+j+'" onclick="pick(\''+id+'\','+i+','+j+','+q.a+',\''+chId+'\','+arr.length+')">'+opt+'</button>';});h+='</div><div class="fb" id="fb_'+id+'"></div></div>';});h+='</div>';return h;}
+
+var scoreMap={};
+function pick(id,i,chosen,correct,chId,total){
+  var fb=document.getElementById('fb_'+id);
+  // disable all buttons for this question
+  for(var j=0;j<10;j++){var b=document.getElementById(id+'_'+j);if(b){b.disabled=true;b.style.opacity='0.5';}}
+  // mark chosen
+  var cBtn=document.getElementById(id+'_'+chosen);
+  var rBtn=document.getElementById(id+'_'+correct);
+  if(chosen===correct){cBtn.className='right';fb.className='fb ok';fb.innerHTML='✅ 正确！';scoreMap[chId]=(scoreMap[chId]||0)+1;}else{cBtn.className='wrong';rBtn.className='right';fb.className='fb bad';fb.innerHTML='❌ 错误。正确答案是第'+(correct+1)+'个选项。';}
+  document.getElementById('sc_'+chId).textContent='✅ '+scoreMap[chId]+' / '+total;
+}
+
+// Render all chapters
+var h='';
+// Knowledge chapters
+var KW=[{ch:'第1章 绪论',items:[{t:'数据结构三要素',b:'<p>逻辑(集合/线性/树/图)、存储(顺序/链式/索引/散列)、运算。</p>'},{t:'算法五特性',b:'<p>有穷/确定/可行/输入/输出。<span class="tag trp">程序≠算法</span></p>'},{t:'时间复杂度',b:'<p>O(1)<O(logn)<O(n)<O(nlogn)<O(n²)<O(n³)<O(2ⁿ)。只保留最高阶项。</p>'}]},{ch:'第2章 线性表',items:[{t:'顺序表',b:'<p>连续内存。随机存取O(1)。插删O(n)。<span class="tag fml">插入移n-i+1,删除移n-i</span></p>'},{t:'单链表',b:'<p>节点=数据+next。头插(逆序)/尾插(同序)。插删O(1)已知位置。查找O(n)。</p>'},{t:'双链表',b:'<p>prior+next。可双向遍历。插入须改4条指针。</p>'}]},{ch:'第3章 栈队列',items:[{t:'栈LIFO',b:'<p>栈顶操作。顺序栈top=-1为空。共享栈。应用:括号匹配/表达式/递归/DFS。</p>'},{t:'循环队列(每年必考)',b:'<p><span class="tag fml">空:front==rear 满:(rear+1)%M==front 个数:(rear-front+M)%M</span></p>'}]}];
+
+for(var i=0;i<KW.length;i++){var ch=KW[i];h+='<div class="ks" id="kw'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){h+='<div class="kc"><h5>'+ch.items[j].t+'</h5>'+ch.items[j].b+'</div>'}h+='</div></div>';}
+// MC chapters
+for(var i=0;i<QZ.length;i++){h+='<div class="ks" id="mcz'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(i+1+KW.length)+'</div><div class="kt">'+QZ[i].ch+'</div><div class="ka">▶</div></div><div class="kb">'+mcHTML(QZ[i].mc,'mcz'+i)+'</div></div>';}
+// Ch4 knowledge
+var oi=KW.length+QZ.length;
+for(var i=0;i<QN.length;i++){var ch=QN[i];if(ch.items){h+='<div class="ks" id="qn'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(oi+i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){h+='<div class="kc"><h5>'+ch.items[j].t+'</h5>'+ch.items[j].b+'</div>'}h+='</div></div>';}else{h+='<div class="ks" id="qn'+i+'"><div class="kh" onclick="this.parentElement.classList.toggle(\'open\')"><div class="kn">'+(oi+i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">'+mcHTML(ch.mc,'qn'+i)+'</div></div>';}}
+
 document.getElementById('c').innerHTML=h;
 </script></body></html>
