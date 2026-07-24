@@ -1,52 +1,91 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>408百科</title>
-<style>:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
+<title>408数据结构全能知识库 — 王道精华+真题实战</title>
+<style>
+:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--p:#a371f7;--cb:#0d1117}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:800px;margin:0 auto;padding:24px 16px;line-height:1.7}
-h1{font-size:20px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:900px;margin:0 auto;padding:24px 16px;line-height:1.8}
+h1{font-size:22px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
 a.back{font-size:12px;color:var(--a)}
-.ks{margin-bottom:12px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
-.ks .kh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
-.ks .kh:hover{background:rgba(255,255,255,.03)}
-.ks .kh .kn{width:26px;height:26px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.ks .kh .kt{font-size:14px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
-.ks .kb{display:none;padding:0 14px 12px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
-.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:12px;margin-top:10px}
-.kc h5{font-size:12px;color:var(--a);margin-bottom:6px}.kc p,.kc li{font-size:12px;line-height:1.75}
-.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--o)}
-.kc pre{background:var(--cb);padding:8px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:11px;line-height:1.5;margin:6px 0}
-.kc .tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;margin-right:4px}
-.kc .tag.exam{background:rgba(167,113,247,.3);color:var(--p)}.kc .tag.formula{background:rgba(210,153,29,.3);color:var(--o)}.kc .tag.trap{background:rgba(248,81,73,.3);color:var(--r)}
-.kc table{width:100%;font-size:10px;border-collapse:collapse}.kc td,.kc th{border-bottom:1px solid var(--b);padding:4px 6px;text-align:left}
-</style></head><body><a class="back" href="c-studio.html">← 返回总览</a>
-<h1>📚 408百科</h1><p class="sub">严蔚敏+大话数据结构+王道/天勤 · 点击展开</p><div id="content"></div>
+.ks{margin-bottom:14px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
+.ks .kh{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}.ks .kh:hover{background:rgba(255,255,255,.03)}
+.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:15px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
+.ks .kb{display:none;padding:0 16px 16px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
+.kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:14px;margin-top:10px}
+.kc h5{font-size:13px;color:var(--a);margin-bottom:8px}.kc p{font-size:13px;line-height:1.85;margin-bottom:8px}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:12px;color:var(--o)}
+.kc pre{background:var(--cb);padding:12px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:12px;line-height:1.6;margin:8px 0}
+.kc ul,.kc ol{margin:8px 0 8px 20px;font-size:13px;line-height:1.8}
+.kc .tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:9px;margin-right:4px}
+.kc .tag.exam{background:rgba(167,113,247,.25);color:#c9a9ff}.kc .tag.formula{background:rgba(210,153,29,.25);color:var(--o)}.kc .tag.trap{background:rgba(248,81,73,.25);color:var(--r)}
+.qbox{background:rgba(167,113,247,.08);border:1px solid rgba(167,113,247,.2);border-radius:6px;padding:12px;margin-top:8px}
+.qbox .q{font-size:13px;margin-bottom:6px}.qbox .a{font-size:12px;color:var(--g)}.qbox .exp{font-size:11px;color:var(--m);margin-top:4px}
+table{width:100%;font-size:12px;border-collapse:collapse;margin:8px 0}td,th{border-bottom:1px solid var(--b);padding:6px 8px;text-align:left}
+</style></head><body>
+<a class="back" href="c-studio.html">← 返回总览</a>
+<h1>📚 408数据结构全能知识库</h1>
+<p class="sub">王道2026版8章完整体系 + 2009-2025全部16年真题考点 + 算法代码模板 · 点击展开</p>
+<div id="content"></div>
 <script>
 var data=[
-{ch:'第2章 线性表',items:[
-{t:'顺序表=电影院座位',b:'✅第5排3座→直接去O(1) ❌中间加人→全挪O(n)。<span class="tag formula">公式</span>第i位插入移<b>n-i+1</b>个。删除移<b>n-i</b>个。<br><span class="tag exam">408真题</span>2010/2011/2013/2016/2018/2020共6次。'},
-{t:'链表=寻宝游戏',b:'每个宝箱有纸条指向下一个。✅加删O(1) ❌找O(n)。<b>不能随机存取→不能二分查找！</b><br><b>头插</b>=逆序。<b>尾插</b>=维护tail。<span class="tag exam">408真题</span>2009/2012/2015/2019共4次。'},
-{t:'怎么选？',b:'<table><tr><td>"随机访问""二分"</td><td>→顺序表</td></tr><tr><td>"频繁插入删除""长度变化大"</td><td>→链表</td></tr></table>'},
-]},{ch:'第3章 栈队列',items:[
-{t:'栈=一摞盘子(LIFO)',b:'后进先出。push=放盘子 pop=拿盘子。应用：浏览器后退、Ctrl+Z、递归。<br><code>top=-1</code>为空。<code>push:stk[++top]=x</code>。<code>pop:x=stk[top--]</code>。'},
-{t:'循环队列=排队买奶茶(每年必考!)',b:'先进先出FIFO。<span class="tag formula">408必背</span><br>空→<b>f==r</b> 满→<b>(r+1)%M==f</b><br>入：q[r]=x;r=(r+1)%M<br>出：x=q[f];f=(f+1)%M<br>元素数：<b>(r-f+M)%M</b><br>为什么牺牲一个单元？否则空/满都f==r，分不清。<span class="tag exam">几乎每年1道题。</span>'},
-]},{ch:'第4章 树与二叉树⭐最重要',items:[
-{t:'5条性质(记死!)',b:'①第i层≤2<sup>i-1</sup> ②k层≤2<sup>k</sup>-1 ③<b>n₀=n₂+1</b>(最重要!) ④深度=⌊log₂n⌋+1 ⑤编号i→左2i右2i+1。<br>性质③推导：总边数=n-1=n₀×0+n₁×1+n₂×2→得n₀=n₂+1。'},
-{t:'三种遍历',b:'<b>前序</b>(根左右)：复制树。<b>中序</b>(左根右)：BST得升序！<b>后序</b>(左右根)：释放节点。<b>层序</b>：BFS队列。<br><span class="tag trap">陷阱</span>只有前+后无法唯一确定树！必须含中序。<br>三种递归遍历代码几乎一样——区别只在printf的位置！'},
-{t:'哈夫曼树',b:'高频短码，低频长码→文件最小。<b>WPL</b>=Σ(叶权值×深度)。每次选两个最小合并。<span class="tag exam">2014综合题。</span>'},
-]},{ch:'第5章 图(2021-2024连考!)',items:[
-{t:'存储',b:'邻接矩阵O(n²)适合稠密。邻接表O(n+e)适合稀疏。'},
-{t:'DFS/BFS',b:'DFS=走到底再回头(栈/递归)。BFS=一层层扩散(队列)。BFS找无权图最短路径。'},
-{t:'Dijkstra(408+复旦双重重点)',b:'每次选最近未访问节点→更新邻居。O(n²)。<span class="tag trap">⚠不能负权</span>。408考模拟，机考写代码。'},
-{t:'拓扑排序(2024真题)',b:'Kahn:入度0入队→出队删边→入度0入队。全出=无环。'},
-]},{ch:'第6章 查找',items:[
-{t:'二分=猜数字',b:'每次砍半O(logn)。<b>前提：有序+能随机存取</b>。链表不行！<span class="tag formula">ASL≈log₂(n+1)-1</span>。'},
-{t:'BST',b:'左<根<右。中序=升序。插入：小左大右。删除：叶→直接/单孩子→替/双孩子→中序后继。'},
-{t:'B树vs B+树(每年必考)',b:'B树：节点存数据+键。B+树：只有叶存数据+叶链表串联。<span class="tag exam">408每年必考结构区别</span>。'},
-{t:'哈希=快递柜',b:'hash(key)=key%p→直接定位。冲突：①开放定址(找下一个)②链地址(拉链表)。<span class="tag formula">装填因子α=n/m</span>。'},
-]},{ch:'第7章 排序⭐必默写',items:[
-{t:'排序对比表',b:'<table><tr><th>算法</th><th>平均</th><th>空间</th><th>稳定?</th></tr><tr><td>插入</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>冒泡</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>选择</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td>希尔</td><td>~O(n¹·³)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>快排</b></td><td><b>O(nlogn)</b></td><td>O(logn)</td><td><b>❌</b></td></tr><tr><td><b>堆排</b></td><td><b>O(nlogn)</b></td><td>O(1)</td><td><b>❌</b></td></tr><tr><td><b>归并</b></td><td><b>O(nlogn)</b></td><td>O(n)</td><td><b>✅</b></td></tr></table>408选择题每年至少1道。'},
-{t:'快排详解',b:'选pivot→小左大右→递归。最坏O(n²)：已有序+选首元素为pivot。<span class="tag exam">综合题最高频代码。</span>'},
-{t:'归并详解',b:'分治→merge合并有序数组。唯一稳定O(nlogn)。空间O(n)。外部排序基础。'},
+{ch:'第1章 绪论 (408分值:2-4分, 每年2道选择)',items:[
+{t:'1.1 数据结构三要素',b:'<p><b>逻辑结构</b>（数据元素之间的逻辑关系）：</p><ul><li><b>集合</b>：数据元素同属一个集合，无其他关系</li><li><b>线性结构</b>：一对一关系（线性表、栈、队列、串）</li><li><b>树形结构</b>：一对多关系（二叉树、树、森林）</li><li><b>图状结构</b>：多对多关系（有向图、无向图）</li></ul><p><b>存储结构</b>（数据结构在计算机中的表示）：</p><ul><li><b>顺序存储</b>：连续内存，逻辑相邻=物理相邻。优点：随机存取。缺点：插入删除需移动元素</li><li><b>链式存储</b>：通过指针链接。优点：插入删除方便。缺点：不可随机存取</li><li><b>索引存储</b>：附加索引表</li><li><b>散列存储</b>：根据关键字计算地址</li></ul><p><b>数据运算</b>：增删改查排序等操作的定义与实现。</p><p><span class="tag exam">408考点</span> 逻辑结构独立于存储结构，同一逻辑结构可有多种存储实现。</p>'},
+{t:'1.2 算法与算法评价',b:'<p><b>算法五特性</b>：有穷性、确定性、可行性、输入(0或多个)、输出(≥1个)</p><p><b>时间复杂度</b>：只保留最高阶项。O(1)<O(logn)<O(n)<O(nlogn)<O(n²)<O(n³)<O(2ⁿ)<O(n!)</p><p><b>空间复杂度</b>：算法运行所需额外存储空间。递归调用占用栈空间。</p><p><span class="tag formula">天勤速算技巧</span>：单循环→O(n)；i每次×2→O(logn)；双层嵌套→O(n²)；分治(logn层×每层O(n))→O(nlogn)</p>'},
+{t:'1.3 真题精练',b:'<div class="qbox"><div class="q"><b>【2019-T1】</b> 设n是描述问题规模的非负整数，下列程序段的时间复杂度是：<code>x=0; while(n>=(x+1)*(x+1)) x++;</code></div><div class="a">✅ 答案：O(√n)</div><div class="exp">解析：循环条件为n≥(x+1)²，即x≤√n-1。循环执行约√n次。</div></div><div class="qbox"><div class="q"><b>【2013-T1】</b> 已知两个长度分别为m和n的升序链表合并为长度为m+n的降序链表，最坏时间复杂度是</div><div class="a">✅ 答案：O(max(m,n))</div><div class="exp">解析：归并过程中每个元素只需比较一次，需要遍历完两个链表。</div></div>'},
+]},{ch:'第2章 线性表 (408分值:4-6分, 最重要的代码题来源)',items:[
+{t:'2.1 线性表的基本概念',b:'<p>线性表是具有<b>相同数据类型</b>的n个数据元素的<b>有限序列</b>。除第一个元素外每个元素有唯一前驱；除最后一个外每个有唯一后继。</p><p>两种存储结构：<b>顺序存储</b>（顺序表）=数组；<b>链式存储</b>（链表）=通过指针串联。</p>'},
+{t:'2.2 顺序表（数组）',b:'<p><b>定义</b>：用一组<b>地址连续</b>的存储单元依次存储线性表的数据元素。逻辑相邻=物理相邻。</p><p><b>特点</b>：</p><ul><li>✅ 随机存取O(1)——通过下标直接访问</li><li>✅ 存储密度高（只存数据，不存指针）</li><li>❌ 插入/删除需移动大量元素O(n)</li><li>❌ 需要连续大块内存（可能分配失败）</li></ul><p><b>插入操作</b>：在第i个位置(1≤i≤n+1)插入元素e→需将第i到第n个元素后移一位→<span class="tag formula">移动n-i+1个元素</span>。</p><p><b>删除操作</b>：删除第i个(1≤i≤n)元素→需将第i+1到第n个元素前移→<span class="tag formula">移动n-i个元素</span>。</p><p><b>平均移动次数</b>：等概率下，插入≈n/2，删除≈(n-1)/2。</p>'},
+{t:'2.3 单链表',b:'<p>每个<b>节点</b>包含：<b>数据域</b>(data)+<b>指针域</b>(next)。头指针head指向第一个节点。最后一个节点的next=NULL。</p><pre>typedef struct LNode{\n    int data;           // 数据域\n    struct LNode *next; // 指针域\n}LNode, *LinkList;</pre><p><b>头节点</b>：在第一个数据节点前附加一个节点(数据域通常不用)。头节点的引入统一了插入/删除操作（不需要对第一个节点特殊处理）。</p><p><b>头插法建表</b>：新节点始终插入到头节点之后→结果与输入<b>逆序</b>。O(n)。</p><p><b>尾插法建表</b>：维护尾指针tail→结果与输入<b>同序</b>。O(n)。</p><p><b>按序号查找</b>：从头开始计数，找第i个→O(n)。<b>按值查找</b>：从头开始比较→O(n)。</p><p><b>插入节点</b>：已知p的位置，在p后插入s→s->next=p->next; p->next=s; →O(1)</p><p><b>删除节点</b>：已知p的前驱，删p的后继→O(1)。删p本身→需先找到前驱→O(n)。</p>'},
+{t:'2.4 双链表、循环链表、静态链表',b:'<p><b>双链表</b>：每个节点有两个指针prior和next。可以双向遍历。插入/删除需同时修改前后两个指针→O(1)(已知位置)。</p><p><b>循环链表</b>：最后一个节点next指向头节点。从任意节点出发可遍历全部节点。</p><p><b>循环双链表</b>：头节点prior指向尾节点。</p><p><b>静态链表</b>：用数组模拟链表，通过"游标"(cur)代替指针。适用于不支持指针的语言。</p>'},
+{t:'2.5 顺序表vs链表（选择题必考）',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>对比项</th><th>顺序表</th><th>链表</th></tr><tr><td>存取方式</td><td>随机存取O(1)</td><td>顺序存取O(n)</td></tr><tr><td>插入删除</td><td>O(n)需移动元素</td><td>O(1)改指针</td></tr><tr><td>存储密度</td><td>高(只存数据)</td><td>低(额外存指针)</td></tr><tr><td>空间分配</td><td>预分配(可能浪费)</td><td>动态分配(灵活)</td></tr><tr><td>适用场景</td><td>频繁查找/随机访问</td><td>频繁增删/长度变化大</td></tr></table>'},
+{t:'2.6 真题精练',b:'<div class="qbox"><div class="q"><b>【2016-T1】</b> 已知表头元素为c的单链表在内存中的存储状态如下。现将f存放于1014H处并插入单链表，则f的"链接地址"是</div><div class="a">✅ 答案：1010H</div><div class="exp">解析：f插入在a和e之间，f的next指向e(1010H)。</div></div><div class="qbox"><div class="q"><b>【2021-T2】</b> 在一个单链表中，已知q所指结点是p所指结点的前驱结点，若在q和p之间插入结点s，则执行</div><div class="a">✅ 答案：q->next=s; s->next=p;</div><div class="exp">解析：s插在q之后、p之前。先把s的next指向p，再把q的next指向s。</div></div>'},
+]},{ch:'第3章 栈、队列和数组 (408分值:4-6分)',items:[
+{t:'3.1 栈(Stack) — LIFO',b:'<p><b>定义</b>：只允许在一端（栈顶）进行插入(入栈/push)和删除(出栈/pop)的线性表。<b>后进先出(LIFO)</b>。</p><p><b>顺序栈</b>：</p><pre>#define MaxSize 50\ntypedef struct{\n    int data[MaxSize];\n    int top;  // 栈顶指针\n}SqStack;\n// top=-1表示空栈\n// 入栈: data[++top]=x;\n// 出栈: x=data[top--];</pre><p><b>共享栈</b>：两个栈共享一个数组空间。栈1的底在数组低端，栈2的底在高端。栈满条件：<code>top1+1==top2</code>。</p><p><b>链栈</b>：用链表实现栈。优点是不会有栈满溢出。所有操作都在表头进行→O(1)。</p>'},
+{t:'3.2 队列(Queue) — FIFO',b:'<p><b>定义</b>：只允许在一端(队尾/rear)插入(入队)，在另一端(队头/front)删除(出队)的线性表。<b>先进先出(FIFO)</b>。</p><p><b>顺序队列</b>：front指向队头元素，rear指向队尾元素的下一个位置。</p><p><b>循环队列(408必考!)</b>：解决顺序队列的"假溢出"问题。</p><p><span class="tag formula">408必背公式</span></p><pre>判空: front == rear\n判满: (rear+1) % MaxSize == front\n入队: Q[rear]=x; rear=(rear+1)%MaxSize\n出队: x=Q[front]; front=(front+1)%MaxSize\n元素个数: (rear-front+MaxSize) % MaxSize</pre><p><b>为什么要牺牲一个存储单元？</b>否则"空"和"满"都满足front==rear→无法区分。</p><p><b>链式队列</b>：用链表实现队列，front指向头节点，rear指向尾节点。</p>'},
+{t:'3.3 栈和队列的应用',b:'<p><b>栈的应用</b>：</p><ul><li><b>括号匹配</b>：左括号入栈，右括号匹配栈顶→匹配成功则出栈→最终栈空=匹配成功</li><li><b>表达式求值</b>：中缀转后缀(运算符优先级)→后缀求值(操作数入栈)</li><li><b>递归</b>：系统栈保存每层递归的返回地址和局部变量</li><li><b>深度优先搜索(DFS)</b>：非递归实现用栈</li></ul><p><b>队列的应用</b>：</p><ul><li><b>层次遍历(二叉树/图)</b>：BFS用队列</li><li><b>操作系统</b>：进程调度(FCFS)、打印队列</li></ul>'},
+{t:'3.4 特殊矩阵的压缩存储',b:'<p><b>对称矩阵</b>：a[i][j]=a[j][i]。只存下三角区(含对角线)→需n(n+1)/2个存储单元。</p><p><b>三角矩阵</b>：上三角区全为同一常数(或下三角区全为同一常数)。存三角区+一个常数。</p><p><b>三对角矩阵</b>：只有主对角线和相邻的两条对角线有非零元。</p><p><b>稀疏矩阵</b>：非零元素很少。用<b>三元组</b>(行号,列号,值)存储非零元，或十字链表。</p>'},
+{t:'3.5 真题精练',b:'<div class="qbox"><div class="q"><b>【2018-T2】</b> 若一个栈的入栈序列是1,2,3,...,n，其出栈序列为p₁,p₂,...,pₙ。若p₂=3，则p₃可能的取值个数是</div><div class="a">✅ 答案：n-1</div><div class="exp">解析：p₂=3意味着当第2个出栈是3时，3之前入栈的1和2中必有1个在第1个出栈。p₃可以取除3外的任意值(共n-1种)。</div></div><div class="qbox"><div class="q"><b>【2020-T3】</b> 循环队列存储在A[0..n]中，入队操作为rear=(rear+1)mod(n+1)。若front=0, rear=n，则队列中元素个数为</div><div class="a">✅ 答案：n</div><div class="exp">解析：元素个数=(rear-front+n+1)%(n+1)=(n-0+n+1)%(n+1)=n。</div></div>'},
+]},{ch:'第4章 串 (2026考纲新增KMP!)',items:[
+{t:'4.1 串的基本概念',b:'<p>串(string)是由零个或多个<b>字符</b>组成的有限序列。空串用∅表示。</p><p><b>子串</b>：串中任意连续字符组成的子序列。<b>主串</b>：包含子串的串。</p><p>串的比较：按字典序逐个字符比较ASCII码。</p>'},
+{t:'4.2 KMP模式匹配算法(2026考纲新增!)',b:'<p><b>朴素匹配</b>：主串指针i，模式串指针j。失配时i回溯到i-j+2，j回到1。最坏O(mn)。</p><p><b>KMP算法</b>：失配时主串指针i不回溯，只移动模式串指针j→O(m+n)。</p><p><b>next数组</b>：next[j]=模式串前j-1个字符组成的子串的<b>最长相等前后缀长度</b>。</p><pre>void getNext(char *p, int *next){\n  int j=0, k=-1;\n  next[0] = -1;\n  while(j < strlen(p)-1){\n    if(k==-1 || p[j]==p[k]){\n      j++; k++;\n      next[j] = k;\n    } else k = next[k];\n  }\n}</pre><p><b>nextval优化</b>：当p[j]==p[next[j]]时继续向前找→避免无效比较。</p>'},
+]},{ch:'第5章 树与二叉树 ⭐最重要(408分值:8-10分)',items:[
+{t:'5.1 树的基本概念',b:'<p>树是n(n≥0)个节点的有限集合。n=0为空树。非空树有且仅有一个<b>根节点</b>。</p><p><b>基本术语</b>：</p><ul><li><b>度</b>：节点的孩子个数。树的度=所有节点度的最大值</li><li><b>叶节点</b>（终端节点）：度为0的节点</li><li><b>深度</b>：从根节点开始向下累加。根深度=1。</li><li><b>高度</b>：从叶节点开始向上累加。叶高度=1。</li><li><b>有序树</b>vs<b>无序树</b>：子树有无次序之分</li></ul>'},
+{t:'5.2 二叉树的概念',b:'<p>每个节点最多两个子树，有左右之分。</p><p><b>二叉树vs度为2的树</b>：二叉树区分左右；度为2的树不区分。</p><p><b>满二叉树</b>：深度为k且有2ᵏ-1个节点。每层都是满的。</p><p><b>完全二叉树</b>：与满二叉树的前n个节点编号一一对应。</p><p><b>二叉排序树(BST)</b>：左<根<右。</p><p><b>平衡二叉树(AVL)</b>：左右子树高度差≤1。</p>'},
+{t:'5.3 二叉树的5条性质(记死!)',b:'<p>① 第i层最多 <b>2<sup>i-1</sup></b> 个节点（i≥1）</p><p>② 深度为k最多 <b>2<sup>k</sup>-1</b> 个节点</p><p>③ <b>n₀ = n₂ + 1</b>——叶节点数=度为2的节点数+1（<span class="tag exam">最重要!</span>）</p><p>④ n个节点的完全二叉树深度为 <b>⌊log₂n⌋+1</b></p><p>⑤ 对完全二叉树按层序编号(i≥1)：左孩子=2i，右孩子=2i+1，父节点=⌊i/2⌋</p><p>性质③推导：总边数=n-1=n₀×0+n₁×1+n₂×2，得n=n₁+2n₂+1。又n=n₀+n₁+n₂。联立得n₀=n₂+1。</p>'},
+{t:'5.4 二叉树的存储结构',b:'<p><b>顺序存储</b>：用数组存放完全二叉树(编号=下标)。非完全二叉树浪费空间大。</p><p><b>链式存储</b>（二叉链表）：</p><pre>typedef struct BiTNode{\n    int data;\n    struct BiTNode *lchild, *rchild;\n}BiTNode, *BiTree;</pre><p>n个节点的二叉链表有n+1个空指针域。</p>'},
+{t:'5.5 二叉树的遍历',b:'<p><b>先序(前序)</b>：根→左→右</p><p><b>中序</b>：左→根→右（BST中序=升序序列！）</p><p><b>后序</b>：左→右→根</p><p><b>层次</b>：BFS队列，一层层来</p><p><b>三种递归遍历代码几乎一样——区别只在printf的位置！</b></p><pre>void preorder(BiTree T){\n  if(!T) return;\n  visit(T);              // 前序：先访问\n  preorder(T->lchild);\n  preorder(T->rchild);\n}\n// 中序和后序只需把visit移到中间或最后</pre><p><b>非递归遍历</b>：用栈模拟递归过程。</p><p><span class="tag trap">陷阱</span> 仅前序+后序<b>无法唯一确定</b>二叉树——必须包含中序！</p>'},
+{t:'5.6 线索二叉树',b:'<p>利用n+1个空指针域存放前驱/后继线索，加快遍历速度。</p><p><b>ltag</b>=0→lchild指向左孩子；ltag=1→lchild指向前驱。<br><b>rtag</b>=0→rchild指向右孩子；rtag=1→rchild指向后继。</p>'},
+{t:'5.7 树、森林与二叉树的转换',b:'<p><b>树→二叉树</b>："<b>左孩子右兄弟</b>"。每个节点左指针指向第一个孩子，右指针指向下一个兄弟。</p><p><b>森林→二叉树</b>：先将每棵树转为二叉树，再将后续二叉树的根作为前一棵树根的右孩子。</p><p><b>二叉树→森林</b>：逆过程。根的右链拆开。</p>'},
+{t:'5.8 哈夫曼树与哈夫曼编码',b:'<p><b>哈夫曼树</b>=带权路径长度(WPL)最小的二叉树。</p><p><b>WPL</b>=Σ(叶节点权值×根到叶的路径长度)。</p><p><b>构造方法</b>：每次选两个权值最小的节点合并为新节点(权值=两者之和)，直到只剩一个节点。</p><p><b>哈夫曼编码</b>：高频字符短码、低频长码→最优前缀编码(任一编码不是另一编码的前缀)。</p><p><b>n个叶节点的哈夫曼树共有2n-1个节点</b>，度为1的节点数为0。</p>'},
+{t:'5.9 并查集',b:'<p><b>并查集</b>：一种树形数据结构，用于处理<b>不相交集合</b>的合并(Union)与查询(Find)问题。</p><pre>int find(int x) {\n  return parent[x]==x ? x : (parent[x]=find(parent[x]));\n  // 路径压缩：查找时把路径上所有节点直接连到根\n}\nvoid merge(int a, int b) {\n  parent[find(a)] = find(b);\n}</pre><p>应用：Kruskal最小生成树(判环)、连通分量、朋友关系。</p>'},
+{t:'5.10 堆(2026考纲新增)',b:'<p><b>大顶堆</b>：每个节点≥其孩子。堆顶（根节点）=最大值。<br><b>小顶堆</b>：每个节点≤其孩子。堆顶=最小值。</p><p>堆是<b>完全二叉树</b>，用数组存储。堆顶为a[0]或a[1]。</p><p><b>建堆</b>：从⌊n/2⌋开始向前调整→O(n)。<br><b>插入</b>：放在末尾→向上调整→O(logn)。<br><b>删除堆顶</b>：用末尾元素替代堆顶→向下调整→O(logn)。</p>'},
+{t:'5.11 真题精练',b:'<div class="qbox"><div class="q"><b>【2020-T4】</b> 对于任意一棵高度为5且有10个结点的二叉树，若采用顺序存储结构保存，每个结点占1个存储单元，则存放该二叉树需要的存储单元数量至少是</div><div class="a">✅ 答案：31</div><div class="exp">解析：高度5的二叉树→按完全二叉树编号最多需要2⁵-1=31个位置。</div></div><div class="qbox"><div class="q"><b>【2017-T5】</b> 要使一棵非空二叉树的先序序列与中序序列相同，其所有非叶结点需满足的条件是</div><div class="a">✅ 答案：只有右子树</div><div class="exp">解析：先序=根→左→右。中序=左→根→右。要相同→必须无左子树(或左子树为空时才相同)。</div></div>'},
+]},{ch:'第6章 图 (2021-2024连续4年考! 408分值:6-8分)',items:[
+{t:'6.1 图的基本概念',b:'<p>图G=(V,E)。V=顶点集。E=边集。</p><ul><li><b>无向图</b>：边无方向，(v,w)=(w,v)</li><li><b>有向图</b>：边有方向，&lt;v,w&gt;≠&lt;w,v&gt;</li><li><b>完全图</b>：无向完全图有n(n-1)/2条边。有向完全图有n(n-1)条边。</li><li><b>连通</b>：无向图中v到w有路径。每个顶点自身是连通的。</li><li><b>强连通</b>：有向图中每对顶点之间都有双向路径。</li><li><b>度</b>：无向图=边的数目。有向图=入度+出度。</li><li><b>生成树</b>：包含全部顶点的一个极小连通子图(n个顶点n-1条边)。</li></ul>'},
+{t:'6.2 图的存储结构',b:'<p><b>邻接矩阵</b>：n×n二维数组。G[i][j]=1表示边存在(带权图则为权值)。</p><ul><li>空间O(n²)，适合<b>稠密图</b></li><li>判断i和j之间是否有边O(1)</li><li>找i的所有邻接点需遍历一整行O(n)</li></ul><p><b>邻接表</b>：每个顶点挂一个链表存储其邻接点。</p><pre>typedef struct ArcNode{\n  int adjvex;             // 邻接点编号\n  struct ArcNode *next;   // 下一条边\n}ArcNode;\ntypedef struct VNode{\n  int data;\n  ArcNode *first;         // 第一条边\n}VNode, AdjList[MAX];</pre><ul><li>空间O(n+e)，适合<b>稀疏图</b></li><li>找i的所有邻接点O(出度)</li><li>判断i和j是否有边需遍历链表O(出度)</li></ul>'},
+{t:'6.3 图的遍历',b:'<p><b>DFS(深度优先搜索)</b>：</p><pre>void DFS(Graph G, int v){\n  visited[v] = 1;\n  for(w=FirstNeighbor(G,v); w>=0; w=NextNeighbor(G,v,w))\n    if(!visited[w]) DFS(G, w);\n}</pre><p>邻接矩阵O(n²)，邻接表O(n+e)。生成<b>深度优先遍历树</b>。</p><p><b>BFS(广度优先搜索)</b>：</p><pre>void BFS(Graph G, int v){\n  InitQueue(Q); EnQueue(Q,v); visited[v]=1;\n  while(!Empty(Q)){\n    DeQueue(Q,v);\n    for(w=FirstNeighbor(G,v); w>=0; w=NextNeighbor(G,v,w))\n      if(!visited[w]){ visited[w]=1; EnQueue(Q,w); }\n  }\n}</pre><p>邻接矩阵O(n²)，邻接表O(n+e)。BFS求<b>无权图最短路径</b>。</p>'},
+{t:'6.4 图的应用(四大必考!)',b:'<p><b>1. 最小生成树MST</b></p><p><b>Prim算法</b>：从任一顶点开始，每次选择与当前生成树距离最小的顶点加入。O(n²)适合稠密图。</p><p><b>Kruskal算法</b>：边按权值排序→每次选不构成环的最小边→用并查集判环。O(eloge)适合稀疏图。</p><p><b>2. 最短路径</b></p><p><b>Dijkstra</b>：单源最短路径。每次选未访问中距离最小的顶点→用它更新所有邻居。O(n²)。<span class="tag trap">不能处理负权边!</span></p><p><b>Floyd</b>：全源最短路径。<code>for(k)for(i)for(j)G[i][j]=min(G[i][j],G[i][k]+G[k][j])</code>。O(n³)。</p><p><b>3. 拓扑排序(AOV网)</b></p><p>①选入度为0的顶点输出→②删除该顶点及其出边→重复。可判断有向图是否有环。</p><p><b>4. 关键路径(AOE网)</b></p><p>从源点到汇点的最长路径=完成整个工程的最短时间。<br>最早发生时间ve：从源点开始正推→取最大。<br>最迟发生时间vl：从汇点开始逆推→取最小。<br><b>关键活动</b>=ve=vl的活动。</p>'},
+{t:'6.5 真题精练',b:'<div class="qbox"><div class="q"><b>【2022-T7】</b> 含有n个顶点的连通无向图，其生成树的边数为</div><div class="a">✅ 答案：n-1</div><div class="exp">解析：生成树是包含全部顶点的极小连通子图，n个顶点恰有n-1条边。</div></div><div class="qbox"><div class="q"><b>【2021-T7】</b> 对于无向图G=(V,E)，下列选项中正确的是</div><div class="a">✅ 答案：各顶点的度之和等于边数的2倍</div><div class="exp">解析：每条边贡献2个度（两端各1）。</div></div>'},
+]},{ch:'第7章 查找 (408分值:6-8分)',items:[
+{t:'7.1 顺序查找与折半查找',b:'<p><b>顺序查找</b>：逐个比较。O(n)。ASL成功=(n+1)/2，ASL失败=n+1(有哨兵为n)。</p><p><b>折半查找(二分)</b>：仅适用于<b>有序顺序表</b>。O(logn)。</p><p><b>判定树</b>是一棵平衡的二叉搜索树。查找成功时比较次数=节点所在层数。</p><p><span class="tag formula">ASL成功≈log₂(n+1)-1</span>。<span class="tag trap">链表不能二分查找！</span>(无法随机存取)</p><p><b>分块查找</b>：块间有序(索引表)+块内无序。最优块大小≈√n。</p>'},
+{t:'7.2 二叉排序树(BST)',b:'<p>左子树所有值 < 根 < 右子树所有值。<b>中序遍历BST=升序序列。</b></p><p><b>查找</b>：小于→去左子树，大于→去右子树。平均O(logn)，最坏O(n)(退化为链表)。</p><p><b>插入</b>：递归找到空位插入。新节点必为叶节点。</p><p><b>删除</b>：①叶节点→直接删 ②单孩子→子替父 ③双孩子→用<b>中序后继</b>(右子树最左下节点)替代。</p>'},
+{t:'7.3 平衡二叉树(AVL)',b:'<p>左右子树高度差<b>≤1</b>。<b>平衡因子</b>=左子树高-右子树高∈{-1,0,1}。</p><p><b>四种调整</b>：<br><b>LL</b>(在左子树的左子树插入导致失衡)→右旋<br><b>RR</b>→左旋<br><b>LR</b>(在左子树的右子树插入)→先左旋再右旋<br><b>RL</b>→先右旋再左旋</p><p>深度为h的AVL树最少节点数：nₕ=nₕ₋₁+nₕ₋₂+1(斐波那契!)。n₁=1,n₂=2。</p>'},
+{t:'7.4 红黑树',b:'<p><b>五条性质</b>：①每个节点红或黑 ②根是黑的 ③叶节点(外部NULL节点)是黑的 ④红节点的两个孩子都是黑的 ⑤从根到任意叶节点的所有路径包含相同数量的黑节点。</p><p>红黑树的<b>黑高</b>=从该节点到叶节点路径上的黑节点数(不含自身)。</p><p>红黑树的插入/删除操作复杂度O(logn)。</p>'},
+{t:'7.5 B树与B+树(每年必考!)',b:'<p><b>B树(m阶)</b>：</p><ul><li>每个节点最多m个孩子(m-1个关键字)</li><li>除根外每个节点至少⌈m/2⌉个孩子</li><li>所有叶节点在同一层(不含任何信息)</li><li>每个节点的关键字从小到大排列</li></ul><p><b>B+树</b>：</p><ul><li>只有叶节点包含全部关键字及记录的存储地址</li><li>非叶节点只起索引作用→"<b>稀疏索引</b>"</li><li>叶节点用链表串联→支持<b>范围查询</b></li></ul><p><span class="tag exam">408每年必考</span> B树和B+树的结构区别。B+树叶节点链表串联→支持范围查询(这是B树做不到的)。</p>'},
+{t:'7.6 散列表(Hash)',b:'<p><b>哈希函数</b>：<code>H(key)=key%p</code>，p是不大于表长m的最大素数。</p><p><b>冲突处理方法</b>：</p><p><b>① 开放定址法</b>：冲突后找下一个空位。<br>· 线性探测：Hᵢ=(H(key)+i)%m<br>· 二次探测：Hᵢ=(H(key)+i²)%m<br>· 伪随机：Hᵢ=(H(key)+dᵢ)%m</p><p><b>② 链地址法(拉链法)</b>：每个槽位拉一个链表。</p><p><span class="tag formula">装填因子α=n/m</span>（表中已有的记录数/表长）。<br>链地址法ASL成功≈1+α/2。<br>线性探测法ASL成功≈½(1+1/(1-α))。</p>'},
+{t:'7.7 真题精练',b:'<div class="qbox"><div class="q"><b>【2020-T8】</b> 现有长度为11且初始为空的散列表HT，散列函数H(key)=key%7，采用线性探测法。将关键字序列87,40,30,6,11,22,98,20依次插入HT后，HT[4]中的关键字是</div><div class="a">✅ 答案：30</div><div class="exp">解析：H(30)=2→HT[2]空→存。H(87)=3→HT[3]空→存。H(40)=5→存。H(6)=6→存。H(11)=4→存。H(22)=1→存。H(98)=0→存。H(20)=6→冲突→7→冲突→8→存。最终HT[4]=11。</div></div>'},
+]},{ch:'第8章 排序 (408分值:6-8分, 每年必考对比题)',items:[
+{t:'8.1 排序的基本概念',b:'<p><b>稳定性</b>：两个相等的关键字排序后相对位置不变→稳定。否则不稳定。</p><p><b>内部排序</b>：数据全在内存。<b>外部排序</b>：数据在磁盘，需要多次内外存交换。</p>'},
+{t:'8.2 插入排序',b:'<p><b>直接插入排序</b>：逐个将元素插入到已排好序的序列中。O(n²)稳定。</p><p><b>折半插入排序</b>：用二分查找确定插入位置→比较次数减少到O(nlogn)，移动次数仍O(n²)。稳定。</p><p><b>希尔排序</b>：按增量gap分组→组内直接插入排序→逐步缩小gap。时间复杂度~O(n¹·³)，<b>不稳定</b>。</p>'},
+{t:'8.3 交换排序',b:'<p><b>冒泡排序</b>：相邻元素两两比较，逆序则交换。每趟把最大值"冒"到最后。O(n²)稳定。</p><p><b>快速排序(408最高频!)</b>：选pivot→partition(小左大右)→递归排序左右。</p><pre>void QuickSort(int a[], int l, int r){\n  if(l>=r) return;\n  int pivot=a[l], i=l, j=r;\n  while(i<j){\n    while(i<j && a[j]>=pivot) j--;\n    a[i]=a[j];\n    while(i<j && a[i]<=pivot) i++;\n    a[j]=a[i];\n  }\n  a[i]=pivot;\n  QuickSort(a, l, i-1);\n  QuickSort(a, i+1, r);\n}</pre><p>平均O(nlogn)，最坏O(n²)(已有序+选首元素为pivot)，空间O(logn)递归栈。<b>不稳定!</b></p>'},
+{t:'8.4 选择排序',b:'<p><b>简单选择排序</b>：每次选未排序部分的最小值→与目标位置交换。O(n²)不稳定。</p><p><b>堆排序</b>：①建堆(O(n))→②反复取堆顶+调整(O(nlogn))。<b>不稳定</b>。空间O(1)=原地排序。</p>'},
+{t:'8.5 归并排序与基数排序',b:'<p><b>归并排序</b>：分治→merge合并两个有序数组。O(nlogn)<b>稳定</b>。空间O(n)。<b>外部排序的基础</b>(多路归并)。</p><p><b>基数排序</b>：按位数从低到高依次排序(分配+收集)。O(d(n+r))稳定。不需要比较关键字。</p>'},
+{t:'8.6 排序算法对比表(408每年必考! 必须默写!)',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>算法</th><th>最好</th><th>平均</th><th>最坏</th><th>空间</th><th>稳定?</th></tr><tr><td>直接插入</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>折半插入</td><td>O(nlogn)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td>希尔</td><td>-</td><td>~O(n¹·³)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td>冒泡</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td></tr><tr><td><b>快排</b></td><td>O(nlogn)</td><td><b>O(nlogn)</b></td><td>O(n²)</td><td>O(logn)</td><td><b>❌</b></td></tr><tr><td>简单选择</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>❌</td></tr><tr><td><b>堆排</b></td><td>O(nlogn)</td><td><b>O(nlogn)</b></td><td>O(nlogn)</td><td>O(1)</td><td><b>❌</b></td></tr><tr><td><b>归并</b></td><td>O(nlogn)</td><td><b>O(nlogn)</b></td><td>O(nlogn)</td><td>O(n)</td><td><b>✅</b></td></tr><tr><td>基数</td><td>O(d(n+r))</td><td>O(d(n+r))</td><td>O(d(n+r))</td><td>O(n+r)</td><td>✅</td></tr></table>'},
+{t:'8.7 外部排序',b:'<p>待排序文件太大，无法一次全部装入内存→需多次在内存和外存之间交换数据。</p><p><b>多路归并</b>：将文件分成若干段→各段内部排序(生成初始归并段)→多路归并。</p><p><b>败者树</b>：减少归并过程中的比较次数→选最小值只需O(logk)比较。</p><p><b>最佳归并树</b>：用哈夫曼树确定最优归并顺序→I/O次数最少。</p>'},
+{t:'8.8 真题精练',b:'<div class="qbox"><div class="q"><b>【2019-T9】</b> 在内部排序过程中，对尚未确定最终位置的所有元素进行一遍处理称为一"趟"。下列排序中，不可能是快速排序第二趟结果的是</div><div class="a">✅ 答案：D选项(5,2,16,12,28,60,32,72)</div><div class="exp">解析：快排每趟确定pivot的最终位置。第二趟后至少确定2个pivot位置。D只确定了一个。</div></div><div class="qbox"><div class="q"><b>【2024-T10】</b> 对初始数据序列(8,3,9,11,2,1,4,7,5,10,6)进行希尔排序。若第一趟结束后数据为(1,3,7,5,2,6,4,11,9,10,8)，则可能的增量是</div><div class="a">✅ 答案：d=5</div><div class="exp">解析：观察第一趟结果，位置0(8→1)、5(1→6)、10(6→8)的变化→gap=5。</div></div>'},
+]},{ch:'附录：408数据结构代码题历年考点速查(2009-2024)',items:[
+{t:'按数据结构分类',b:'<p><b>顺序表(6次)</b>：2010循环左移、2011中位数、2013主元素、2016划分、2018最小未出现正整数、2020三元组距离</p><p><b>链表(4次)</b>：2009倒数第k、2012公共后缀、2015绝对值去重、2019重排列</p><p><b>树(3次)</b>：2014 WPL、2017表达式树、2022 BST判断</p><p><b>图(4次)</b>：2021 EL路径、2023 K顶点、2024拓扑序列</p>'},
+{t:'按算法类别分类',b:'<p><b>双指针/快慢指针</b>：2009、2012、2019</p><p><b>逆置法</b>：2010</p><p><b>二分/分治</b>：2011、2016</p><p><b>计数/哈希法</b>：2013、2015、2018</p><p><b>树的遍历(递归)</b>：2014、2017、2022</p><p><b>归并思想</b>：2011、2012、2019</p><p><b>图遍历</b>：2021、2023、2024</p>'},
 ]}];
 var h='';for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="dsk'+i+'"><div class="kh" onclick="document.getElementById(\'dsk'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
 document.getElementById('content').innerHTML=h;
