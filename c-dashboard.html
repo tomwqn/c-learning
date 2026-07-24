@@ -42,14 +42,14 @@ function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
 function count(k){return Object.values(g(k)).filter(function(v){return v}).length}
 var cd=count(K.C),dd=count(K.DS),fd=count(K.FD);
-var tc=52,td=60,tf=55,all=cd+dd+fd,total=tc+td+tf;
+var tc=52,td=70,tf=67,all=cd+dd+fd,total=tc+td+tf;
 var j=g(K.J);var d=new Date();var streak=0;
 for(var i=0;i<365;i++){var k=d.toISOString().slice(0,10);if(j[k]&&j[k].trim())streak++;else if(i>0)break;d.setDate(d.getDate()-1);}
 document.getElementById('stats').innerHTML=
 '<div class="card"><div class="lb">总闯关</div><div class="vl vg">'+all+'/'+total+'</div><div class="sb">'+Math.round(all/total*100)+'%</div><div class="pb"><div class="fl" style="width:'+Math.round(all/total*100)+'%"></div></div></div>'+
 '<div class="card"><div class="lb">C语言</div><div class="vl vb">'+cd+'/52</div><div class="sb">基础</div></div>'+
-'<div class="card"><div class="lb">408</div><div class="vl vp">'+dd+'/60</div><div class="sb">数据结构</div></div>'+
-'<div class="card"><div class="lb">复旦机考</div><div class="vl vo">'+fd+'/55</div><div class="sb">算法</div></div>'+
+'<div class="card"><div class="lb">408</div><div class="vl vp">'+dd+'/70</div><div class="sb">数据结构</div></div>'+
+'<div class="card"><div class="lb">复旦机考</div><div class="vl vo">'+fd+'/67</div><div class="sb">算法</div></div>'+
 '<div class="card"><div class="lb">🔥连续</div><div class="vl vo">'+streak+'天</div><div class="sb">每天记录</div></div>';
 var now=new Date();var y=now.getFullYear(),m=now.getMonth();
 document.getElementById('cal-title').textContent=y+'年'+(m+1)+'月';
