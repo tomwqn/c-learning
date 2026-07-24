@@ -4,25 +4,25 @@
 :root{--bg:#0d1117;--s:#161b22;--b:#30363d;--t:#c9d1d9;--m:#8b949e;--a:#58a6ff;--g:#3fb950;--o:#d2991d;--r:#f85149;--cb:#0d1117}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--t);max-width:850px;margin:0 auto;padding:24px 16px;line-height:1.8}
-h1{font-size:22px;color:var(--a);margin-bottom:4px}.sub{font-size:12px;color:var(--m);margin-bottom:20px}
-a.back{font-size:12px;color:var(--a)}
+h1{font-size:22px;color:var(--a);margin-bottom:4px}.sub{font-size:15px;color:var(--m);margin-bottom:20px}
+a.back{font-size:15px;color:var(--a)}
 .ks{margin-bottom:14px;background:var(--s);border:1px solid var(--b);border-radius:8px;overflow:hidden}
 .ks .kh{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none}
 .ks .kh:hover{background:rgba(255,255,255,.03)}
-.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
-.ks .kh .kt{font-size:15px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:10px;color:var(--m)}
+.ks .kh .kn{width:28px;height:28px;border-radius:6px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.ks .kh .kt{font-size:15px;font-weight:600}.ks .kh .ka{margin-left:auto;font-size:16px;color:var(--m)}
 .ks .kb{display:none;padding:0 16px 16px;border-top:1px solid var(--b)}.ks.open .kb{display:block}
 .kc{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:14px;margin-top:10px}
-.kc h5{font-size:13px;color:var(--a);margin-bottom:8px}
-.kc p{font-size:13px;line-height:1.85;margin-bottom:8px}
-.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:12px;color:var(--o)}
-.kc pre{background:var(--cb);padding:12px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:12px;line-height:1.6;margin:8px 0}
-.kc ul{margin:8px 0 8px 20px;font-size:13px;line-height:1.8}
-.kc .tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:9px;margin-right:4px}
+.kc h5{font-size:16px;color:var(--a);margin-bottom:8px}
+.kc p{font-size:16px;line-height:1.85;margin-bottom:8px}
+.kc code{background:var(--s);padding:1px 5px;border-radius:3px;font-size:15px;color:var(--o)}
+.kc pre{background:var(--cb);padding:12px;border-radius:4px;border:1px solid var(--b);overflow-x:auto;font-size:15px;line-height:1.6;margin:8px 0}
+.kc ul{margin:8px 0 8px 20px;font-size:16px;line-height:1.8}
+.kc .tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:15px;margin-right:4px}
 .kc .tag.tip{background:rgba(63,185,80,.2);color:var(--g)}
 .kc .tag.warn{background:rgba(248,81,73,.2);color:var(--r)}
 .kc .tag.exam{background:rgba(167,113,247,.25);color:#c9a9ff}
-table{width:100%;font-size:12px;border-collapse:collapse;margin:8px 0}
+table{width:100%;font-size:15px;border-collapse:collapse;margin:8px 0}
 td,th{border-bottom:1px solid var(--b);padding:6px 8px;text-align:left}
 </style></head><body>
 <a class="back" href="c-studio.html">← 返回总览</a>
@@ -74,7 +74,7 @@ var data=[
 ]},{ch:'第12章 文件操作',items:[
 {t:'读写文件',b:'<pre>// 写文件\nFILE *f = fopen("data.txt", "w");  // w=覆盖写 a=追加 r=读\nif (f == NULL) { printf("打开失败\\n"); return 1; }\nfprintf(f, "写入一行数据\\n");\nfclose(f);  // 必须关！否则数据可能丢失\n\n// 读文件\nf = fopen("data.txt", "r");\nint x;\nwhile (fscanf(f, "%d", &x) != EOF) {  // EOF=文件末尾\n    printf("%d\\n", x);\n}\nfclose(f);</pre><p><b>三个标准流</b>：<br><code>stdin</code>——标准输入(键盘)<br><code>stdout</code>——标准输出(屏幕)<br><code>stderr</code>——标准错误(屏幕，用于错误信息)</p>'},
 ]},{ch:'附录：Beej的十大C语言陷阱',items:[
-{t:'新手最容易踩的10个坑',b:'<ol style="margin-left:20px;line-height:2.2;font-size:13px"><li><code>=</code>(赋值)和<code>==</code>(比较)混淆——<code>if(x=5)</code>永远为真</li><li>数组越界——C不检查！a[100]不会报错但会损坏数据</li><li>scanf整数忘记写<code>&</code>——&是取地址符</li><li>野指针——<code>int *p; *p=5;</code>——p指向随机地址→崩溃</li><li>忘free——malloc借的内存不还→内存泄漏</li><li>悬垂指针——free后继续用→随机崩溃</li><li>字符串忘留\\0的位置——char s[5]只能存4个有效字符</li><li>整数除法截断——5/2=2不是2.5。用5.0/2得2.5</li><li>函数未声明就调用——旧标准默认为返回int</li><li>printf格式串和参数不匹配——%d对应float→输出奇怪数字</li></ol>'},
+{t:'新手最容易踩的10个坑',b:'<ol style="margin-left:20px;line-height:2.2;font-size:16px"><li><code>=</code>(赋值)和<code>==</code>(比较)混淆——<code>if(x=5)</code>永远为真</li><li>数组越界——C不检查！a[100]不会报错但会损坏数据</li><li>scanf整数忘记写<code>&</code>——&是取地址符</li><li>野指针——<code>int *p; *p=5;</code>——p指向随机地址→崩溃</li><li>忘free——malloc借的内存不还→内存泄漏</li><li>悬垂指针——free后继续用→随机崩溃</li><li>字符串忘留\\0的位置——char s[5]只能存4个有效字符</li><li>整数除法截断——5/2=2不是2.5。用5.0/2得2.5</li><li>函数未声明就调用——旧标准默认为返回int</li><li>printf格式串和参数不匹配——%d对应float→输出奇怪数字</li></ol>'},
 ]},{ch:'附录：408考试C语言高频用法',items:[
 {t:'链表节点模板(必背)',b:'<pre>typedef struct Node {\n    int data;\n    struct Node *next;\n} Node;\n\nNode *p = (Node*)malloc(sizeof(Node));\np->data = x;\np->next = NULL;</pre>'},
 {t:'循环队列公式(必背)',b:'<pre>// 空: front == rear\n// 满: (rear+1) % MAX == front\n// 入: q[rear]=x; rear=(rear+1)%MAX\n// 出: x=q[front]; front=(front+1)%MAX\n// 个数: (rear-front+MAX) % MAX</pre>'},
