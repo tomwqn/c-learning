@@ -42,7 +42,7 @@ function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500)}
 function count(k){return Object.values(g(k)).filter(function(v){return v}).length}
 var cd=count(K.C),dd=count(K.DS),fd=count(K.FD);
-var tc=22,td=22,tf=18,all=cd+dd+fd,total=tc+td+tf;
+var tc=52,td=60,tf=55,all=cd+dd+fd,total=tc+td+tf;
 var j=g(K.J);var d=new Date();var streak=0;
 for(var i=0;i<365;i++){var k=d.toISOString().slice(0,10);if(j[k]&&j[k].trim())streak++;else if(i>0)break;d.setDate(d.getDate()-1);}
 document.getElementById('stats').innerHTML=
