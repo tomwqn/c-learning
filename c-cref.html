@@ -23,26 +23,48 @@ a.back{font-size:12px;color:var(--a)}
 <h1>📚 C语言百科</h1><p class="sub">K&R + K.N.King + Beej's Guide 三源精华 · 点击展开</p>
 <div id="content"></div>
 <script>
-var data=[{ch:'变量与数据类型',items:[
-{t:'变量=贴标签的盒子',b:'<code>int age=20;</code>="拿个int盒子贴标签age，放20"。<br><table><tr><td><code>int</code></td><td>整数(4B)</td><td>%d</td><td>±21亿</td></tr><tr><td><code>long long</code></td><td>大整数(8B)</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>小数(4B,6位)</td><td>%f</td></tr><tr><td><code>double</code></td><td>双精度(8B,15位)</td><td>%lf</td></tr><tr><td><code>char</code></td><td>单字符(1B)</td><td>%c</td></tr></table>'},
-{t:'printf=喊话',b:'<code>printf("我叫%s,%d岁",name,age);</code><br>%s和%d是"洞"——按顺序用后面的变量填。每个%对用一个变量。<br><code>\\n</code>=换行 <code>\\t</code>=制表 <code>\\\\</code>=反斜杠 <span class="tag trap">坑</span>%个数和变量个数对不上→乱码。'},
-{t:'scanf=等输入',b:'<code>scanf("%d",&x);</code>=程序停下来等用户输入。<br><b>整数/浮点加&，字符串不加&</b>(数组名即地址)。<br><span class="tag trap">头号陷阱</span><code>=</code>赋值<code>==</code>比较！<code>if(x=5)</code>永远为真！'},
-]},{ch:'控制流：if/else和循环',items:[
-{t:'if-else=做选择题',b:'<code>if(条件){A}else if(条件2){B}else{C}</code><br>从上到下检查，第一个满足就执行。⚠️必须从最严格写到最宽松。'},
-{t:'for循环=重复干活',b:'<code>for(初始化;条件;更新){循环体}</code><br><code>i++</code>=i+1 <code>sum+=i</code>=sum=sum+i<br>嵌套循环：外层="行"，内层="列"。'},
-{t:'while=不知道次数',b:'<code>while(条件){循环体}</code>=条件成立一直做。<br>for适合"知道次数"，while适合"不知道"。<span class="tag trap">坑</span>忘写更新→死循环！'},
-]},{ch:'数组=一排连续盒子',items:[
-{t:'声明和使用',b:'<code>int a[5]={10,20,30,40,50};</code>=5个int盒子连一排。<br><b>下标从0开始</b>：a[0]是第1个。a[N-1]是最后一个。<br><span class="tag trap">危险</span>越界访问(如a[5])→覆盖别人内存→最难调试的bug。'},
-{t:'二维数组',b:'<code>int m[3][4];</code>=3行4列表格。<b>行优先存储</b>。<br>遍历：<code>for(i=0;i<3;i++)for(j=0;j<4;j++)</code>——行遍历比列遍历快(缓存友好)。'},
-]},{ch:'指针=C语言的灵魂',items:[
-{t:'指针=存门牌号的纸条',b:'<code>int *p=&x;</code>→p纸条写"x的地址"。<code>*p=100;</code>→按地址找x，改100。<br><code>&</code>="你家门牌号" <code>*</code>="去这个地址看/改"。<br><span class="tag trap">致命</span>野指针！<code>int *p;*p=5;</code>←p没初始化→崩溃。'},
-{t:'指针与数组',b:'<code>a[i]</code>≡<code>*(a+i)</code>——编译器内部就这么翻译。<br>数组名=指向首元素的<b>指针常量</b>(不能++)。<code>int *p=a;</code>→p可以p++。'},
-{t:'值vs地址传递(408必考!)',b:'<b>值传递</b>=给复印件(改不了原件)。<b>地址传递</b>=给地址(能改原件)。<br><code>swap(&x,&y)</code>传门牌号→交换。408选择题看有没有*和&。'},
-]},{ch:'结构体/递归/内存/文件',items:[
-{t:'struct',b:'<code>struct Student{char name[20];int score;};</code><br>用<code>.</code>访问。<code>p->name</code>≡<code>(*p).name</code>。408链表/树节点=struct+指针。'},
-{t:'递归=俄罗斯套娃',b:'两要素：①<b>基准条件</b>(何时停)②<b>递归体</b>(怎么缩小)。<code>if(n<=1)return 1;return n*fact(n-1);</code><br>⚠️递归太深→栈溢出。树/图遍历用递归，简单重复用循环。'},
-{t:'malloc/free',b:'<code>int*a=(int*)malloc(N*sizeof(int));</code>="借N个int"。<b>用完必须free(a)</b>。<br>栈=自动管理。堆=手动管理。<span class="tag trap">坑</span>忘free→内存泄漏。free后用→崩溃。'},
-{t:'文件读写',b:'<code>fopen("a.txt","w")</code>→写，"r"→读，"a"→追加。<br><code>fprintf</code>/<code>fscanf</code>用法同printf/scanf。<code>fclose</code>用完关。'},
+var data=[{ch:'1. 变量与数据类型 — Beej第3章精华',items:[
+{t:'C的数据类型速查',b:'<table><tr style="border-bottom:1px solid var(--b)"><th>类型</th><th>字节</th><th>printf</th><th>scanf</th><th>范围</th></tr><tr><td><code>char</code></td><td>1</td><td>%c</td><td>%c</td><td>-128~127</td></tr><tr><td><code>int</code></td><td>4</td><td>%d</td><td>%d</td><td>±21亿</td></tr><tr><td><code>long long</code></td><td>8</td><td>%lld</td><td>%lld</td><td>±9×10¹⁸</td></tr><tr><td><code>float</code></td><td>4</td><td>%f</td><td>%f</td><td>6位精度</td></tr><tr><td><code>double</code></td><td>8</td><td>%lf</td><td>%lf</td><td>15位精度</td></tr></table><br><b>Beej说</b>：C是低层语言——这些类型直接对应内存中的字节排列。int在32位系统是4字节。'},
+{t:'变量声明与初始化',b:'<b>声明</b>="拿一个盒子，贴标签，指定类型"。<code>int age;</code>(未初始化，值是垃圾)。<br><b>初始化</b>="放初始值"：<code>int age=20;</code>。<br><b>Beej强调</b>：C不会自动初始化局部变量！未初始化的变量是<b>随机的垃圾值</b>。全局变量和static变量会被自动清零。<br><code>const int X=100;</code>="这个盒子里的东西不能改"。'},
+{t:'printf = 对着屏幕格式化输出',b:'<pre>printf("我叫%s, %d岁, 身高%.1f", name, age, height);</pre>%s、%d、%f是"占位符洞"——按顺序用后面的变量填。<br><b>常用</b>：<code>\\n</code>换行 <code>\\t</code>制表 <code>\\\\</code>反斜杠 <code>%%</code>百分号<br><b>格式控制</b>：<code>%5d</code>(占5格右对齐) <code>%-5d</code>(左对齐) <code>%.2f</code>(2位小数)<br><span class="tag trap">陷阱</span> %个数和变量个数/类型对不上→乱码或崩溃。'},
+{t:'scanf = 等待用户输入',b:'<code>scanf("%d", &age);</code> — 程序卡住等用户输入。<br><b>关键规则</b>：整数/浮点数必须加<b>&</b>(取地址)；字符串<b>不加&</b>(数组名即地址)。<br><b>Beej的解释</b>：scanf需要知道"把读到的值存到哪个内存地址"→所以要传地址。printf只需要"看看值"→不用地址。<br><b>scanf的局限</b>：遇空格/换行停止。读带空格的字符串用<code>fgets()</code>。'},
+{t:'运算符与表达式',b:'<b>算术</b>：<code>+ - * / %</code>。整数除法<b>截断</b>（5/2=2）。<code>%</code>只能整数。<br><b>比较</b>：<code>== != > < >= <=</code><br><b>逻辑</b>：<code>&&(与) ||(或) !(非)</code><br><span class="tag trap">头号陷阱</span> <code>=</code>赋值 vs <code>==</code>比较！<code>if(x=5)</code>永远为真——它把5赋给x后返回5(非0=真)。<br><b>防坑技巧</b>：写<code>if(5==x)</code>而不是<code>if(x==5)</code>——写错成<code>if(5=x)</code>会编译报错。'},
+]},{ch:'2. 控制流 — Beej第4章：if/switch/循环',items:[
+{t:'if-else = 做选择题',b:'<pre>if(条件1){做A}\nelse if(条件2){做B}\nelse{做C}</pre>从上到下检查，第一个满足就执行，后面跳过。<br><b>⚠️顺序很重要！</b>必须从最严格写到最宽松。<br>错误：<code>if(s>=60)...else if(s>=80)</code>→≥80的永远被≥60拦截了。<br><b>三元运算符</b>：<code>x=(a>b)?a:b;</code> = "a大于b吗？是→取a，否→取b"。'},
+{t:'switch = 多项选择',b:'<pre>switch(变量){\n  case 值1: 做A; break;\n  case 值2: 做B; break;\n  default: 做C;\n}</pre><b>必须有break！</b>否则会"穿透"到下一个case继续执行。<br><b>case后面必须是常量</b>(不能是变量)。default=所有case都不匹配时执行。'},
+{t:'for循环 = 让电脑当苦力',b:'<pre>for(初始化; 条件; 更新){循环体}</pre><code>for(int i=0;i<N;i++)</code>="i从0出发，每次+1，i&lt;N时一直做"。<br><b>变体</b>：<code>i+=2</code>(每次跳2) <code>i--</code>(倒着走)。<br><b>嵌套循环</b>：外层="行"，内层="列"。<br><b>Beej的建议</b>：知道循环次数→用for；不知道→用while。'},
+{t:'while / do-while',b:'<b>while</b>："条件成立时一直做"——可能一次都不做。<br><b>do-while</b>："先做一次，然后条件成立时继续"——至少做一次。<br><span class="tag trap">坑</span> while里忘写更新条件→死循环！<br><b>break</b>=跳出整个循环。<b>continue</b>=跳过本次循环剩余部分，进入下一次。'},
+]},{ch:'3. 函数 — Beej第5章：传值与原型',items:[
+{t:'函数格式',b:'<pre>返回类型 函数名(参数列表){\n  函数体;\n  return 返回值;\n}</pre><b>函数原型</b>：在文件开头声明函数签名——告诉编译器"有这个函数，后面会定义"。<br><b>Beej说</b>：把重复代码打包成函数，取个好名字→代码可读性提升10倍。'},
+{t:'值传递 — C的核心机制',b:'C<b>永远按值传递</b>——函数收到的是参数的<b>复印件</b>。改复印件不影响原件。<br><pre>void foo(int x){x=100;}  // 改的是复印件\nint a=10; foo(a);  // a还是10</pre><b>要改原件？</b>→传地址（指针）→见下一章。<br><b>Beej的比喻</b>：我把菜单拍照发给你，你在照片上P图加菜——我手里的菜单没变。'},
+{t:'作用域与生命周期',b:'<b>局部变量</b>(在{}内声明)：只在这个{}内有效，出了{}就销毁。<br><b>全局变量</b>(在函数外声明)：整个文件都能用。整个程序运行期间一直存在。<br><b>static局部变量</b>：只初始化一次，值在函数调用之间保持不变。<br><b>Beej警告</b>：能用局部变量就别用全局变量——全局变量让代码难理清、难调试。'},
+]},{ch:'4. 指针 — Beej第7章："Cower In Fear!"(先别怕)',items:[
+{t:'指针 = 存门牌号的纸条',b:'<b>指针变量</b>=存地址的变量。就像一张纸条上写着别人的门牌号。<br><pre>int x=42;      // 门牌100号里放了42\nint *p=&x;     // p纸条写"100号"\n*p=100;        // 按纸条找到100号，改成100\n// x现在是100</pre><code>&</code>="你家门牌号多少"。<code>*</code>="去这个门牌号看/改"。<br><b>互逆性</b>：<code>*&x</code>≡<code>x</code>(取地址再解引用=回到原值)。<br><b>Beej的金句</b>："指针是C语言里唯一真正让人头疼的东西。但一旦搞懂了，你会觉得它们其实很简单。"'},
+{t:'为什么需要指针？（Beej的经典解释）',b:'① <b>让函数能修改外部变量</b>：C传值→只能传地址才能改原件。<br>② <b>动态内存分配</b>：malloc返回指针→指向堆上的一块内存。<br>③ <b>高效传递大数据</b>：传struct的指针(8字节)比传整个struct(可能几百字节)快得多。<br>④ <b>构建数据结构</b>：链表、树、图——所有节点都通过指针连接。<br><br><b>⚠️野指针=未初始化的指针</b>：<code>int *p; *p=5;</code>←p里是随机垃圾地址→写到随机位置→程序崩溃或数据损坏。'},
+{t:'指针算术 — a[i]就是*(a+i)',b:'<code>int *p=a;</code>(p指向a[0])。<br><code>p++</code>→p指向a[1](地址+sizeof(int)=+4字节)。<br><code>a[i]</code>≡<code>*(a+i)</code> — <b>C编译器内部就这么翻译的</b>。<br><b>数组名</b>=指向首元素的<b>指针常量</b>(不能a++)。p可以p++。<br><b>Beej的揭秘</b>：数组下标操作符[]本质上是指针运算的语法糖。'},
+{t:'指针与函数参数 — 408必考！',b:'<pre>void swap(int *a,int *b){  // a和b是纸条\n  int t=*a;   // 去a的地址取值\n  *a=*b;      // 把b地址里的值复制到a地址\n  *b=t;       // 把暂存的值写回b地址\n}\n// 调用：swap(&x,&y); — 传x和y的门牌号</pre><b>408选择题</b>：分析"输出什么"→看函数参数有没有<b>*</b>、调用时有没有<b>&</b>。<br>有&→传地址→能改原变量。没&→传值→改不了。'},
+{t:'空指针NULL',b:'<b>NULL</b>=空地址(值为0)。用NULL标记指针"不指向任何东西"。<br>解引用NULL指针→程序崩溃(Segmentation Fault)。<br><b>好习惯</b>：声明指针时初始化为NULL，free后置为NULL。'},
+]},{ch:'5. 数组 — Beej第9章：连续的内存块',items:[
+{t:'声明和使用',b:'<code>int a[5]={10,20,30,40,50};</code>=5个int盒子连一排。<br><b>下标从0开始</b>：a[0]第1个，a[N-1]最后。<br><b>Beej强调</b>：<b>C不检查数组越界！</b>a[100]不会报错→读到/覆盖别人的内存→最难调试的bug。<br>数组作为函数参数传递时<b>自动变成指针</b>→被调函数内修改数组会影响调用者。'},
+{t:'多维数组',b:'<code>int m[3][4];</code>=3行4列表格。<b>行优先存储</b>(m[0][0]→m[0][1]→...→m[1][0])。<br>遍历：<b>按行遍历比按列遍历快</b>——因为缓存友好(连续地址)。<br>作为参数传递：必须指定除第一维外的所有维度大小，如<code>void f(int a[][4],int rows)</code>。'},
+]},{ch:'6. 字符串 — Beej第10章：\\0结尾的字符数组',items:[
+{t:'字符串的本质',b:'C里没有"字符串类型"。字符串就是<b>以\\0结尾的char数组</b>。<br><code>char s[]="hello";</code>→实际存了6个字符：h,e,l,l,o,\\0。<br><code>\\0</code>(ASCII码0)是"字符串终止符"——所有字符串函数都靠它判断终点。<br><b>Beej的忠告</b>：永远留一个位置给\\0！char s[5]只能存4个有效字符。'},
+{t:'字符串操作',b:'<code>strlen(s)</code>=长度(不含\\0)。<code>strcpy(dst,src)</code>=复制。<code>strcmp(a,b)</code>=比较(0=相等)。<br><span class="tag trap">危险</span>strcpy不检查目标空间够不够→缓冲区溢出！用<code>strncpy</code>。<br><b>字符串字面量</b>如<code>"hello"</code>存储在<b>只读内存区</b>→不能修改。<br><code>sprintf(buf,"%s:%d",name,age)</code>→格式化输出到字符串。'},
+]},{ch:'7. 结构体 — Beej第8章：Bento Box',items:[
+{t:'struct：自定义复合类型',b:'<pre>struct Student{\n  char name[20];\n  int score;\n};  // ←分号！忘了=编译错误</pre>用<code>.</code>访问：<code>s.name</code>。<br>用指针访问：<code>p->name</code>≡<code>(*p).name</code>(箭头操作符)。<br><code>typedef struct{...}Student;</code>之后直接用Student。<br><b>Beej的比喻</b>：struct像日式便当盒(Bento Box)——每个格子里放不同的菜。'},
+{t:'自引用结构体 — 链表的基础',b:'<pre>typedef struct Node{\n  int data;           // 数据\n  struct Node *next;  // 指向同类型的指针\n} Node;</pre>这是<b>链表、树、图</b>所有节点的基础模板。<br>每个节点通过next指针串起来→形成链式结构。<br><span class="tag trap">陷阱</span> 创建新节点必须用<code>malloc</code>——不能在函数内声明局部Node然后返回其地址(函数结束就销毁了)。'},
+{t:'传递struct给函数',b:'<b>传值</b>：复制整个struct(可能很大→慢)。<br><b>传指针</b>：只传8字节(指针)→快。且函数内修改会反映到原struct。<br><b>Beej的建议</b>：除非struct很小(如只有1-2个int)，否则<b>总是传指针</b>。'},
+]},{ch:'8. 动态内存 — Beej第11章：malloc/free',items:[
+{t:'栈 vs 堆',b:'<b>栈(Stack)</b>：局部变量。自动分配和释放。大小有限(几MB)。函数返回即销毁。<br><b>堆(Heap)</b>：手动管理的自由内存区。malloc申请，free归还。大小灵活。<br><b>Beej的金句</b>："栈快但小，堆慢但大。不知道要多大时用堆。"'},
+{t:'malloc / calloc / realloc',b:'<pre>int *a=(int*)malloc(N*sizeof(int));  // 分配(未初始化)\nint *b=(int*)calloc(N,sizeof(int)); // 分配+清零\nint *c=(int*)realloc(a,2*N*sizeof(int)); // 扩容</pre><b>Beej的三条铁律</b>：<br>① 每次malloc都要检查返回值是否为NULL(分配失败)<br>② 每次malloc最终都要对应一个free<br>③ free后把指针置为NULL——避免悬垂指针<br><span class="tag trap">头号陷阱</span> 忘记free=内存泄漏。free后继续用=未定义行为→随机崩溃。'},
+{t:'常见内存错误',b:'<b>内存泄漏</b>：malloc了但忘了free→内存被"借走"回不来→程序越跑内存越大。<br><b>悬垂指针</b>：free后指针还指向已释放的内存→继续访问→崩溃。<br><b>二次释放</b>：对同一指针free两次→未定义行为。<br><b>越界写入</b>：malloc(10)却写入a[10]→覆盖堆管理数据结构→free时崩溃。<br><b>预防工具</b>：Valgrind(Linux)可以检测这些错误。'},
+]},{ch:'9. 文件I/O — Beej第14章',items:[
+{t:'文件的打开/读写/关闭',b:'<pre>FILE *f=fopen("data.txt","r");  // r=读 w=写(覆盖) a=追加\nif(!f){printf("打开失败\\n");return 1;}\nfprintf(f,"写入一行\\n");\nfscanf(f,"%d",&x);\nfclose(f);  // 用完必须关！</pre><b>Beej强调</b>：<code>fopen</code>可能返回NULL(文件不存在/权限不够)→必须检查。<br><code>fclose</code>会刷新缓冲区——不关可能导致数据丢失。'},
+{t:'标准流',b:'<b>stdin</b>(标准输入)=键盘 <b>stdout</b>(标准输出)=屏幕 <b>stderr</b>(标准错误)=屏幕。<br>可以用<code>fprintf(stderr,"错误!\\n");</code>单独输出错误信息。<br><b>freopen</b>可以重定向标准流到文件——复旦机考有时要求。'},
+]},{ch:'10. 常用技巧与陷阱总结',items:[
+{t:'双指针技巧',b:'<b>对撞指针</b>：一头一尾向中间走→回文、反转数组。<br><b>快慢指针</b>：快走2步慢走1步→链表中点、环检测、倒数第k个。<br><b>滑动窗口</b>：维护[L,R]区间→最长无重复子串等。'},
+{t:'递归模板',b:'<pre>返回类型 func(参数){\n  if(基准条件) return 基础值;  // ①何时停\n  // ②缩小问题+③组合结果\n  return 组合( func(更小参数) );\n}</pre><b>何时用递归？</b>树/图遍历、分治(快排/归并)。<b>何时用循环？</b>简单重复。<br><b>⚠️递归太深→栈溢出</b>(C栈通常几MB)。尾递归可被编译器优化(转循环)。'},
+{t:'C语言十大常见陷阱',b:'1. <code>=</code>和<code>==</code>混淆<br>2. 数组越界(编译器不检查)<br>3. 忘记给scanf加&<br>4. 野指针(未初始化指针就解引用)<br>5. malloc忘记free→内存泄漏<br>6. free后继续使用→悬垂指针<br>7. 字符串忘记\\0→越界读取<br>8. 整数除法截断(5/2=2不是2.5)<br>9. 函数声明缺失→隐式声明(返回int)<br>10. printf格式串与参数不匹配'},
 ]}];
 var h='';for(var i=0;i<data.length;i++){var ch=data[i];h+='<div class="ks" id="cr'+i+'"><div class="kh" onclick="document.getElementById(\'cr'+i+'\').classList.toggle(\'open\')"><div class="kn">'+(i+1)+'</div><div class="kt">'+ch.ch+'</div><div class="ka">▶</div></div><div class="kb">';for(var j=0;j<ch.items.length;j++){var it=ch.items[j];h+='<div class="kc"><h5>'+it.t+'</h5>'+it.b+'</div>'}h+='</div></div>';}
 document.getElementById('content').innerHTML=h;
